@@ -32,12 +32,12 @@
         <property name="realm" ref="authenticationRealm"/>
     </bean>
 
-    <bean id="authenticationRealm" class="com.agentmanage.sys.auth.realm.ApAuthenticationRealm">
+    <bean id="authenticationRealm" class="com.agentmanage.permission.realm.AmAuthenticationRealm">
         <property name="authorizationCacheName" value="authorization"/>
     </bean>
 
 
-    <bean id="authenticationFilter" class="com.agentmanage.sys.auth.filter.ApAuthenticationFilter"/>
+    <bean id="authenticationFilter" class="com.agentmanage.permission.filter.AmAuthenticationFilter"/>
 
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>

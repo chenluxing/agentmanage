@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.agentmanage.module.agent.mapper.AgentInfoMapper">
+
+    <resultMap type="com.agentmanage.module.agent.entity.AgentInfoPo" id="agentInfoMap">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
+        <result column="MERCHANT_ID" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="ALIPAY_NO" property="alipayNo" jdbcType="VARCHAR"/>
+        <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
+        <result column="PARENT_AGENT_ID" property="parentAgentId" jdbcType="INTEGER"/>
+        <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
+        <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        id, agent_id, merchant_id, alipay_no, agent_percent, parent_agent_id, gmt_created, gmt_modified
+    </sql>
+
+    <select id="selectByAgentId" resultMap="agentInfoMap">
+        SELECT
+          <include refid="allColumns" />
+        from tb_agent_info
+        where agent_id=#{agentId, jdbcType=INTEGER}
+    </select>
+
+    <select id="selectListByAgentId" resultMap="agentInfoMap">
+        SELECT
+        <include refid="allColumns" />
+        from tb_agent_info
+        where agent_id=#{agentId, jdbcType=INTEGER}
+    </select>
+</mapper>

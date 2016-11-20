@@ -12,9 +12,9 @@ import java.awt.image.BufferedImage;
 public class CaptchaUtil {
 	private final static Logger logger = LoggerFactory.getLogger(CaptchaUtil.class);
 
-	private static ApCaptchaService imageCaptchaService;
+	private static AmCaptchaService imageCaptchaService;
 
-	private static ApCaptchaService getCaptchaService() {
+	private static AmCaptchaService getCaptchaService() {
 		if (imageCaptchaService == null) {
 			init();
 		}
@@ -25,7 +25,7 @@ public class CaptchaUtil {
 	 * 默认实现
 	 */
 	private static void init() {
-		imageCaptchaService = new ApCaptchaService();
+		imageCaptchaService = new AmCaptchaService();
 		imageCaptchaService.setCaptchaEngine(new CaptchaEngine());
 		imageCaptchaService.setMinGuarantedStorageDelayInSeconds(3600);
 	}
