@@ -33,7 +33,7 @@ public class DownloadController extends BaseController {
                     response.reset();
                     out = response.getOutputStream();
                     //乱码处理
-                    String userAgent = request.getHeader("User-AgentPo");
+                    String userAgent = request.getHeader("User-User");
                     byte[] bytes = userAgent.contains("MSIE") ? fileName.getBytes() : fileName.getBytes("UTF-8"); // fileName.getBytes("UTF-8")处理safari的乱码问题
                     fileName = new String(bytes, "ISO-8859-1"); // 各浏览器基本都支持ISO编码
                     response.setContentType("application/octet-stream;charset=UTF-8");

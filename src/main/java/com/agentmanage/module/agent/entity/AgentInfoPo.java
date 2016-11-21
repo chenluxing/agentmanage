@@ -1,29 +1,30 @@
 package com.agentmanage.module.agent.entity;
 
 import com.agentmanage.module.common.entity.BaseEntity;
-import org.springframework.data.annotation.TypeAlias;
+import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
 
 /**
  * 代理人信息
  */
-@TypeAlias("com.agentmanage.module.agent.entity.AgentInfoPo")
+@Alias("com.agentmanage.module.agent.entity.AgentInfoPo")
 public class AgentInfoPo extends BaseEntity {
 
-    private Integer agentId;                // 关联代理人ID
+    private String mobileNo;                  // 手机号
     private String realName;                // 真实姓名
     private String merchantId;              // 商户ID
     private String alipayNo;                // 支付宝帐号
     private BigDecimal agentPercent;        // 代理利率
     private Integer parentAgentId;          // 关联上级代理人ID
+    private Integer userId;                 // 关联登录帐户ID
 
-    public Integer getAgentId() {
-        return agentId;
+    public String getMobileNo() {
+        return mobileNo;
     }
 
-    public void setAgentId(Integer agentId) {
-        this.agentId = agentId;
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
     public String getRealName() {
@@ -64,5 +65,13 @@ public class AgentInfoPo extends BaseEntity {
 
     public void setParentAgentId(Integer parentAgentId) {
         this.parentAgentId = parentAgentId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

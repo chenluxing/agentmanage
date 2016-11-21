@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.agentmanage.module.agent.mapper.AgentMapper">
+<mapper namespace="com.agentmanage.module.agent.mapper.UserMapper">
 
-    <resultMap id="agentPoMap" type="com.agentmanage.module.agent.entity.AgentPo">
+    <resultMap id="userMap" type="com.agentmanage.module.agent.entity.User">
         <id column="ID" property="id" jdbcType="INTEGER"/>
-        <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
         <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
         <result column="SALT" property="salt" jdbcType="VARCHAR"/>
         <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
@@ -12,13 +12,13 @@
     </resultMap>
 
     <sql id="allColumns">
-        id, mobile_no, password, salt, real_name, gmt_created, gmt_modified
+        id, user_name, password, salt, gmt_created, gmt_modified
     </sql>
 
     <insert id="insert">
-        insert into tb_agent(mobile_no, password, salt, real_name, gmt_created, gmt_modified)
+        insert into tb_user(user_name, password, salt, real_name, gmt_created, gmt_modified)
         values(
-        #{mobileNo, jdbcType=VARCHAR},
+        #{userName, jdbcType=VARCHAR},
         #{password, jdbcType=VARCHAR},
         #{salt, jdbcType=VARCHAR},
         #{realName, jdbcType=VARCHAR},
@@ -28,17 +28,16 @@
     </insert>
     
     <update id="update">
-        update tb_agent set
+        update tb_user set
         password = #{password, jdbcType=VARCHAR},
-        real_name = #{realName, jdbcType=VARCHAR},
         gmt_modified = now()
         where id = #{id, jdbcType=INTEGER}
     </update>
 
-    <select id="selectByMobileNo" resultMap="agentPoMap">
+    <select id="selectByUserName" resultMap="userMap">
         SELECT
           <include refid="allColumns" />
-        from tb_agent
-        where mobile_no=#{mobileNo, jdbcType=VARCHAR}
+        from tb_user
+        where user_name=#{userName, jdbcType=VARCHAR}
     </select>
 </mapper>
