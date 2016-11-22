@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.agentmanage.module.agent.mapper.AgentAccountMapper">
+
+    <resultMap id="agentAccountMap" type="com.agentmanage.module.account.entity.AgentAccountPo">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
+        <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL"/>
+        <result column="TOTAL_AGENT_AMOUNT" property="totalAgentAmount" jdbcType="DECIMAL"/>
+        <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
+        <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        id, agent_id, total_amount, total_agent_amount, gmt_created, gmt_modified
+    </sql>
+
+    <insert id="insert">
+        insert into tb_agent_account(agent_id, total_amount, total_agent_amount, gmt_created, gmt_modified)
+        values
+        (
+          #{agentId, jdbcType=INTEGER},
+          #{totalAmount, jdbcType=DECIMAL},
+          #{totalAgentAmount, jdbcType=DECIMAL},
+          now(),
+          now()
+        )
+    </insert>
+
+    <update id="update">
+        update tb_agent_account
+        set
+          total_amount = #{totalAmount, jdbcType=DECIMAL},
+          total_agent_amount = #{totalAgentAmount, jdbcType=DECIMAL},
+          gmt_modified = now()
+        where agent_id = #{agentId, jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByAgentId" resultMap="agentAccountMap">
+        SELECT
+          <include refid="allColumns" />
+        from tb_agent_account
+        where agent_id=#{agentId, jdbcType=INTEGER}
+    </select>
+</mapper>

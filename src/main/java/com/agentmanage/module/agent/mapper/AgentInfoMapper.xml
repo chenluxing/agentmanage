@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.agentmanage.module.agent.mapper.AgentInfoMapper">
 
-    <resultMap type="com.agentmanage.module.agent.entity.AgentInfoPo" id="agentInfoMap">
+    <resultMap id="agentInfoMap" type="com.agentmanage.module.agent.entity.AgentInfoPo">
         <id column="ID" property="id" jdbcType="INTEGER"/>
         <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
         <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
@@ -55,10 +55,25 @@
         where user_id=#{userId, jdbcType=INTEGER}
     </select>
 
+    <select id="selectByMerchantId" resultMap="agentInfoMap">
+        SELECT
+        <include refid="allColumns" />
+        from tb_agent_info
+        where merchant_id=#{merchantId, jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByMobileNo" resultMap="agentInfoMap">
+        SELECT
+        <include refid="allColumns" />
+        from tb_agent_info
+        where mobile_no=#{mobileNo, jdbcType=INTEGER}
+    </select>
+
     <select id="selectChildListByAgentId" resultMap="agentInfoMap">
         SELECT
         <include refid="allColumns" />
         from tb_agent_info
         where parent_agent_id=#{agentId, jdbcType=INTEGER}
+        order by gmt_created desc
     </select>
 </mapper>

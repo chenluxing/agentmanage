@@ -1,6 +1,6 @@
-package com.agentmanage.module.agent.mapper;
+package com.agentmanage.module.user.mapper;
 
-import com.agentmanage.module.agent.entity.User;
+import com.agentmanage.module.user.entity.User;
 
 /**
  * 登录用户

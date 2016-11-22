@@ -1,16 +1,18 @@
 package com.agentmanage.module.account.entity;
 
 import com.agentmanage.module.common.entity.BaseEntity;
+import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
 
 /**
  * 交易记录
  */
-public class TradeRecord extends BaseEntity {
+@Alias("com.agentmanage.module.account.entity.TradeRecordPo")
+public class TradeRecordPo extends BaseEntity {
 
-    private String merchantName;        // 商户姓名
     private String merchantId;          // 商户ID
+    private String merchantName;        // 商户姓名
     private int tradeCount;             // 交易订单数量
     private BigDecimal tradeAmount;     // 交易金额
     private BigDecimal agentPercent;    // 交易佣金比例（取生成记录时代理人的佣金比例）

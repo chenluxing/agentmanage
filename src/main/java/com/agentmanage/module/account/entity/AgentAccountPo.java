@@ -1,13 +1,15 @@
 package com.agentmanage.module.account.entity;
 
 import com.agentmanage.module.common.entity.BaseEntity;
+import org.apache.ibatis.type.Alias;
 
 import java.math.BigDecimal;
 
 /**
  * 代理人账户信息
  */
-public class AgentAccount extends BaseEntity {
+@Alias("com.agentmanage.module.account.entity.AgentAccountPo")
+public class AgentAccountPo extends BaseEntity {
 
     private Integer agentId;                // 代理人ID
     private BigDecimal totalAmount;         // 订单总额

@@ -1,4 +1,4 @@
-package com.agentmanage.module.agent.entity;
+package com.agentmanage.module.user.entity;
 
 import com.agentmanage.module.common.entity.BaseEntity;
 import org.apache.ibatis.type.Alias;
@@ -7,7 +7,7 @@ import org.apache.ibatis.type.Alias;
  * 代理人基本信息
  * on 2016/11/20.
  */
-@Alias("com.agentmanage.module.agent.entity.User")
+@Alias("com.agentmanage.module.user.entity.User")
 public class User extends BaseEntity {
 
     private String userName;        // 用户名

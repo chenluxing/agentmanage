@@ -29,6 +29,20 @@ public interface AgentInfoMapper {
     AgentInfoPo selectByUserId(Integer userId);
 
     /**
+     * 根据商户ID查询代理人信息
+     * @param merchantId
+     * @return
+     */
+    AgentInfoPo selectByMerchantId(Integer merchantId);
+
+    /**
+     * 根据手机号查询代理人信息
+     * @param mobileNo
+     * @return
+     */
+    AgentInfoPo selectByMobileNo(Integer mobileNo);
+
+    /**
      * 查询下级代理人列表
      * @param parentAgentId
      * @return
