@@ -14,6 +14,14 @@ public class User extends BaseEntity {
     private String password;        // 密码
     private String salt;            // 加密“佐料”
 
+    public User() {}
+
+    public User(String userName, String password, String salt) {
+        this.userName = userName;
+        this.password = password;
+        this.salt = salt;
+    }
+
     public String getUserName() {
         return userName;
     }

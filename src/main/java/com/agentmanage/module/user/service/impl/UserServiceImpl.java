@@ -1,16 +1,24 @@
 package com.agentmanage.module.user.service.impl;
 
+import com.agentmanage.exception.AmServiceException;
 import com.agentmanage.module.user.entity.User;
-import com.agentmanage.module.user.service.UserService;
+import com.agentmanage.module.user.mapper.UserMapper;
+import com.agentmanage.module.user.service.IUserService;
 import com.agentmanage.module.user.vo.UserSession;
+import com.agentmanage.utils.SecurityUtil;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * User Service实现类
  * on 2016/11/22.
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
+
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 新增账户
@@ -18,8 +26,23 @@ public class UserServiceImpl implements UserService {
      * @param password
      */
     @Override
-    public void save(String userName, String password) {
+    public User save(String userName, String password) throws Exception{
+        if (!validateConstantUser(userName)) {
+            String salt = SecurityUtil.generateSalt();
+            String passwordMd5 = SecurityUtil.confusePassword(salt, password);
+            User user = new User(userName, passwordMd5, salt);
+            userMapper.insert(user);
+            return user;
+        }
+        throw new AmServiceException("存在同名账户");
+    }
 
+    public boolean validateConstantUser(String userName) {
+        User user = userMapper.selectByUserName(userName);
+        if (user != null) {
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -9,7 +9,7 @@ import java.util.List;
  * 代理人业务接口
  * on 2016/11/20.
  */
-public interface AgentService {
+public interface IAgentService {
 
     /**
      * 新增代理人
@@ -22,7 +22,7 @@ public interface AgentService {
      * @param userId
      */
     void save(String mobileNo, String realName, String merchantId, String alipayNo, BigDecimal agentPercent,
-              Integer parentAgentId, Integer userId);
+              Integer parentAgentId, Integer userId) throws Exception;
 
     /**
      * 更新代理人信息

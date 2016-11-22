@@ -7,14 +7,14 @@ import com.agentmanage.module.user.vo.UserSession;
  * User Service
  * on 2016/11/22.
  */
-public interface UserService {
+public interface IUserService {
 
     /**
      * 新增账户
      * @param userName
      * @param password
      */
-    void save(String userName, String password);
+    User save(String userName, String password) throws Exception;
 
     /**
      * 更新密码

@@ -1,9 +1,14 @@
 package com.agentmanage.module.agent.service.impl;
 
 import com.agentmanage.module.agent.entity.AgentInfoPo;
-import com.agentmanage.module.agent.service.AgentService;
+import com.agentmanage.module.agent.mapper.AgentInfoMapper;
+import com.agentmanage.module.agent.service.IAgentService;
+import com.agentmanage.module.user.entity.User;
+import com.agentmanage.module.user.service.IUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -12,7 +17,12 @@ import java.util.List;
  * on 2016/11/20.
  */
 @Service
-public class AgentServiceImpl implements AgentService {
+public class AgentServiceImpl implements IAgentService {
+
+    @Resource
+    private AgentInfoMapper agentInfoMapper;
+    @Resource
+    private IUserService userService;
 
     /**
      * 新增代理人
@@ -25,9 +35,13 @@ public class AgentServiceImpl implements AgentService {
      * @param userId
      */
     @Override
+    @Transactional
     public void save(String mobileNo, String realName, String merchantId, String alipayNo, BigDecimal agentPercent,
-              Integer parentAgentId, Integer userId) {
-
+              Integer parentAgentId, Integer userId) throws Exception{
+        User user = userService.save(mobileNo, alipayNo);
+        AgentInfoPo agentInfo = new AgentInfoPo(mobileNo, realName, merchantId, alipayNo, agentPercent,
+                parentAgentId, user.getId());
+        agentInfoMapper.insert(agentInfo);
     }
 
     /**

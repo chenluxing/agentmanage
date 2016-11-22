@@ -19,6 +19,19 @@ public class AgentInfoPo extends BaseEntity {
     private Integer parentAgentId;          // 关联上级代理人ID
     private Integer userId;                 // 关联登录帐户ID
 
+    public AgentInfoPo() {}
+
+    public AgentInfoPo(String mobileNo, String realName, String merchantId, String alipayNo, BigDecimal agentPercent,
+                       Integer parentAgentId, Integer userId) {
+        this.mobileNo = mobileNo;
+        this.realName = realName;
+        this.merchantId = merchantId;
+        this.alipayNo = alipayNo;
+        this.agentPercent = agentPercent;
+        this.parentAgentId = parentAgentId;
+        this.userId = userId;
+    }
+
     public String getMobileNo() {
         return mobileNo;
     }
