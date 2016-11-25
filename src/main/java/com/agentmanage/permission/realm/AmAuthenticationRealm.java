@@ -1,10 +1,14 @@
 package com.agentmanage.permission.realm;
 
+import com.agentmanage.module.common.constants.GlobalConstants;
+import com.agentmanage.module.user.service.IUserService;
+import com.agentmanage.module.user.vo.UserSession;
 import com.agentmanage.permission.vo.AmAuthenticationToken;
 import com.agentmanage.permission.vo.AmPrincipal;
 import com.agentmanage.plugin.captcha.CaptchaUtil;
 import com.agentmanage.utils.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.pam.UnsupportedTokenException;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -23,8 +27,10 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
 
     private ApplicationContext applicationContext;
 
+    private IUserService userService;
+
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
         try {
             AmAuthenticationToken amAuthenticationToken = (AmAuthenticationToken)token;
             String username = amAuthenticationToken.getUsername();
@@ -34,10 +40,13 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
             if (!CaptchaUtil.isValid(captchaId, captcha)) {
                 throw new UnsupportedTokenException("验证码错误");
             }
+
             if (StringUtils.isNotEmpty(username)){
                 String password = new String(amAuthenticationToken.getPassword());
                 String md5Password = SecurityUtil.md5(password);
-                return new SimpleAuthenticationInfo(new AmPrincipal(111, username, username), password, getName());
+                UserSession userSession = getUserService().login(username, md5Password);
+                SecurityUtils.getSubject().getSession().setAttribute(GlobalConstants.SESSION_CUR_USER, userSession);
+                return new SimpleAuthenticationInfo(new AmPrincipal(userSession.getUserId(), userSession.getUserName(), userSession.getRealName()), password, getName());
             }
             throw new UnknownAccountException();
         } catch (Exception e){
@@ -69,4 +78,9 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
+
+    public IUserService getUserService() {
+        return (IUserService)applicationContext.getBean("userServiceImpl");
+    }
+
 }

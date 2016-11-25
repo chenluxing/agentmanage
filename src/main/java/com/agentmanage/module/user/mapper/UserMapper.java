@@ -20,6 +20,13 @@ public interface UserMapper {
     void update(User user);
 
     /**
+     * 根据ID查询用户
+     * @param id
+     * @return
+     */
+    User selectById(Integer id);
+
+    /**
      * 根据用户名查询用户
      * @param userName
      * @return

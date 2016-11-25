@@ -1,6 +1,6 @@
-package com.agentmanage.module.account.mapper;
+package com.agentmanage.module.agent.mapper;
 
-import com.agentmanage.module.account.entity.AgentAccountPo;
+import com.agentmanage.module.agent.entity.AgentAccountPo;
 
 /**
  * 代理人账户Mapper

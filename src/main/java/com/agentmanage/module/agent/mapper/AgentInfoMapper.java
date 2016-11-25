@@ -22,6 +22,13 @@ public interface AgentInfoMapper {
     void update(AgentInfoPo agentInfo);
 
     /**
+     * 根据ID查询代理人信息
+     * @param id
+     * @return
+     */
+    AgentInfoPo selectById(Integer id);
+
+    /**
      * 根据登录账户ID查询代理人信息
      * @param userId
      * @return
@@ -33,14 +40,7 @@ public interface AgentInfoMapper {
      * @param merchantId
      * @return
      */
-    AgentInfoPo selectByMerchantId(Integer merchantId);
-
-    /**
-     * 根据手机号查询代理人信息
-     * @param mobileNo
-     * @return
-     */
-    AgentInfoPo selectByMobileNo(Integer mobileNo);
+    AgentInfoPo selectByMerchantId(String merchantId);
 
     /**
      * 查询下级代理人列表

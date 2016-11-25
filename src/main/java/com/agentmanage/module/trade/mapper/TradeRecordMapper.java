@@ -1,8 +1,10 @@
-package com.agentmanage.module.account.mapper;
+package com.agentmanage.module.trade.mapper;
 
-import com.agentmanage.module.account.entity.TradeRecordPo;
+import com.agentmanage.module.trade.entity.TradeRecordPo;
+import com.agentmanage.module.trade.entity.TradeRecordVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 交易明细Mapper
@@ -18,8 +20,8 @@ public interface TradeRecordMapper {
 
     /**
      * 根据商户ID查询交易记录
-     * @param merchantId
+     * @param param
      * @return
      */
-    List<TradeRecordPo> selectListByMerchantId(String merchantId);
+    List<TradeRecordVo> selectTradeRecordVoList(Map<String, Object> param);
 }

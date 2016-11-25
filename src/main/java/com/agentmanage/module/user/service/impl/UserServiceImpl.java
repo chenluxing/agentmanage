@@ -1,6 +1,8 @@
 package com.agentmanage.module.user.service.impl;
 
 import com.agentmanage.exception.AmServiceException;
+import com.agentmanage.module.agent.entity.AgentInfoPo;
+import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.user.entity.User;
 import com.agentmanage.module.user.mapper.UserMapper;
 import com.agentmanage.module.user.service.IUserService;
@@ -19,6 +21,8 @@ public class UserServiceImpl implements IUserService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private IAgentService agentService;
 
     /**
      * 新增账户
@@ -29,7 +33,7 @@ public class UserServiceImpl implements IUserService {
     public User save(String userName, String password) throws Exception{
         if (!validateConstantUser(userName)) {
             String salt = SecurityUtil.generateSalt();
-            String passwordMd5 = SecurityUtil.confusePassword(salt, password);
+            String passwordMd5 = SecurityUtil.generateUserPassword(salt, password);
             User user = new User(userName, passwordMd5, salt);
             userMapper.insert(user);
             return user;
@@ -52,7 +56,12 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public void update(Integer userId, String password) {
-
+        User user = userMapper.selectById(userId);
+        if (user != null) {
+            String passwordMd5 = SecurityUtil.generateUserPassword(user.getSalt(), password);
+            user.setPassword(passwordMd5);
+            userMapper.update(user);
+        }
     }
 
     /**
@@ -62,7 +71,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public User getByUserName(String userName) {
-        return null;
+        return userMapper.selectByUserName(userName);
     }
 
     /**
@@ -72,7 +81,16 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public UserSession login(String userName, String password) {
-        return null;
+    public UserSession login(String userName, String password) throws AmServiceException {
+        User user = userMapper.selectByUserName(userName);
+        if (user != null) {
+            String tempPassword = SecurityUtil.generateUserPassword(user.getSalt(), password);
+            if (tempPassword.equals(user.getPassword())) {
+                AgentInfoPo agentInfo = agentService.getByUserId(user.getId());
+                return new UserSession(user, agentInfo);
+            }
+            throw new AmServiceException("账户密码不匹配");
+        }
+        throw new AmServiceException("账户信息不存在");
     }
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.agentmanage.module.agent.mapper.AgentAccountMapper">
 
-    <resultMap id="agentAccountMap" type="com.agentmanage.module.account.entity.AgentAccountPo">
+    <resultMap id="agentAccountMap" type="com.agentmanage.module.agent.entity.AgentAccountPo">
         <id column="ID" property="id" jdbcType="INTEGER"/>
         <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
         <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL"/>
@@ -15,7 +15,7 @@
         id, agent_id, total_amount, total_agent_amount, gmt_created, gmt_modified
     </sql>
 
-    <insert id="insert">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into tb_agent_account(agent_id, total_amount, total_agent_amount, gmt_created, gmt_modified)
         values
         (

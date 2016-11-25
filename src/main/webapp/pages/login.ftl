@@ -42,8 +42,8 @@
                             <a href="javascript:void(0);" onclick="changeCaptcha()">换一张</a>
                         </div>
                     </li>
-                    <li class="err">
-                        <div>
+                    <li>
+                        <div class="err">
                             <i class="errIcon"></i>
                             <p class="errText"></p>
                         </div>
@@ -56,7 +56,7 @@
                     </li>
                     <li>
                         <div>
-                            <input class="loginBtn" type="submit" value="登录" />
+                            <input class="loginBtn" type="button" value="登录" />
                         </div>
                     </li>
                     <li style="margin-top: 5px;">
@@ -76,6 +76,7 @@
 <script type="text/javascript" src="${base}/resources/js/rng.js"></script>
 <script type="text/javascript" src="${base}/resources/js/rsa.js"></script>
 <script type="text/javascript" src="${base}/resources/js/base64.js"></script>
+<script type="text/javascript" src="${base}/resources/js/cookie.js"></script>
 <script type="text/javascript" src="${base}/resources/js/common.js"></script>
 <script>
     window.onresize = function(){
@@ -95,6 +96,7 @@
         function InputCheck() {
             this.mobileFlag = false;
             this.errText = "";
+            this.$err = $(".err");
         }
 
         InputCheck.prototype.showErr = function($input) {
@@ -113,72 +115,70 @@
 
         //光标进入文本框时，文本框变颜色
         $(".inputText").bind("focus", function() {
-            //文本框变颜色
+            // 文本框变颜色
             $(this).addClass("inputFocus");
-            //去除文本框错误的提示样式
+            // 去除文本框错误的提示样式
             $(this).removeClass("inputErr");
         }).bind("blur", function() {
-            //文本框变灰色
+            // 文本框变灰色
             $(this).removeClass("inputFocus");
         })
-        //点击的登录按钮
-        $(".logBtn").bind("click", function() {
-            var $mobile = $(".inputMobile");
-            var $pwd = $(".inputPwd");
-            var $imgInput = $(".verifyCode .inputText");
-            var checkResult = false;
-
-            //首先判断手机号和密码是否同时未输入
-            if ($mobile.val() === "" && $pwd.val() === "") {
-                inputCheck.errText = "请输入手机号码和密码";
-                inputCheck.showErr($mobile);
+        // 点击的登录按钮
+        $(".loginBtn").bind("click", function() {
+            var $username = $("#username");
+            var $pwd = $("#password");
+            //判断手机号是否输入
+            if ($username.val() === "") {
+                inputCheck.errText = "请输入手机号码";
+                inputCheck.showErr($username);
+                return false;
+            }
+            // 判断密码是否输入
+            if($pwd.val() === "") {
+                inputCheck.errText = "请输入密码";
                 inputCheck.showErr($pwd);
                 return false;
             }
-
-            //首先判断手机号码格式是否正确
-            inputCheck.mobileFlag = check_m($mobile);
+            // 首先判断手机号码格式是否正确
+            inputCheck.mobileFlag = check_m($username);
+            // 手机号码格式验证成功，则验证密码是否为空
             if (inputCheck.mobileFlag) {
-                //手机号码格式验证成功，则验证密码是否为空
                 inputCheck.pwdFlag = check_pwd($pwd);
             }
             if (!$(".err").hasClass("errShow")) {
-                if ($isRememberUsername.prop("checked")) {
-                    addCookie("adminUsername", $username.val(), {expires: 7 * 24 * 60 * 60});
+                if ($("#isRememberUsername").prop("checked")) {
+                    addCookie("adminUsername", $("#username").val(), {expires: 7 * 24 * 60 * 60});
                 } else {
                     removeCookie("adminUsername");
                 }
                 var rsaKey = new RSAKey();
                 rsaKey.setPublic(b64tohex("${modulus}"), b64tohex("${exponent}"));
-                var enPassword = hex2b64(rsaKey.encrypt($password.val()));
+                var enPassword = hex2b64(rsaKey.encrypt($pwd.val()));
                 $("#enPassword").val(enPassword);
                 $("#loginForm").submit();
             }
             inputCheck.imgFlag = false;
         });
 
-        //回车键触发登录
-        $(".inputMobile,.inputPwd,.inputImg").keydown(function(e) {
+        // 回车键触发登录
+        $("#username,#password,.inputImg").keydown(function(e) {
             var curKey = e.keyCode || e.keyChar || e.which;
             if (curKey == 13) {
-                $(".logBtn").click();
+                $(".loginBtn").click();
             }
         });
 
-        function check_m($mobile) {
-            var inputVal = trimVal($mobile.val());
+        function check_m($username) {
+            var inputVal = trimVal($username.val());
             var errText = "ok";
-
             errText = inputVal.length == 0 ? "请输入手机号码" : (checkResult = checkMoblie(inputVal) ? "ok" : "手机号码不正确");
-
             if (errText == "ok") {
-                //java判断手机号是否有注册过，如果没有注册过，则执行以下一句
-                //errText = "该手机号不存在"
+                // java判断手机号是否有注册过，如果没有注册过，则执行以下一句
                 $.ajax({
                     async: false,
                     type: 'POST',
-                    url: '${base}/checkMobile.json',
-                    data: {mobile: $("#username").val()},
+                    url: '${base}/validateUserName.json',
+                    data: {userName: $("#username").val()},
                     dataType: 'json',
                     success: function (data) {
                         if (data) {
@@ -191,11 +191,11 @@
             }
 
             if (errText == "ok") {
-                inputCheck.hideErr($mobile);
+                inputCheck.hideErr($username);
                 return true;
             } else {
                 inputCheck.errText = errText
-                inputCheck.showErr($mobile);
+                inputCheck.showErr($username);
                 changeCaptcha();
                 return false;
             }
@@ -216,17 +216,14 @@
             }
         }
 
-        var $username = $("#username");
-        var $password = $("#password");
-        var $isRememberUsername = $("#isRememberUsername");
         // 记住用户名
         if (getCookie("adminUsername") != null) {
-            $isRememberUsername.prop("checked", true);
-            $username.val(getCookie("adminUsername"));
-            $password.focus();
+            $("#isRememberUsername").prop("checked", true);
+            $("#username").val(getCookie("adminUsername"));
+            $("#password").focus();
         } else {
-            $isRememberUsername.prop("checked", false);
-            $username.focus();
+            $("#isRememberUsername").prop("checked", false);
+            $("#username").focus();
         }
 
         //session失效时，父窗口跳转至登录页面

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.agentmanage.module.trade.mapper.TradeRecordMapper">
+
+    <resultMap id="tradeRecordMap" type="com.agentmanage.module.trade.entity.TradeRecordPo">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
+        <result column="TRADE_COUNT" property="tradeCount" jdbcType="INTEGER"/>
+        <result column="TRADE_AMOUNT" property="tradeAmount" jdbcType="DECIMAL"/>
+        <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
+        <result column="AGENT_AMOUNT" property="agentAmount" jdbcType="INTEGER"/>
+        <result column="USER_ID" property="userId" jdbcType="INTEGER"/>
+        <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
+        <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="tradeRecordVoMap" type="com.agentmanage.module.trade.entity.TradeRecordVo">
+        <result column="RECORD_ID" property="recordId" jdbcType="INTEGER"/>
+        <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
+        <result column="MERCHANT_ID" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="AGENT_NAME" property="agentName" jdbcType="VARCHAR"/>
+        <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
+        <result column="TRADE_COUNT" property="tradeCount" jdbcType="INTEGER"/>
+        <result column="TRADE_AMOUNT" property="tradeAmount" jdbcType="DECIMAL"/>
+        <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
+        <result column="AGENT_AMOUNT" property="agentAmount" jdbcType="INTEGER"/>
+        <result column="USER_ID" property="userId" jdbcType="INTEGER"/>
+        <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
+        <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        id, agent_id, trade_count, trade_amount, agent_percent, agent_amount, user_id, gmt_created,
+        gmt_modified
+    </sql>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tb_trade_record(agent_id, trade_count, trade_amount, agent_percent, agent_amount,
+            user_id, gmt_created, gmt_modified)
+        values
+        (
+          #{agentId, jdbcType=VARCHAR},
+          #{tradeCount, jdbcType=INTEGER},
+          #{tradeAmount, jdbcType=DECIMAL},
+          #{agentPercent, jdbcType=DECIMAL},
+          #{agentAmount, jdbcType=DECIMAL},
+          #{userId, jdbcType=INTEGER},
+          now(),
+          now()
+        )
+    </insert>
+
+    <select id="selectTradeRecordVoList" resultMap="tradeRecordVoMap">
+        SELECT
+          ttr.id as record_id, ttr.agent_id, ttr.trade_count, ttr.trade_amount, ttr.agent_percent, ttr.agent_amount,
+          ttr.user_id, ttr.gmt_created, ttr.gmt_modified, tai.real_name as agent_name, tai.mobile_no, tai.merchant_id
+        from tb_trade_record ttr
+        inner join tb_agent_info tai on tai.id=ttr.agent_id
+        where 1=1
+        <if test="parentAgentId != null">
+            and tai.parent_agent_id=#{parentAgentId, jdbcType=INTEGER}
+        </if>
+        <if test="agentId != null">
+            and tai.id=#{agentId, jdbcType=INTEGER}
+        </if>
+        <if test="merchant_id != null">
+            and tai.merchant_id=#{merchantId, jdbcType=VARCHAR}
+        </if>
+        order by ttr.gmt_created desc
+    </select>
+</mapper>

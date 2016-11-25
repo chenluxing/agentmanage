@@ -1,6 +1,6 @@
-package com.agentmanage.module.account.mapper;
+package com.agentmanage.module.agent.mapper;
 
-import com.agentmanage.module.account.entity.AccountDetailPo;
+import com.agentmanage.module.agent.entity.AccountDetailPo;
 
 import java.util.List;
 

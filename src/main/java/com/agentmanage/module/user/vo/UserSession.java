@@ -1,5 +1,8 @@
 package com.agentmanage.module.user.vo;
 
+import com.agentmanage.module.agent.entity.AgentInfoPo;
+import com.agentmanage.module.user.entity.User;
+
 import java.io.Serializable;
 
 /**
@@ -9,7 +12,68 @@ import java.io.Serializable;
 public class UserSession implements Serializable {
 
     private Integer userId;
+    private Integer agentId;
     private String userName;
     private String realName;
     private String mobileNo;
+    private String merchantId;
+
+    public UserSession(){}
+
+    public UserSession(User user, AgentInfoPo agentInfo) {
+        this.userId = user.getId();
+        this.userName = user.getUserName();
+        this.agentId = agentInfo.getId();
+        this.realName = agentInfo.getRealName();
+        this.mobileNo = agentInfo.getMobileNo();
+        this.merchantId = agentInfo.getMerchantId();
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(Integer agentId) {
+        this.agentId = agentId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
+    }
 }

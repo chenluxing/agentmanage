@@ -15,7 +15,7 @@
         id, user_name, password, salt, gmt_created, gmt_modified
     </sql>
 
-    <insert id="insert">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into tb_user(user_name, password, salt, real_name, gmt_created, gmt_modified)
         values(
         #{userName, jdbcType=VARCHAR},
@@ -33,6 +33,13 @@
         gmt_modified = now()
         where id = #{id, jdbcType=INTEGER}
     </update>
+
+    <select id="selectById" resultMap="userMap">
+        SELECT
+        <include refid="allColumns" />
+        from tb_user
+        where id=#{id, jdbcType=INTEGER}
+    </select>
 
     <select id="selectByUserName" resultMap="userMap">
         SELECT

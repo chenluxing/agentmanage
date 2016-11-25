@@ -20,7 +20,7 @@
         gmt_modified
     </sql>
 
-    <insert id="insert">
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into tb_agent_info(mobile_no, real_name, merchant_id, alipay_no, agent_percent,
           parent_agent_id, user_id, gmt_created, gmt_modified)
         values
@@ -48,6 +48,13 @@
         where id = #{id, jdbcType=INTEGER}
     </update>
 
+    <select id="selectById" resultMap="agentInfoMap">
+        SELECT
+        <include refid="allColumns" />
+        from tb_agent_info
+        where id=#{id, jdbcType=INTEGER}
+    </select>
+
     <select id="selectByUserId" resultMap="agentInfoMap">
         SELECT
           <include refid="allColumns" />
@@ -59,14 +66,7 @@
         SELECT
         <include refid="allColumns" />
         from tb_agent_info
-        where merchant_id=#{merchantId, jdbcType=INTEGER}
-    </select>
-
-    <select id="selectByMobileNo" resultMap="agentInfoMap">
-        SELECT
-        <include refid="allColumns" />
-        from tb_agent_info
-        where mobile_no=#{mobileNo, jdbcType=INTEGER}
+        where merchant_id=#{merchantId, jdbcType=VARCHAR}
     </select>
 
     <select id="selectChildListByAgentId" resultMap="agentInfoMap">

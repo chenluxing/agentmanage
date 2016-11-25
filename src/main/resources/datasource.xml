@@ -44,9 +44,7 @@
 
     <!-- 扫描**Mapper.xml文件 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="
-            com.agentmanage.*.mapper
-            "/>
+        <property name="basePackage" value="com.agentmanage.module.*.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 

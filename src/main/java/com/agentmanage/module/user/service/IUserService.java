@@ -1,5 +1,6 @@
 package com.agentmanage.module.user.service;
 
+import com.agentmanage.exception.AmServiceException;
 import com.agentmanage.module.user.entity.User;
 import com.agentmanage.module.user.vo.UserSession;
 
@@ -36,5 +37,5 @@ public interface IUserService {
      * @param password
      * @return
      */
-    UserSession login(String userName, String password);
+    UserSession login(String userName, String password) throws AmServiceException;
 }

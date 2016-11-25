@@ -1,34 +1,26 @@
-// 添加Cookie
-function addCookie(name, value, options) {
-    if (arguments.length > 1 && name != null) {
-        if (options == null) {
-            options = {};
-        }
-        if (value == null) {
-            options.expires = -1;
-        }
-        if (typeof options.expires == "number") {
-            var time = options.expires;
-            var expires = options.expires = new Date();
-            expires.setTime(expires.getTime() + time * 1000);
-        }
-        document.cookie = encodeURIComponent(String(name)) + "=" + encodeURIComponent(String(value)) + (options.expires ? "; expires=" + options.expires.toUTCString() : "") + (options.path ? "; path=" + options.path : "") + (options.domain ? "; domain=" + options.domain : ""), (options.secure ? "; secure" : "");
+/*手机号码验证方法*/
+function checkMoblie(code) {
+    if (/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(code)) {
+        return true;
+    } else {
+        return false;
     }
 }
 
-// 获取Cookie
-function getCookie(name) {
-    if (name != null) {
-        var value = new RegExp("(?:^|; )" + encodeURIComponent(String(name)) + "=([^;]*)").exec(document.cookie);
-        return value ? decodeURIComponent(value[1]) : null;
+/*验证长度在制定范围内*/
+function checkLenSection(code, min, max) {
+    if(code.length >= min && code.length <= max) {
+        return true;
+    }else {
+        return false;
     }
 }
 
-// 移除Cookie
-function removeCookie(name, options) {
-    addCookie(name, null, options);
-}
-
-function trimVal(value) {
-    return value.replace(/(^\s*)|(\s*$)/g,'');
+/*验证字段需为字母,数字*/
+function checkCharNum(code) {
+    if (/^[0-9A-Za-z]+$/.test(code)) {
+        return true;
+    } else {
+        return false;
+    }
 }

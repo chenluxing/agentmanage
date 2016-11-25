@@ -35,6 +35,13 @@ public interface IAgentService {
     void modify(Integer id, String realName, String merchantId, String alipayNo, BigDecimal agentPercent);
 
     /**
+     * 根据代理人ID查询代理人信息
+     * @param userId
+     * @return
+     */
+    AgentInfoPo getById(Integer agentId);
+
+    /**
      * 根据账户ID查询代理人信息
      * @param userId
      * @return
@@ -42,18 +49,11 @@ public interface IAgentService {
     AgentInfoPo getByUserId(Integer userId);
 
     /**
-     * 根据商户ID查询代理人信息
+     * 根据商户ID代理人信息
      * @param merchantId
      * @return
      */
-    AgentInfoPo getByMerchantId(Integer merchantId);
-
-    /**
-     * 根据手机号查询代理人信息
-     * @param mobileNo
-     * @return
-     */
-    AgentInfoPo getByMobileNo(Integer mobileNo);
+    AgentInfoPo getByMerchantId(String merchantId);
 
     /**
      * 查询下级代理人信息
@@ -61,4 +61,12 @@ public interface IAgentService {
      * @return
      */
     List<AgentInfoPo> getListByParentId(Integer parentAgentId);
+
+    /**
+     * 校验商户ID是否已经存在
+     * @param merchantId
+     * @param agentId
+     * @return
+     */
+    boolean checkExistsMerchantId(String merchantId, Integer agentId);
 }
