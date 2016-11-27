@@ -17,7 +17,7 @@ public interface ITradeRecordService {
      * @param tradeAmount
      * @param tradeCount
      */
-    void save(Integer agentId, BigDecimal tradeAmount, int tradeCount);
+    void save(Integer agentId, BigDecimal tradeAmount, int tradeCount, Integer curUserId);
 
     /**
      * 新增交易记录
@@ -25,7 +25,7 @@ public interface ITradeRecordService {
      * @param tradeAmount
      * @param tradeCount
      */
-    void save(String merchantId, BigDecimal tradeAmount, int tradeCount);
+    void save(String merchantId, BigDecimal tradeAmount, int tradeCount, Integer curUserId);
 
     /**
      * 查询代理人交易明细

@@ -9,7 +9,7 @@
         <result column="TRADE_AMOUNT" property="tradeAmount" jdbcType="DECIMAL"/>
         <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
         <result column="AGENT_AMOUNT" property="agentAmount" jdbcType="INTEGER"/>
-        <result column="USER_ID" property="userId" jdbcType="INTEGER"/>
+        <result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER"/>
         <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
         <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -22,21 +22,21 @@
         <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
         <result column="TRADE_COUNT" property="tradeCount" jdbcType="INTEGER"/>
         <result column="TRADE_AMOUNT" property="tradeAmount" jdbcType="DECIMAL"/>
-        <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
+        <result column="TRADE_AGENT_PERCENT" property="tradeAgentPercent" jdbcType="DECIMAL"/>
         <result column="AGENT_AMOUNT" property="agentAmount" jdbcType="INTEGER"/>
-        <result column="USER_ID" property="userId" jdbcType="INTEGER"/>
+        <result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER"/>
         <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
         <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="allColumns">
-        id, agent_id, trade_count, trade_amount, agent_percent, agent_amount, user_id, gmt_created,
+        id, agent_id, trade_count, trade_amount, agent_percent, agent_amount, creator_id, gmt_created,
         gmt_modified
     </sql>
 
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into tb_trade_record(agent_id, trade_count, trade_amount, agent_percent, agent_amount,
-            user_id, gmt_created, gmt_modified)
+            creator_id, gmt_created, gmt_modified)
         values
         (
           #{agentId, jdbcType=VARCHAR},
@@ -44,7 +44,7 @@
           #{tradeAmount, jdbcType=DECIMAL},
           #{agentPercent, jdbcType=DECIMAL},
           #{agentAmount, jdbcType=DECIMAL},
-          #{userId, jdbcType=INTEGER},
+          #{creatorId, jdbcType=INTEGER},
           now(),
           now()
         )
@@ -52,8 +52,8 @@
 
     <select id="selectTradeRecordVoList" resultMap="tradeRecordVoMap">
         SELECT
-          ttr.id as record_id, ttr.agent_id, ttr.trade_count, ttr.trade_amount, ttr.agent_percent, ttr.agent_amount,
-          ttr.user_id, ttr.gmt_created, ttr.gmt_modified, tai.real_name as agent_name, tai.mobile_no, tai.merchant_id
+          ttr.id as record_id, ttr.agent_id, ttr.trade_count, ttr.trade_amount, ttr.agent_percent as trade_agent_percent, ttr.agent_amount,
+          ttr.creator_id, ttr.gmt_created, ttr.gmt_modified, tai.real_name as agent_name, tai.mobile_no, tai.merchant_id
         from tb_trade_record ttr
         inner join tb_agent_info tai on tai.id=ttr.agent_id
         where 1=1

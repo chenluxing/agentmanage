@@ -1,6 +1,7 @@
 package com.agentmanage.controller.common;
 
 import com.agentmanage.controller.base.BaseController;
+import com.agentmanage.module.common.constants.GlobalConstants;
 import com.agentmanage.module.user.service.IUserService;
 import com.agentmanage.plugin.encrypt.RSA;
 import org.apache.commons.codec.binary.Base64;
@@ -72,4 +73,15 @@ public class LoginController extends BaseController {
         return userService.getByUserName(userName) != null ? true : false;
     }
 
+    /**
+     * 退出
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/logout")
+    public String logout(HttpServletRequest request) {
+        SecurityUtils.getSubject().logout();
+        SecurityUtils.getSubject().getSession().removeAttribute(GlobalConstants.SESSION_CUR_USER);
+        return toLogin(request);
+    }
 }

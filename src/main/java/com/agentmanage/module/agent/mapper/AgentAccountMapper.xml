@@ -11,6 +11,19 @@
         <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="agentAccountVoMap" type="com.agentmanage.module.agent.entity.AgentAccountVo">
+        <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
+        <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
+        <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
+        <result column="MERCHANT_ID" property="merchantId" jdbcType="VARCHAR"/>
+        <result column="ALIPAY_NO" property="alipayNo" jdbcType="VARCHAR"/>
+        <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
+        <result column="ACCOUNT_ID" property="accountId" jdbcType="INTEGER"/>
+        <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL"/>
+        <result column="TOTAL_AGENT_AMOUNT" property="totalAgentAmount" jdbcType="DECIMAL"/>
+        <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
     <sql id="allColumns">
         id, agent_id, total_amount, total_agent_amount, gmt_created, gmt_modified
     </sql>
@@ -42,4 +55,14 @@
         from tb_agent_account
         where agent_id=#{agentId, jdbcType=INTEGER}
     </select>
+
+    <select id="selectVoByAgentId" resultMap="agentAccountVoMap">
+        select tai.id as agent_id, tai.mobile_no, tai.real_name, tai.merchant_id, tai.alipay_no,
+          tai.agent_percent, tac.id as account_id,tac.total_amount, tac.total_agent_amount,
+          tac.gmt_modified
+        from tb_agent_info tai
+        inner join tb_agent_account tac on tac.agent_id = tai.id
+        where tai.id = #{agentId, jdbcType=INTEGER}
+    </select>
+
 </mapper>

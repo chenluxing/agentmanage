@@ -1,20 +1,16 @@
 package com.agentmanage.module.agent.service;
 
 import com.agentmanage.module.agent.entity.AgentAccountPo;
+import com.agentmanage.module.agent.entity.AgentAccountVo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 代理人账户Service
  * on 2016/11/22.
  */
 public interface IAgentAccountService {
-
-    /**
-     * 新增代理人账户
-     * @param agentId
-     */
-    void save(Integer agentId);
 
     /**
      * 变更账户金额
@@ -40,4 +36,12 @@ public interface IAgentAccountService {
      * @return
      */
     AgentAccountPo getByAgentId(Integer agentId);
+
+    /**
+     * 根据代理人ID查询代理人+账户信息
+     * @param agentId
+     * @return
+     */
+    AgentAccountVo getVoByAgentId(Integer agentId);
+
 }

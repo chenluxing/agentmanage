@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 
 /**
- * Created by chenlx
  * on 2016/9/12.
  */
 public class CellStringDefined extends CellBaseDefined implements ICellDefined<String> {
@@ -24,16 +23,31 @@ public class CellStringDefined extends CellBaseDefined implements ICellDefined<S
     private String reg;
 
     public CellStringDefined(){}
-    public CellStringDefined(int columnIndex, String headName, String propName, boolean isRequired){
-        super(columnIndex, headName, propName, isRequired);
+    public CellStringDefined(int columnIndex, String groupName, String headName, String propName, boolean isRequired){
+        super(columnIndex, groupName, headName, propName, isRequired);
     }
-    public CellStringDefined(int columnIndex, String headName, String propName, boolean isRequired, String defaultValue, int maxLength, boolean isConvert, Map convertMap, String reg){
-        super(columnIndex, headName, propName, isRequired);
+    public CellStringDefined(int columnIndex, String groupName, String headName, String propName, boolean isRequired, String defaultValue, int maxLength, boolean isConvert, Map convertMap, String reg){
+        super(columnIndex, groupName, headName, propName, isRequired);
         this.defaultValue = defaultValue;
         this.maxLength = maxLength;
         this.isConvert = isConvert;
         this.convertMap = convertMap;
         this.reg = reg;
+    }
+
+    /**
+     * 获取展示值
+     * @return
+     */
+    public String getDisplayValue(Object value){
+        if (value != null && MapUtils.isNotEmpty(convertMap)){
+            for (Map.Entry entry : convertMap.entrySet()){
+                if (value.equals(entry.getValue())){
+                    return  String.valueOf(entry.getKey());
+                }
+            }
+        }
+        return "";
     }
 
     /**
@@ -44,35 +58,41 @@ public class CellStringDefined extends CellBaseDefined implements ICellDefined<S
     @Override
     public String getCellValue(Cell cell) throws CellException{
         // 获取去除前后空格的值
-        String result = StringUtils.trim(cell.getContents());
+        String result = null;
+        if (cell != null){
+            result = StringUtils.trim(cell.getContents());
+        }
+        String rtnResult = null;
         if (StringUtils.isNotEmpty(result)){
+            rtnResult = result;
             // 如果数据为必填项，则不允许为默认值
             if (isRequired() && StringUtils.isNotEmpty(getDefaultValue()) && getDefaultValue().equals(result)){
-                throw new CellException(getHeadName(), CellException.ErrorType.NOT_REG);
+                throw new CellException(getFullName(), CellException.ErrorType.NOT_REG);
             }
             // 进行长度校验，如果设置了最大长度，则需要进行长度校验
             if (getMaxLength() > 0 && result.getBytes().length > getMaxLength()){
                 StringBuilder message = new StringBuilder("超出指定长度大小");
                 message.append(getMaxLength());
                 message.append("位字符（汉字占2位字符）");
-                throw new CellException(getHeadName(), message.toString());
+                throw new CellException(getFullName(), message.toString());
             }
             // 正则验证
-            if (StringUtils.isNotEmpty(getReg()) && result.matches(getReg())){
-                throw new CellException(getHeadName(), CellException.ErrorType.NOT_REG);
+            if (StringUtils.isNotEmpty(getReg()) && !result.matches(getReg())){
+                throw new CellException(getFullName(), CellException.ErrorType.NOT_REG);
             }
             // 数值转换
             if (isConvert()){
-                result = MapUtils.getString(getConvertMap(), result);
+                rtnResult = MapUtils.getString(getConvertMap(), result);
                 // 判断是否是限定值
-                if (result == null){
-                    throw new CellException(getHeadName(), CellException.ErrorType.NOT_CONVERT);
+                if (rtnResult == null){
+                    throw new CellException(getFullName(), CellException.ErrorType.NOT_CONVERT);
                 }
+                return rtnResult;
             }
         } else if(isRequired()) {   // 必填校验
-            throw new CellException(getHeadName(), CellException.ErrorType.NOT_NULL);
+            throw new CellException(getFullName(), CellException.ErrorType.NOT_NULL);
         }
-        return result;
+        return rtnResult;
     }
 
     public String getDefaultValue() {

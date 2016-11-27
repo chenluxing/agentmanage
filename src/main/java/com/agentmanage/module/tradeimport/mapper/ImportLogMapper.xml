@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.agentmanage.module.tradeimport.mapper.ImportLogMapper">
+
+    <resultMap id="importLogMap" type="com.agentmanage.module.tradeimport.entity.ImportLogPo">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="data_count" property="dataCount" jdbcType="INTEGER"/>
+        <result column="useful_count" property="usefulCount" jdbcType="INTEGER"/>
+        <result column="TOTAL_TRADE_AMOUNT" property="totalTradeAmount" jdbcType="DECIMAL"/>
+        <result column="total_trade_count" property="totalTradeCount" jdbcType="DECIMAL"/>
+        <result column="CREATOR_ID" property="creatorId" jdbcType="INTEGER"/>
+        <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
+        <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        id, data_count, useful_count, total_trade_amount, total_trade_count, creator_id, gmt_created,
+        gmt_modified
+    </sql>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tb_trade_import_log(data_count, useful_count, total_trade_amount, total_trade_count,
+          creator_id, gmt_created, gmt_modified)
+        values
+        (
+          #{dataCount, jdbcType=INTEGER},
+          #{usefulCount, jdbcType=INTEGER},
+          #{totalTradeAmount, jdbcType=DECIMAL},
+          #{totalTradeCount, jdbcType=DECIMAL},
+          #{creatorId, jdbcType=INTEGER},
+          now(),
+          now()
+        )
+    </insert>
+
+    <select id="selectList" resultMap="importLogMap">
+        SELECT
+          <include refid="allColumns" />
+        from tb_trade_import_log
+        where creator_id = #{creatorId, jdbcType=INTEGER}
+        order by gmt_created desc
+    </select>
+</mapper>

@@ -9,6 +9,7 @@ import com.agentmanage.module.trade.service.ITradeRecordService;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -38,15 +39,17 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
      * @param tradeCount
      */
     @Override
-    public void save(Integer agentId, BigDecimal tradeAmount, int tradeCount) {
-        AgentInfoPo agentInfo = agentService.getByUserId(agentId);
+    @Transactional
+    public void save(Integer agentId, BigDecimal tradeAmount, int tradeCount, Integer curUserId) {
+        AgentInfoPo agentInfo = agentService.getById(agentId);
         if (agentInfo != null) {
+            // 新增交易记录
             BigDecimal agentAmount = tradeAmount.multiply(agentInfo.getAgentPercent()).setScale(2, BigDecimal.ROUND_HALF_UP);
-            TradeRecordPo tradeRecord = new TradeRecordPo(agentId, tradeCount, tradeAmount, agentInfo.getAgentPercent(), agentAmount);
+            TradeRecordPo tradeRecord = new TradeRecordPo(agentId, tradeCount, tradeAmount, agentInfo.getAgentPercent(), agentAmount, curUserId);
             tradeRecordMapper.insert(tradeRecord);
 
+            // 更新账户总金额，并记录账户金额变更
             agentAccountService.addAgentAmount(agentId, tradeAmount, agentAmount, tradeRecord.getId());
-
         }
     }
 
@@ -57,10 +60,11 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
      * @param tradeCount
      */
     @Override
-    public void save(String merchantId, BigDecimal tradeAmount, int tradeCount) {
+    @Transactional
+    public void save(String merchantId, BigDecimal tradeAmount, int tradeCount, Integer curUserId) {
         AgentInfoPo agentInfo = agentService.getByMerchantId(merchantId);
         if (agentInfo != null) {
-            save(agentInfo.getId(), tradeAmount, tradeCount);
+            save(agentInfo.getId(), tradeAmount, tradeCount, curUserId);
         } else {
             throw new AmServiceException("商户ID对应的代理人信息不存在");
         }

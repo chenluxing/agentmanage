@@ -3,34 +3,28 @@ package com.agentmanage.module.agent.service.impl;
 import com.agentmanage.exception.AmServiceException;
 import com.agentmanage.module.agent.entity.AccountDetailPo;
 import com.agentmanage.module.agent.entity.AgentAccountPo;
+import com.agentmanage.module.agent.entity.AgentAccountVo;
 import com.agentmanage.module.agent.mapper.AccountDetailMapper;
 import com.agentmanage.module.agent.mapper.AgentAccountMapper;
 import com.agentmanage.module.agent.service.IAgentAccountService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 代理人账户Service实现类
  * on 2016/11/22.
  */
-@Resource
+@Service
 public class AgentAccountServiceImpl implements IAgentAccountService {
 
     @Resource
     private AgentAccountMapper agentAccountMapper;
     @Resource
     private AccountDetailMapper accountDetailMapper;
-
-    /**
-     * 新增代理人账户
-     * @param agentId
-     */
-    @Override
-    public void save(Integer agentId) {
-        AgentAccountPo agentAccount = new AgentAccountPo(agentId);
-        agentAccountMapper.insert(agentAccount);
-    }
 
     /**
      * 变更账户金额
@@ -40,6 +34,7 @@ public class AgentAccountServiceImpl implements IAgentAccountService {
      * @return
      */
     @Override
+    @Transactional
     public AgentAccountPo addAgentAmount(Integer agentId, BigDecimal amount, BigDecimal agentAmount) {
         return addAgentAmount(agentId, amount, agentAmount, null);
     }
@@ -52,6 +47,7 @@ public class AgentAccountServiceImpl implements IAgentAccountService {
      * @return
      */
     @Override
+    @Transactional
     public AgentAccountPo addAgentAmount(Integer agentId, BigDecimal amount, BigDecimal agentAmount, Integer dataId) {
         AgentAccountPo agentAccount = agentAccountMapper.selectByAgentId(agentId);
         if (agentAccount != null) {
@@ -77,6 +73,16 @@ public class AgentAccountServiceImpl implements IAgentAccountService {
     @Override
     public AgentAccountPo getByAgentId(Integer agentId) {
         return agentAccountMapper.selectByAgentId(agentId);
+    }
+
+    /**
+     * 根据代理人ID查询代理人+账户信息
+     * @param agentId
+     * @return
+     */
+    @Override
+    public AgentAccountVo getVoByAgentId(Integer agentId) {
+        return agentAccountMapper.selectVoByAgentId(agentId);
     }
 
 }

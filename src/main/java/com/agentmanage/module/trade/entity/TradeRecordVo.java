@@ -19,8 +19,9 @@ public class TradeRecordVo {
     private String mobileNo;            // 手机号
     private int tradeCount;             // 交易订单数量
     private BigDecimal tradeAmount;     // 交易金额
-    private BigDecimal agentPercent;    // 交易佣金比例（取生成记录时代理人的佣金比例）
+    private BigDecimal tradeAgentPercent;    // 交易佣金比例（取生成记录时代理人的佣金比例）
     private BigDecimal agentAmount;     // 佣金金额
+    private Integer creatorId;          // 创建者userId
     private Date gmtCreated;
     private Date gmtModified;
 
@@ -38,6 +39,14 @@ public class TradeRecordVo {
 
     public void setAgentId(Integer agentId) {
         this.agentId = agentId;
+    }
+
+    public Integer getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Integer merchantId) {
+        this.merchantId = merchantId;
     }
 
     public String getAgentName() {
@@ -72,12 +81,12 @@ public class TradeRecordVo {
         this.tradeAmount = tradeAmount;
     }
 
-    public BigDecimal getAgentPercent() {
-        return agentPercent;
+    public BigDecimal getTradeAgentPercent() {
+        return tradeAgentPercent;
     }
 
-    public void setAgentPercent(BigDecimal agentPercent) {
-        this.agentPercent = agentPercent;
+    public void setTradeAgentPercent(BigDecimal tradeAgentPercent) {
+        this.tradeAgentPercent = tradeAgentPercent;
     }
 
     public BigDecimal getAgentAmount() {
@@ -86,6 +95,14 @@ public class TradeRecordVo {
 
     public void setAgentAmount(BigDecimal agentAmount) {
         this.agentAmount = agentAmount;
+    }
+
+    public Integer getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
     }
 
     public Date getGmtCreated() {
@@ -102,13 +119,5 @@ public class TradeRecordVo {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
-    }
-
-    public Integer getMerchantId() {
-        return merchantId;
-    }
-
-    public void setMerchantId(Integer merchantId) {
-        this.merchantId = merchantId;
     }
 }

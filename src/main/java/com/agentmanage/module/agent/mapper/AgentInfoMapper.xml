@@ -10,19 +10,20 @@
         <result column="ALIPAY_NO" property="alipayNo" jdbcType="VARCHAR"/>
         <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
         <result column="PARENT_AGENT_ID" property="parentAgentId" jdbcType="INTEGER"/>
+        <result column="LEVEL" property="level" jdbcType="INTEGER"/>
         <result column="USER_ID" property="userId" jdbcType="INTEGER"/>
         <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
         <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="allColumns">
-        id, mobile_no, real_name, merchant_id, alipay_no, agent_percent, parent_agent_id, user_id, gmt_created,
+        id, mobile_no, real_name, merchant_id, alipay_no, agent_percent, parent_agent_id, level, user_id, gmt_created,
         gmt_modified
     </sql>
 
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into tb_agent_info(mobile_no, real_name, merchant_id, alipay_no, agent_percent,
-          parent_agent_id, user_id, gmt_created, gmt_modified)
+          level, parent_agent_id, user_id, gmt_created, gmt_modified)
         values
         (
           #{mobileNo, jdbcType=VARCHAR},
@@ -30,6 +31,7 @@
           #{merchantId, jdbcType=VARCHAR},
           #{alipayNo, jdbcType=VARCHAR},
           #{agentPercent, jdbcType=DECIMAL},
+          #{level, jdbcType=INTEGER},
           #{parentAgentId, jdbcType=INTEGER},
           #{userId, jdbcType=INTEGER},
           now(),

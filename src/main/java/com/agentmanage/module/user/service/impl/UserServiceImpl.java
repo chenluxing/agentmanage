@@ -9,6 +9,7 @@ import com.agentmanage.module.user.service.IUserService;
 import com.agentmanage.module.user.vo.UserSession;
 import com.agentmanage.utils.SecurityUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -30,11 +31,12 @@ public class UserServiceImpl implements IUserService {
      * @param password
      */
     @Override
+    @Transactional
     public User save(String userName, String password) throws Exception{
         if (!validateConstantUser(userName)) {
             String salt = SecurityUtil.generateSalt();
-            String passwordMd5 = SecurityUtil.generateUserPassword(salt, password);
-            User user = new User(userName, passwordMd5, salt);
+            String tempPassword = SecurityUtil.generateUserPassword(salt, password);
+            User user = new User(userName, tempPassword, salt);
             userMapper.insert(user);
             return user;
         }
@@ -55,11 +57,12 @@ public class UserServiceImpl implements IUserService {
      * @param password
      */
     @Override
+    @Transactional
     public void update(Integer userId, String password) {
         User user = userMapper.selectById(userId);
         if (user != null) {
-            String passwordMd5 = SecurityUtil.generateUserPassword(user.getSalt(), password);
-            user.setPassword(passwordMd5);
+            String tempPassword = SecurityUtil.generateUserPassword(user.getSalt(), password);
+            user.setPassword(tempPassword);
             userMapper.update(user);
         }
     }

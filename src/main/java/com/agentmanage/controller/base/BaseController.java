@@ -1,5 +1,8 @@
 package com.agentmanage.controller.base;
 
+import com.agentmanage.module.common.constants.GlobalConstants;
+import com.agentmanage.module.user.vo.UserSession;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -27,6 +30,10 @@ public class BaseController {
      * 请求地址
      */
     protected String contextPath;
+
+    protected UserSession getCurUser() {
+        return (UserSession)SecurityUtils.getSubject().getSession().getAttribute(GlobalConstants.SESSION_CUR_USER);
+    }
 
     /**
      * 数据绑定

@@ -17,11 +17,11 @@ public class CellBigDecimalDefined extends CellBaseDefined implements ICellDefin
     private int roundingMode = BigDecimal.ROUND_HALF_UP;
 
     public CellBigDecimalDefined(){}
-    public CellBigDecimalDefined(int columnIndex, String headName, String propName, boolean isRequired){
-        super(columnIndex, headName, propName, isRequired);
+    public CellBigDecimalDefined(int columnIndex, String groupName, String headName, String propName, boolean isRequired){
+        super(columnIndex, groupName, headName, propName, isRequired);
     }
-    public CellBigDecimalDefined(int columnIndex, String headName, String propName, boolean isRequired, int sacle, int roundingMode){
-        super(columnIndex, headName, propName, isRequired);
+    public CellBigDecimalDefined(int columnIndex, String groupName, String headName, String propName, boolean isRequired, int sacle, int roundingMode){
+        super(columnIndex, groupName, headName, propName, isRequired);
         this.sacle = sacle;
         this.roundingMode = roundingMode;
     }
@@ -33,8 +33,11 @@ public class CellBigDecimalDefined extends CellBaseDefined implements ICellDefin
      */
     @Override
     public BigDecimal getCellValue(Cell cell) throws CellException{
-        String result = StringUtils.trim(cell.getContents());
-        BigDecimal rtnResult = BigDecimal.ZERO;
+        String result = null;
+        if (cell != null){
+            result = StringUtils.trim(cell.getContents());
+        }
+        BigDecimal rtnResult = null;
         Double tempResult = null;
         if (StringUtils.isNotEmpty(result)){
             // 值转换，字符串转Integer
@@ -43,21 +46,22 @@ public class CellBigDecimalDefined extends CellBaseDefined implements ICellDefin
             } catch (Exception e) {
             }
             // 如果转换后的结果没有值，但是获取到单元格有值
-            if (rtnResult == null && StringUtils.isNotEmpty(result)){
-                throw new CellException(getHeadName(), CellException.ErrorType.NOT_REG);
+            if (tempResult == null && StringUtils.isNotEmpty(result)){
+                throw new CellException(getFullName(), CellException.ErrorType.NOT_REG);
             }
             // 判断是否必填值
             if (tempResult == null && isRequired()){
-                throw new CellException(getHeadName(), CellException.ErrorType.NOT_CONVERT);
+                throw new CellException(getFullName(), CellException.ErrorType.NOT_CONVERT);
             }
             // 值转换
             if (tempResult != null){
                 rtnResult = BigDecimal.valueOf(tempResult);
+                return rtnResult.setScale(sacle, roundingMode);
             }
         } else if(isRequired()) {   // 必填校验
-            throw new CellException(getHeadName(), CellException.ErrorType.NOT_NULL);
+            throw new CellException(getFullName(), CellException.ErrorType.NOT_NULL);
         }
-        return rtnResult.setScale(sacle, roundingMode);
+        return null;
     }
 
 }

@@ -27,16 +27,14 @@ public interface IAgentService {
     /**
      * 更新代理人信息
      * @param id
-     * @param realName
      * @param merchantId
-     * @param alipayNo
      * @param agentPercent
      */
-    void modify(Integer id, String realName, String merchantId, String alipayNo, BigDecimal agentPercent);
+    void modify(Integer id, String merchantId, BigDecimal agentPercent);
 
     /**
      * 根据代理人ID查询代理人信息
-     * @param userId
+     * @param agentId
      * @return
      */
     AgentInfoPo getById(Integer agentId);

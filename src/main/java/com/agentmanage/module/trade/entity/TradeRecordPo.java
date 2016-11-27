@@ -16,15 +16,17 @@ public class TradeRecordPo extends BaseEntity {
     private BigDecimal tradeAmount;     // 交易金额
     private BigDecimal agentPercent;    // 交易佣金比例（取生成记录时代理人的佣金比例）
     private BigDecimal agentAmount;     // 佣金金额
+    private Integer creatorId;          // 创建者UserId
 
     public TradeRecordPo() {}
 
-    public TradeRecordPo(Integer agentId, int tradeCount, BigDecimal tradeAmount, BigDecimal agentPercent, BigDecimal agentAmount) {
+    public TradeRecordPo(Integer agentId, int tradeCount, BigDecimal tradeAmount, BigDecimal agentPercent, BigDecimal agentAmount, Integer creatorId) {
         this.agentId = agentId;
         this.tradeCount = tradeCount;
         this.tradeAmount = tradeAmount;
         this.agentPercent = agentPercent;
         this.agentAmount = agentAmount;
+        this.creatorId = creatorId;
     }
 
     public Integer getAgentId() {
@@ -65,5 +67,13 @@ public class TradeRecordPo extends BaseEntity {
 
     public void setAgentAmount(BigDecimal agentAmount) {
         this.agentAmount = agentAmount;
+    }
+
+    public Integer getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
     }
 }

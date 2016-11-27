@@ -1,6 +1,9 @@
 package com.agentmanage.module.agent.mapper;
 
 import com.agentmanage.module.agent.entity.AgentAccountPo;
+import com.agentmanage.module.agent.entity.AgentAccountVo;
+
+import java.util.List;
 
 /**
  * 代理人账户Mapper
@@ -26,4 +29,12 @@ public interface AgentAccountMapper {
      * @return
      */
     AgentAccountPo selectByAgentId(Integer agentId);
+
+    /**
+     * 根据代理人ID查询代理人+账户信息
+     * @param agentId
+     * @return
+     */
+    AgentAccountVo selectVoByAgentId(Integer agentId);
+
 }

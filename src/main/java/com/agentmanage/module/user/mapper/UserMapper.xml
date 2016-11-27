@@ -16,12 +16,11 @@
     </sql>
 
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into tb_user(user_name, password, salt, real_name, gmt_created, gmt_modified)
+        insert into tb_user(user_name, password, salt, gmt_created, gmt_modified)
         values(
         #{userName, jdbcType=VARCHAR},
         #{password, jdbcType=VARCHAR},
         #{salt, jdbcType=VARCHAR},
-        #{realName, jdbcType=VARCHAR},
         now(),
         now()
         )

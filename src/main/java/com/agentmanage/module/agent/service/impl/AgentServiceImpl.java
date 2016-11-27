@@ -1,11 +1,14 @@
 package com.agentmanage.module.agent.service.impl;
 
 import com.agentmanage.exception.AmServiceException;
+import com.agentmanage.module.agent.entity.AgentAccountPo;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
+import com.agentmanage.module.agent.mapper.AgentAccountMapper;
 import com.agentmanage.module.agent.mapper.AgentInfoMapper;
 import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.user.entity.User;
 import com.agentmanage.module.user.service.IUserService;
+import com.agentmanage.utils.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,8 @@ public class AgentServiceImpl implements IAgentService {
 
     @Resource
     private AgentInfoMapper agentInfoMapper;
+    @Resource
+    private AgentAccountMapper agentAccountMapper;
     @Resource
     private IUserService userService;
 
@@ -49,9 +54,17 @@ public class AgentServiceImpl implements IAgentService {
         if (StringUtils.isNotEmpty(merchantId) && checkExistsMerchantId(merchantId, null)) {
             throw new AmServiceException("该商户ID已经存在");
         }
-        user = userService.save(mobileNo, alipayNo);
-        AgentInfoPo agentInfo = new AgentInfoPo(mobileNo, realName, merchantId, alipayNo, agentPercent,parentAgentId, user.getId());
+        String password = SecurityUtil.md5(alipayNo);
+        user = userService.save(mobileNo, password);
+
+        // 获取当前新增代理人的层级 = 父节点层级+1
+        AgentInfoPo parentAgent = agentInfoMapper.selectById(parentAgentId);
+        int level = parentAgent.getLevel() + 1;
+        AgentInfoPo agentInfo = new AgentInfoPo(mobileNo, realName, merchantId, alipayNo, agentPercent,parentAgentId, user.getId(), level);
         agentInfoMapper.insert(agentInfo);
+        // 新增账户信息
+        AgentAccountPo agentAccount = new AgentAccountPo(agentInfo.getId());
+        agentAccountMapper.insert(agentAccount);
     }
 
     /**
@@ -75,17 +88,14 @@ public class AgentServiceImpl implements IAgentService {
     /**
      * 更新代理人信息
      * @param id
-     * @param realName
      * @param merchantId
-     * @param alipayNo
      * @param agentPercent
      */
     @Override
-    public void modify(Integer id, String realName, String merchantId, String alipayNo, BigDecimal agentPercent) {
+    @Transactional
+    public void modify(Integer id, String merchantId, BigDecimal agentPercent) {
         AgentInfoPo agentInfo = agentInfoMapper.selectById(id);
         if (agentInfo != null) {
-            agentInfo.setRealName(realName);
-            agentInfo.setAlipayNo(alipayNo);
             agentInfo.setAgentPercent(agentPercent);
             // 商户ID仅允许更新一次
             if (StringUtils.isEmpty(agentInfo.getMerchantId()) && StringUtils.isNotEmpty(merchantId)) {

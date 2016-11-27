@@ -11,14 +11,16 @@
         <property name="filterChainDefinitions">
             <value>
                 /login.html = anon
-                /loginIn.html = authc
-                /autoLogin.html = authc
                 /varifyCode.html = anon
-                /logout.jsp = logout
                 /common/captcha.html = anon
+                /logout.html = logout
+                /loginIn.html = authc
+                /index.html = authc
+                /autoLogin.html = authc
                 /common/main.html = authc
 
-                /insurer/** = authc
+                /agent/** = authc
+                /trade/** = authc
             </value>
         </property>
         <property name="filters">
