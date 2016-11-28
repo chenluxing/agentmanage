@@ -1,6 +1,7 @@
 package com.agentmanage.module.trade.service;
 
 import com.agentmanage.module.trade.entity.TradeRecordVo;
+import com.agentmanage.plugin.page.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,6 +29,15 @@ public interface ITradeRecordService {
     void save(String merchantId, BigDecimal tradeAmount, int tradeCount, Integer curUserId);
 
     /**
+     * 迭代向上关联代理人增加交易记录
+     * @param agentId
+     * @param tradeAmount
+     * @param tradeCount
+     * @param curUserId
+     */
+    void saveToHead(Integer agentId, BigDecimal tradeAmount, int tradeCount, Integer curUserId);
+
+    /**
      * 查询代理人交易明细
      * @param agentId
      * @return
@@ -36,8 +46,8 @@ public interface ITradeRecordService {
 
     /**
      * 查询下级代理人交易明细
-     * @param parentAgentId
+     * @param pageable
      * @return
      */
-    List<TradeRecordVo> getVoListByParentAgentId(Integer parentAgentId);
+    List<TradeRecordVo> getVoListByParentAgentId(Pageable pageable);
 }

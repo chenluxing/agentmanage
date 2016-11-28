@@ -25,8 +25,8 @@ body {
     _background-attachment: fixed;
 }
 html,body{
-margin:0px;
-height:100%;
+    margin:0px;
+    height:100%;
 } 
 a {
     color: #55a5ff;
@@ -61,62 +61,6 @@ input {
 textarea {
     outline: 0px;
     resize:none;
-}
-
-/* ---------- Base ---------- */
-.ztree li{
-    line-height: 22px;
-    padding-left: 6px;
-    background: #f8f8f8;
-    border:1px solid #f8f8f8;
-    margin: 4px;
-    cursor: pointer;
-}
-.ztree li a{
-    color: #776c62;
-}
-.ztree li:hover a{
-    color: #1c99dd;
-}
-.ztree li.active{
-    border:1px solid #aedff5;
-    background: #c7edff;
-}
-.workbench{
-    width:49%;
-    border:1px solid #e5ded8;
-}
-.workbenchtit{
-    overflow: hidden;
-    border-bottom:1px solid #e5ded8;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 10px 20px;
-    height: 24px;
-    line-height: 24px;
-}
-.workbenchtit span.workicon{
-    float: left;
-    display: block;
-    width: 24px;
-    height: 24px;
-    background-position: -230px 0;
-    margin-right: 12px;
-}
-.workbenchtit span.sales{
-    background-position: -258px 0;
-}
-.workbenchcon{
-    padding: 26px 20px;
-    overflow: hidden;
-}
-.workbenchtext{
-    width: 92px;
-    line-height: 30px;
-}
-.workbenchnum{
-    width: 80px;
-    text-align: right;
 }
 .iconfont,.tabIcon{
     font-family:"iconfont" !important;
@@ -268,13 +212,6 @@ filter:alpha(opacity=40);
 .dettop .detl .filelist .cancel:hover{
     color:#ff5307;
 }
-#uploader .btns{
-    line-height:36px;
-}
-#uploader .btns .prompt{
-    padding-left: 10px;
-    color: #bbb;
-}
 .tabtit table td{
     text-align: right;
 }
@@ -417,23 +354,6 @@ table.error td{
     visibility: hidden;
     overflow: hidden;
     content: "\0020";
-}
-
-.dialogOverlay {
-    width: 100%;
-    height: 100%;
-    display: none;
-    position: fixed;
-    _position: absolute;
-    top: 0px;
-    _top: expression(documentElement.scrollTop + documentElement.clientHeight - this.offsetHeight);
-    left: 0px;
-    z-index: 99;
-    filter: alpha(opacity=30);
-    -moz-opacity: 0.30;
-    opacity: 0.30;
-    zoom: 1;
-    background: url(../images/dialog_overlay.png);
 }
 
 /* ---------- Form ---------- */
@@ -597,15 +517,6 @@ a.button .arrow {
     overflow: hidden;
    /* background: url(../images/common.gif) 0px -180px no-repeat;*/
 }
-/*a.tabIcon{
-    width: 16px;
-    height: 16px;
-    line-height: 16px;
-    display: inline-block;
-    display: -moz-inline-stack;
-    float: left;
-    position: relative;
-}*/
 a.tabIcon .editIcon {
     margin-right: 26px;
     background-position:-11px -244px;
@@ -926,3 +837,28 @@ label.fieldError {
  padding-left: 6px;
 }
 
+/*----- 灰色表格 ------*/
+.table_gray {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    width: 100%;
+    border-top: #ddd solid 1px;
+    border-left: #ddd solid 1px;
+}
+.table_gray th {
+    padding: 10px;
+    border-bottom: #ddd solid 1px;
+    border-right: #ddd solid 1px;
+    text-align: center;
+    font-weight: bold;
+    background: #f5f5f5;
+}
+.table_gray td {
+    padding: 8px;
+    border-bottom: #ddd solid 1px;
+    border-right: #ddd solid 1px;
+    text-align: center;
+}
+.bg_gray {
+    background-color: #faf9f9;
+}

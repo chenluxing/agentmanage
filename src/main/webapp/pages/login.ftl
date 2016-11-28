@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>登录</title>
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
     <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
@@ -16,7 +18,7 @@
     <meta name="screen-orientation" content="portrait">
     <meta name="x5-orientation" content="portrait">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>登录</title>
+
     <link href="${base}/resources/css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -71,12 +73,12 @@
 
 </body>
 <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="${base}/resources/js/jsbn.js"></script>
-<script type="text/javascript" src="${base}/resources/js/prng4.js"></script>
-<script type="text/javascript" src="${base}/resources/js/rng.js"></script>
-<script type="text/javascript" src="${base}/resources/js/rsa.js"></script>
-<script type="text/javascript" src="${base}/resources/js/base64.js"></script>
-<script type="text/javascript" src="${base}/resources/js/cookie.js"></script>
+<script type="text/javascript" src="${base}/resources/js/captcha/jsbn.js"></script>
+<script type="text/javascript" src="${base}/resources/js/captcha/prng4.js"></script>
+<script type="text/javascript" src="${base}/resources/js/captcha/rng.js"></script>
+<script type="text/javascript" src="${base}/resources/js/captcha/rsa.js"></script>
+<script type="text/javascript" src="${base}/resources/js/captcha/base64.js"></script>
+<script type="text/javascript" src="${base}/resources/js/captcha/cookie.js"></script>
 <script type="text/javascript" src="${base}/resources/js/common.js"></script>
 <script>
     window.onresize = function(){

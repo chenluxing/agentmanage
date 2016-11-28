@@ -8,6 +8,10 @@ import com.agentmanage.module.trade.mapper.TradeRecordMapper;
 import com.agentmanage.module.trade.service.ITradeRecordService;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentService;
+import com.agentmanage.plugin.page.PageAdapter;
+import com.agentmanage.plugin.page.Pageable;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -71,6 +75,29 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
     }
 
     /**
+     * 迭代向上关联代理人增加交易记录
+     * @param agentId
+     * @param tradeAmount
+     * @param tradeCount
+     * @param curUserId
+     */
+    @Override
+    @Transactional
+    public void saveToHead(Integer agentId, BigDecimal tradeAmount, int tradeCount, Integer curUserId) {
+        AgentInfoPo agentInfo = agentService.getById(agentId);
+        if (agentInfo != null) {
+            save(agentInfo.getId(), tradeAmount, tradeCount, curUserId);
+        } else {
+            throw new AmServiceException("商户ID对应的代理人信息不存在");
+        }
+        if (agentInfo.getLevel() > 0){
+            save(agentInfo.getParentAgentId(), tradeAmount, tradeCount, curUserId);
+        } else {
+            return;
+        }
+    }
+
+    /**
      * 查询代理人交易明细
      * @param agentId
      * @return
@@ -85,15 +112,15 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
 
     /**
      * 查询下级代理人交易明细
-     * @param parentAgentId
+     * @param pageable
      * @return
      */
     @Override
-    public List<TradeRecordVo> getVoListByParentAgentId(Integer parentAgentId) {
-        Assert.notNull(parentAgentId, "上级代理人ID不允许为空");
-        Map<String, Object> param = new HashMap<>();
-        param.put("parentAgentId", parentAgentId);
-        return getVoListByParam(param);
+    public List<TradeRecordVo> getVoListByParentAgentId(Pageable pageable) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        Page<TradeRecordVo> page = (Page<TradeRecordVo>) getVoListByParam(pageable.getFilter());
+        PageAdapter<TradeRecordVo> pageAdapter = new PageAdapter<>(page, pageable);
+        return pageAdapter.getPage();
     }
 
     /**

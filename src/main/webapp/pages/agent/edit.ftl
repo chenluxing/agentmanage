@@ -2,36 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>编辑代理人</title>
-        <style rel="stylesheet" type="text/css">
-            body {
-                color: #7d7268;
-            }
-            .table_gray {
-                border-collapse: collapse;
-                border-spacing: 0px;
-                width: 100%;
-                border-top: #ddd solid 1px;
-                border-left: #ddd solid 1px;
-            }
-            .table_gray th {
-                padding: 10px;
-                border-bottom: #ddd solid 1px;
-                border-right: #ddd solid 1px;
-                text-align: center;
-                font-weight: bold;
-                background: #f5f5f5;
-            }
-            .table_gray td {
-                padding: 8px;
-                border-bottom: #ddd solid 1px;
-                border-right: #ddd solid 1px;
-                text-align: center;
-            }
-            .bg_gray {
-                background-color: #faf9f9;
-            }
-        </style>
-        
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+        <link href="${base}/resources/css/main.css" rel="stylesheet" type="text/css">
+
+        <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="${base}/resources/js/jquery.validate.js"></script>
         <script type="text/javascript">
             
         </script>

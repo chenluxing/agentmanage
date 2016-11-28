@@ -12,6 +12,7 @@ import com.agentmanage.module.tradeimport.service.IImportDetailService;
 import com.agentmanage.module.tradeimport.service.IImportLogService;
 import com.agentmanage.plugin.excel.*;
 import com.agentmanage.plugin.excel.vo.ExcelMessage;
+import com.github.pagehelper.PageHelper;
 import jxl.Sheet;
 import jxl.Workbook;
 import org.apache.commons.collections.CollectionUtils;
@@ -133,8 +134,6 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
             return;
         }
     }
-
-
 
     /**
      * 查询导入记录
