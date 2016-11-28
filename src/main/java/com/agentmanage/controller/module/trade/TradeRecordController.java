@@ -3,8 +3,10 @@ package com.agentmanage.controller.module.trade;
 import com.agentmanage.controller.base.BaseController;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentService;
+import com.agentmanage.module.trade.entity.TradeRecordVo;
 import com.agentmanage.module.trade.service.ITradeRecordService;
 import com.agentmanage.plugin.page.Filter;
+import com.agentmanage.plugin.page.Page;
 import com.agentmanage.plugin.page.Pageable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +46,7 @@ public class TradeRecordController extends BaseController {
         filter.addParam("parentAgentId", agentId);
         pageable.setFilter(filter);
 
-        modelMap.addAttribute("records", tradeRecordService.getVoListByParentAgentId(pageable));
+        modelMap.addAttribute("page", tradeRecordService.getVoListByParentAgentId(pageable));
         return "/trade/record/list";
     }
 

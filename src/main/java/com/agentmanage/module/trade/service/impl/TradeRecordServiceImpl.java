@@ -116,7 +116,7 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
      * @return
      */
     @Override
-    public List<TradeRecordVo> getVoListByParentAgentId(Pageable pageable) {
+    public com.agentmanage.plugin.page.Page<TradeRecordVo> getVoListByParentAgentId(Pageable pageable) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         Page<TradeRecordVo> page = (Page<TradeRecordVo>) getVoListByParam(pageable.getFilter());
         PageAdapter<TradeRecordVo> pageAdapter = new PageAdapter<>(page, pageable);

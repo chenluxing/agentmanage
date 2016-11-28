@@ -119,7 +119,7 @@ filter:alpha(opacity=40);
 #backcon{
     margin-left: 183px;
     min-width: 960px;
-    padding: 20px;
+    padding: 5px;
     height: 100%;
     background-color: #fff;
 }

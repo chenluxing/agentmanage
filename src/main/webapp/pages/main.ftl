@@ -83,7 +83,7 @@
                 height: 100%;
                 background-color: #fff9f3;
                 border-right: 1px solid #decbbf;
-                margin-top: 8px;
+                margin-top: 0px;
             }
             .vtitle {
                 height: 36px;
@@ -137,7 +137,7 @@
         <!-- 头部 start-->
         <header>
             <div class="wrap clearfix">
-                <div class="logoText fl">代理人管理系统</div>
+                <div class="logoText fl">XXX管理系统</div>
                 <div class="backother fr">
                     欢迎您,
                     <a href="javascript:void(0)" id="text">${user.realName}（${user.userName}）</a>
@@ -146,22 +146,22 @@
                     </a>
                 </div>
             </div>
-            <div class="wrap headmenu bgOran">
+            <div style="border: 2px solid red;" class="wrap headmenu bgOran">
                 <!-- 顶部主菜单 start -->
-                <ul class="menu clearfix">
+                <#--<ul class="menu clearfix">
                     <li class="active" id="workbench">
                         <a href="#product">个人账户信息</a>
                     </li>
                     <li>
                         <a href="#product">交易管理</a>
                     </li>
-                </ul>
+                </ul>-->
                 <!-- 顶部主菜单 end -->
             </div>
         </header>
         <!-- 头部end -->
         <!-- 内容部分 start -->
-        <div id="backmain" class="wrap clearfix">
+        <div id="backmain" class="wrap clearfix" style="padding-top: 0px;">
         <!-- 左栏 start -->
             <div id="backleft" class="fl">
                 <div class="bleftcon" style="display:block;">

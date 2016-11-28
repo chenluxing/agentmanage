@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <#list records as record>
+                    <#list page as record>
                     <tr>
                         <td>
                             ${record.agentName}
@@ -58,6 +58,8 @@
                     </#list>
                 </tbody>
             </table>
+            ${page.total}
+            <#--<#include "/include/pagination.ftl" />-->
         </div>
     </body>
 </html>

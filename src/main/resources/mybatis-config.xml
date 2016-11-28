@@ -12,4 +12,10 @@
     <!--<mappers>
         <mapper resource="com/agentmanage/mapper/AttachmentMapper.xml" />
     </mappers>-->
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
 </configuration>
