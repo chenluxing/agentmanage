@@ -1,6 +1,7 @@
 package com.agentmanage.module.agent.service;
 
 import com.agentmanage.module.agent.entity.AgentInfoPo;
+import com.agentmanage.plugin.page.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -55,10 +56,10 @@ public interface IAgentService {
 
     /**
      * 查询下级代理人信息
-     * @param parentAgentId
+     * @param pageable
      * @return
      */
-    List<AgentInfoPo> getListByParentId(Integer parentAgentId);
+    List<AgentInfoPo> getSubList(Pageable pageable);
 
     /**
      * 校验商户ID是否已经存在

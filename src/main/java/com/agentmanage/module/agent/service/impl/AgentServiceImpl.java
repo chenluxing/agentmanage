@@ -8,7 +8,11 @@ import com.agentmanage.module.agent.mapper.AgentInfoMapper;
 import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.user.entity.User;
 import com.agentmanage.module.user.service.IUserService;
+import com.agentmanage.plugin.page.PageAdapter;
+import com.agentmanage.plugin.page.Pageable;
 import com.agentmanage.utils.SecurityUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -140,11 +144,14 @@ public class AgentServiceImpl implements IAgentService {
 
     /**
      * 查询下级代理人信息
-     * @param parentAgentId
+     * @param pageable
      * @return
      */
     @Override
-    public List<AgentInfoPo> getListByParentId(Integer parentAgentId) {
-        return agentInfoMapper.selectChildListByAgentId(parentAgentId);
+    public List<AgentInfoPo> getSubList(Pageable pageable) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        Page<AgentInfoPo> page = (Page<AgentInfoPo>)agentInfoMapper.selectSubList(pageable.getFilter());
+        PageAdapter<AgentInfoPo> pageAdapter = new PageAdapter<>(page, pageable);
+        return pageAdapter.getPage();
     }
 }

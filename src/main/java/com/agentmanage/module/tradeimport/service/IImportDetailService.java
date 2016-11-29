@@ -1,7 +1,6 @@
 package com.agentmanage.module.tradeimport.service;
 
 import com.agentmanage.module.tradeimport.entity.ImportDetailPo;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;

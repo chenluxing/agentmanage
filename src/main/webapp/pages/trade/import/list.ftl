@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <#list importlogList as importLog>
+                    <#list page as importLog>
                     <tr>
                         <td>
                             ${importLog.dataCount}
@@ -48,6 +48,7 @@
                     </#list>
                 </tbody>
             </table>
+            <#include "/include/pagination.ftl" />
         </div>
     </body>
 </html>

@@ -71,11 +71,11 @@
         where merchant_id=#{merchantId, jdbcType=VARCHAR}
     </select>
 
-    <select id="selectChildListByAgentId" resultMap="agentInfoMap">
+    <select id="selectSubList" resultMap="agentInfoMap">
         SELECT
         <include refid="allColumns" />
         from tb_agent_info
-        where parent_agent_id=#{agentId, jdbcType=INTEGER}
+        where parent_agent_id=#{parentAgentId, jdbcType=INTEGER}
         order by gmt_created desc
     </select>
 </mapper>

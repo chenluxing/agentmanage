@@ -3,6 +3,8 @@ package com.agentmanage.controller.module.trade;
 import com.agentmanage.controller.base.BaseController;
 import com.agentmanage.module.trade.service.ITradeRecordService;
 import com.agentmanage.module.tradeimport.service.IImportLogService;
+import com.agentmanage.plugin.page.Filter;
+import com.agentmanage.plugin.page.Pageable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,8 +37,11 @@ public class TradeImportController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(ModelMap modelMap) {
-        modelMap.addAttribute("importlogList", importLogService.getList(getCurUser().getUserId()));
+    public String list(Pageable pageable, ModelMap modelMap) {
+        Filter filter = new Filter();
+        filter.addParam("creatorId", getCurUser().getUserId());
+        pageable.setFilter(filter);
+        modelMap.addAttribute("page", importLogService.getList(pageable));
         return "/trade/import/list";
     }
 

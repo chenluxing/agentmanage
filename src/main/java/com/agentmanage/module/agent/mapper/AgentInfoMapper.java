@@ -1,6 +1,7 @@
 package com.agentmanage.module.agent.mapper;
 
 import com.agentmanage.module.agent.entity.AgentInfoPo;
+import com.agentmanage.plugin.page.Filter;
 
 import java.util.List;
 
@@ -44,8 +45,8 @@ public interface AgentInfoMapper {
 
     /**
      * 查询下级代理人列表
-     * @param parentAgentId
+     * @param filter
      * @return
      */
-    List<AgentInfoPo> selectChildListByAgentId(Integer parentAgentId);
+    List<AgentInfoPo> selectSubList(Filter filter);
 }

@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                <#list agentList as agent>
+                <#list page as agent>
                     <tr>
                         <td>
                             <a href="${base}/agent/account/view.html?agentId=${agent.id}">${agent.realName}</a>
@@ -43,6 +43,7 @@
                 </#list>
                 </tbody>
             </table>
+            <#include "/include/pagination.ftl" />
         </div>
     </body>
 </html>

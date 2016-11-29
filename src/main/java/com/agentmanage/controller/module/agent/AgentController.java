@@ -5,6 +5,8 @@ import com.agentmanage.exception.AmServiceException;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentAccountService;
 import com.agentmanage.module.agent.service.IAgentService;
+import com.agentmanage.plugin.page.Filter;
+import com.agentmanage.plugin.page.Pageable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -34,9 +36,12 @@ public class AgentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(ModelMap modelMap) {
+    public String list(Pageable pageable, ModelMap modelMap) {
         Integer curAgentId = getCurUser().getAgentId();
-        modelMap.addAttribute("agentList", agentService.getListByParentId(curAgentId));
+        Filter filter = new Filter();
+        filter.addParam("parentAgentId", curAgentId);
+        pageable.setFilter(filter);
+        modelMap.addAttribute("page", agentService.getSubList(pageable));
         return "/agent/list";
     }
 

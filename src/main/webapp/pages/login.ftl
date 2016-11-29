@@ -239,7 +239,7 @@
             _topWin.document.location.href = '${base}/loginIn.html';
         }
 
-    <#if (errMsg)??>
+    <#if (errMsg)?? && errMsg != "">
         inputCheck.errText = "${errMsg}";
         inputCheck.showErr();
     </#if>

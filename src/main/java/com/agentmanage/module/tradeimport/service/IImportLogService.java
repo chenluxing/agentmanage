@@ -2,7 +2,7 @@ package com.agentmanage.module.tradeimport.service;
 
 import com.agentmanage.module.tradeimport.entity.ImportLogPo;
 import com.agentmanage.plugin.excel.vo.ExcelMessage;
-import org.springframework.stereotype.Service;
+import com.agentmanage.plugin.page.Pageable;
 
 import java.io.InputStream;
 import java.util.List;
@@ -22,9 +22,9 @@ public interface IImportLogService {
 
     /**
      * 查询导入记录
-     * @param creatorId
+     * @param pageable
      * @return
      */
-    List<ImportLogPo> getList(Integer creatorId);
+    List<ImportLogPo> getList(Pageable pageable);
 
 }

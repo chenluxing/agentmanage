@@ -3,6 +3,7 @@ package com.agentmanage.module.tradeimport.service.impl;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.trade.entity.TradeRecordPo;
+import com.agentmanage.module.trade.entity.TradeRecordVo;
 import com.agentmanage.module.trade.service.ITradeRecordService;
 import com.agentmanage.module.tradeimport.entity.ImportDetailPo;
 import com.agentmanage.module.tradeimport.entity.ImportLogPo;
@@ -12,6 +13,9 @@ import com.agentmanage.module.tradeimport.service.IImportDetailService;
 import com.agentmanage.module.tradeimport.service.IImportLogService;
 import com.agentmanage.plugin.excel.*;
 import com.agentmanage.plugin.excel.vo.ExcelMessage;
+import com.agentmanage.plugin.page.PageAdapter;
+import com.agentmanage.plugin.page.Pageable;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -137,12 +141,15 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
 
     /**
      * 查询导入记录
-     * @param creatorId
+     * @param pageable
      * @return
      */
     @Override
-    public List<ImportLogPo> getList(Integer creatorId) {
-        return importLogMapper.selectList(creatorId);
+    public List<ImportLogPo> getList(Pageable pageable) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        Page<ImportLogPo> page = (Page<ImportLogPo>) importLogMapper.selectList(pageable.getFilter());
+        PageAdapter<ImportLogPo> pageAdapter = new PageAdapter<>(page, pageable);
+        return pageAdapter.getPage();
     }
 
     @Override

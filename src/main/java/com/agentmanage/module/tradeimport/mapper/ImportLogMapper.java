@@ -1,6 +1,7 @@
 package com.agentmanage.module.tradeimport.mapper;
 
 import com.agentmanage.module.tradeimport.entity.ImportLogPo;
+import com.agentmanage.plugin.page.Filter;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public interface ImportLogMapper {
 
     /**
      * 查询导入记录
-     * @param creatorId
+     * @param filter
      * @return
      */
-    List<ImportLogPo> selectList(Integer creatorId);
+    List<ImportLogPo> selectList(Filter filter);
 
 }
