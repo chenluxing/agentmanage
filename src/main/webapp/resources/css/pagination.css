@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+.pagination {
+    height: 20px;
+    float: right;
+    padding: 10px 0px;
+}
+
+.pagination a {
+    padding: 0px 5px;
+    border: 1px solid #cccccc;
+}

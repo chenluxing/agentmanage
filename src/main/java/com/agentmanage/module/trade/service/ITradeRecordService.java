@@ -1,7 +1,6 @@
 package com.agentmanage.module.trade.service;
 
 import com.agentmanage.module.trade.entity.TradeRecordVo;
-import com.agentmanage.plugin.page.Page;
 import com.agentmanage.plugin.page.Pageable;
 
 import java.math.BigDecimal;
@@ -50,5 +49,5 @@ public interface ITradeRecordService {
      * @param pageable
      * @return
      */
-    Page<TradeRecordVo> getVoListByParentAgentId(Pageable pageable);
+    List<TradeRecordVo> getVoListByParentAgentId(Pageable pageable);
 }

@@ -23,10 +23,11 @@ import java.util.Map;
  */
 public class AmAuthenticationFilter extends FormAuthenticationFilter {
 
-    private static final String DEFAULT_EN_PASSWORD_PARAM = "enPassword"; // 默认"加密密码"参数名称
-    private static final String DEFAULT_CAPTCHA_ID_PARAM = "captchaId";// 默认"验证ID"参数名称
-    private static final String DEFAULT_CAPTCHA_PARAM = "captcha"; // 默认"验证码"参数名称
+    private static final String DEFAULT_EN_PASSWORD_PARAM = "enPassword";   // 默认"加密密码"参数名称
+    private static final String DEFAULT_CAPTCHA_ID_PARAM = "captchaId";     // 默认"验证ID"参数名称
+    private static final String DEFAULT_CAPTCHA_PARAM = "captcha";          // 默认"验证码"参数名称
     private static final String DEFAULT_PASSWORD = "0";
+    private static final String DEFAULT_FAIL_COUNT = "failCount";           // 登录失败次数
 
     @Override
     protected boolean isLoginSubmission(ServletRequest request, ServletResponse response) {
@@ -41,7 +42,8 @@ public class AmAuthenticationFilter extends FormAuthenticationFilter {
         String captcha = getCaptcha(servletRequest);
         boolean rememberMe = isRememberMe(servletRequest);
         String host = getHost(servletRequest);
-        return new AmAuthenticationToken(username, password, captchaId, captcha, rememberMe, host);
+        Integer failCount = getFailCount(servletRequest);
+        return new AmAuthenticationToken(username, password, captchaId, captcha, rememberMe, host, failCount);
     }
 
     @Override
@@ -58,6 +60,7 @@ public class AmAuthenticationFilter extends FormAuthenticationFilter {
         for (Map.Entry<Object, Object> entry : attributes.entrySet()) {
             session.setAttribute(entry.getKey(), entry.getValue());
         }
+        session.removeAttribute(WebUtils.SAVED_REQUEST_KEY);    // 清除session记录的request请求，使session失效后登录跳转到首页
         return super.onLoginSuccess(token, subject, servletRequest, servletResponse);
     }
 
@@ -94,5 +97,15 @@ public class AmAuthenticationFilter extends FormAuthenticationFilter {
 
     protected String getCaptcha(ServletRequest servletRequest) {
         return WebUtils.getCleanParam(servletRequest, DEFAULT_CAPTCHA_PARAM);
+    }
+
+    /**
+     * 获取登录失败次数
+     * @param servletRequest
+     * @return
+     */
+    public Integer getFailCount(ServletRequest servletRequest){
+        String countStr = servletRequest.getParameter(DEFAULT_FAIL_COUNT);
+        return StringUtils.isBlank(countStr) ? null : Integer.parseInt(countStr);
     }
 }

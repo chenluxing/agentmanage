@@ -2,6 +2,7 @@ package com.agentmanage.module.trade.entity;
 
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ import java.util.Date;
  * on 2016/11/25.
  */
 @Alias("com.agentmanage.module.trade.entity.TradeRecordVo")
-public class TradeRecordVo {
+public class TradeRecordVo implements Serializable {
 
     private Integer recordId;           // 记录ID
     private Integer agentId;            // 代理人ID

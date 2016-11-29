@@ -13,7 +13,7 @@
                 /login.html = anon
                 /varifyCode.html = anon
                 /common/captcha.html = anon
-                /logout.html = logout
+                /logout.html = anon
                 /loginIn.html = authc
                 /index.html = authc
                 /autoLogin.html = authc

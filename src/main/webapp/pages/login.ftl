@@ -33,6 +33,7 @@
                     <li>
                         <input class="inputText inputPwd" id="password" name="password" maxlength="20" type="password" placeHolder="密码" />
                     </li>
+                    <#if (failCount)?? && (failCount gt 3)>
                     <li class="verifyCode">
                         <div class="verifyImg fl">
                             <input class="inputText inputImg" id="captcha" name="captcha" type="text" maxlength="4" data-info="请输入图片验证码" placeholder="验证码">
@@ -44,6 +45,7 @@
                             <a href="javascript:void(0);" onclick="changeCaptcha()">换一张</a>
                         </div>
                     </li>
+                    </#if>
                     <li>
                         <div class="err">
                             <i class="errIcon"></i>

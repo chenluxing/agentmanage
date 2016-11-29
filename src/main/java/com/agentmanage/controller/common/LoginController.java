@@ -46,6 +46,11 @@ public class LoginController extends BaseController {
         request.setAttribute("modulus", modulus);
         request.setAttribute("exponent", exponent);
         request.setAttribute("captchaId", session.getId());
+        // 提取登录错误信息提示
+        Object errMsgObj = session.getAttribute("errMsg");
+        String errMsg = errMsgObj != null ? String.valueOf(errMsgObj):null;
+        request.setAttribute("errMsg", errMsg);
+        session.removeAttribute("errMsg");
         return "login";
     }
 
@@ -56,9 +61,21 @@ public class LoginController extends BaseController {
      */
     @RequestMapping("/loginIn")
     public String loginIn(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.removeAttribute("errMsg");
         if (SecurityUtils.getSubject().isAuthenticated()){
+            session.removeAttribute("failCount");
             return "/main";
         }else{
+            Object obj = session.getAttribute("failCount");
+            if (obj != null){
+                Integer failCount = Integer.valueOf(String.valueOf(obj));
+                failCount++;
+                session.setAttribute("failCount", failCount);
+            } else{
+                session.setAttribute("failCount", 1);
+            }
+            session.setAttribute("errMsg", request.getAttribute("errMsg"));
             return "redirect:/login.html";
         }
     }

@@ -62,7 +62,7 @@ public class BaseController {
     public ModelAndView exceptionHandler(Exception ex) {
         log.error(ex.getMessage(), ex);
         ModelAndView view = new ModelAndView("/error");
-        view.addObject("content", ex.getMessage());
+        view.addObject("errMsg", ex.getMessage());
         return view;
     }
 

@@ -1,13 +1,13 @@
 package com.agentmanage.module.trade.service.impl;
 
 import com.agentmanage.exception.AmServiceException;
+import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentAccountService;
+import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.trade.entity.TradeRecordPo;
 import com.agentmanage.module.trade.entity.TradeRecordVo;
 import com.agentmanage.module.trade.mapper.TradeRecordMapper;
 import com.agentmanage.module.trade.service.ITradeRecordService;
-import com.agentmanage.module.agent.entity.AgentInfoPo;
-import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.plugin.page.PageAdapter;
 import com.agentmanage.plugin.page.Pageable;
 import com.github.pagehelper.Page;
@@ -116,7 +116,7 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
      * @return
      */
     @Override
-    public com.agentmanage.plugin.page.Page<TradeRecordVo> getVoListByParentAgentId(Pageable pageable) {
+    public List<TradeRecordVo> getVoListByParentAgentId(Pageable pageable) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         Page<TradeRecordVo> page = (Page<TradeRecordVo>) getVoListByParam(pageable.getFilter());
         PageAdapter<TradeRecordVo> pageAdapter = new PageAdapter<>(page, pageable);

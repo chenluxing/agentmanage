@@ -37,7 +37,8 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
             String captchaId = amAuthenticationToken.getCaptchaId();
             String captcha = amAuthenticationToken.getCaptcha();
             String ip = amAuthenticationToken.getHost();
-            if (!CaptchaUtil.isValid(captchaId, captcha)) {
+            Integer failCount = amAuthenticationToken.getFailCount();
+            if (failCount != null && failCount >= 3 && !CaptchaUtil.isValid(captchaId, captcha)) {
                 throw new UnsupportedTokenException("验证码错误");
             }
 
@@ -56,7 +57,7 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
             }else if(e instanceof UnsupportedTokenException){
                 throw e;
             }
-            throw new AuthenticationException("登录异常");
+            throw new AuthenticationException("");
         }
     }
 

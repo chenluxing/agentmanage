@@ -1,5 +1,8 @@
 <html>
+<head>
+    <title></title>
+</head>
 <body>
-<h2>Hello World!</h2>
+<% response.sendRedirect(request.getContextPath() + "/index.html"); %>
 </body>
 </html>
