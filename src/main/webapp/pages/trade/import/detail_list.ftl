@@ -38,7 +38,7 @@
                         <td>
                             ${importLog.totalTradeCount}
                         </td>
-                        <td class="ta_right">
+                        <td class="td_amount">
                             ${importLog.totalTradeAmount}
                         </td>
                         <td>

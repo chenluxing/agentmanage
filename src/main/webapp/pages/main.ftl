@@ -9,129 +9,18 @@
 
         <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript">
-            $().ready(function () {
-            });
+            $(document).ready(function(){
+                //初始化高度
+                $("#backmain").height($(window).height() - 74 + "px");
+                //当文档窗口发生改变时 触发
+                $(window).resize(function(){
+                    $("#backmain").height($(window).height() - 74 + "px");
+                })
+            })
             if (self != top) {
                 top.location = self.location;
             }
         </script>
-        <style type="text/css">
-            a {
-                font-size: 12px;
-            }
-            .logoText {
-                height: 60px;
-                line-height: 60px;
-                overflow: hidden;
-                padding-left: 30px;
-                font-family: "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif, "Arial Narrow", HELVETICA;
-                font-size: 20px;
-                font-weight: bold;
-                color: #ff5307;
-            }
-            .fl{
-                float: left;
-                display: inline-block;
-            }
-            .fr{
-                float: right;
-                display: inline-block;
-            }
-            .backlTit {
-                height: 45px;
-                cursor: pointer;
-                color: #7d5930;
-                font-weight: bold;
-            }
-            .wrap {
-                min-width: 1200px;
-            }
-            .backother {
-                line-height: 60px;
-                margin-right: 60px;
-                position: relative;
-                font-size: 12px;
-                color: #7d5930;
-            }
-            .backother a {
-                font-size: 12px;
-                color: #7d5930;
-            }
-            .clearfix {
-                zoom: 1;
-                display: block;
-            }
-            .menu {
-                margin-left: 30px;
-            }
-            ul {
-                list-style-type: none;
-            }
-            .menu li {
-                float: left;
-                margin-right: 20px;
-                height: 45px;
-            }
-            .menu li a{display: block; height: 14px; line-height: 12px; *line-height: 14px; margin-top: 8px; padding: 7px; color:#fff; font-size: 14px; text-decoration: none;}
-            .menu li.active a,.menu li a:hover{color: #ff5307; font-weight: bold; border-radius: 4px; background-color: #fff;}
-            .menu li.active a{color: #ff5307;}
-            .bgOran {
-                background-color: #ff5307;
-            }
-            #backleft, #backleft:before {
-                width: 180px;
-                height: 100%;
-                background-color: #fff9f3;
-                border-right: 1px solid #decbbf;
-                margin-top: 0px;
-            }
-            .vtitle {
-                height: 36px;
-                line-height: 36px;
-                color: #776c62;
-                cursor: pointer;
-                background-color: #fef4e9;
-                padding-left: 30px;
-            }
-            .tsy {
-                background-color: #754723;
-                color: #dfd4cb;
-                font-size: 14px;
-                font-weight: bold;
-            }
-            .vcon {
-                border-bottom: 1px solid #decbbf;
-                padding: 1px;
-            }
-            .bleftcon {
-                height: 100%;
-            }
-            .vconlist li.select, .vconlist li:hover {
-                background-color: #ffe8d2;
-                border-color: #f4d3b3;
-            }
-
-            .vconlist li {
-                overflow: hidden;
-                cursor: pointer;
-                border: 1px solid #fff9f3;
-                border-left: 0px;
-                border-right: 0px;
-                padding-left: 50px;
-            }
-            .vconlist li a {
-                height: 34px;
-                width: 100%;
-                line-height: 34px;
-                float: left;
-                display: block;
-                color: #776c62;
-                text-decoration: none;
-            }
-            #backmain {
-                height: 100%;
-            }
-        </style>
     </head>
     <body>
         <!-- 头部 start-->
@@ -146,7 +35,7 @@
                     </a>
                 </div>
             </div>
-            <div style="border: 2px solid red;" class="wrap headmenu bgOran">
+            <div style="border: 2px solid red;" class="wrap headmenu bg_oran">
                 <!-- 顶部主菜单 start -->
                 <#--<ul class="menu clearfix">
                     <li class="active" id="workbench">
@@ -222,13 +111,11 @@
 
             <!-- 右栏 start -->
             <div id="backcon">
-                <iframe id="iframe" name="iframe" src="" frameborder="0">
+                <iframe id="iframe" name="iframe" src="${base}/agent/account/view.html?agentId=${user.agentId}" frameborder="0">
                 </iframe>
             </div>
             <!-- 右栏 end -->
         </div>
         <!-- 内容部分 end -->
     </body>
-<script type="text/javascript">
-</script>
 </html>

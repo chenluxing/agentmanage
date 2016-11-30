@@ -8,32 +8,34 @@
         <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="${base}/resources/js/jquery.validate.js"></script>
         <script type="text/javascript">
-            // 表单验证
-            $("#inputForm").validate({
-                rules: {
-                    merchantId: {
-                        required: true,
-                        remote: {
-                            type: "POST",
-                            url: "${base}/agent/checkSurNo.json",
-                            data: {
-                                merchantId: function () {
-                                    return $("#merchantId").val();
+            $().ready(function () {
+                // 表单验证
+                $("#inputForm").validate({
+                    rules: {
+                        merchantId: {
+                            required: true,
+                            remote: {
+                                type: "POST",
+                                url: "${base}/agent/checkSurNo.json",
+                                data: {
+                                    merchantId: function () {
+                                        return $("#merchantId").val();
+                                    }
                                 }
                             }
+                        },
+                        tradeAmount: {
+                            required: true,
+                            isNumber: true
+                        },
+                        tradeCount: {
+                            required: true
                         }
                     },
-                    tradeAmount: {
-                        required: true,
-                        isNumber: true
-                    },
-                    tradeCount: {
-                        required: true
+                    messages: {
+                        remote:"商户ID信息不存在"
                     }
-                },
-                messages: {
-
-                }
+                });
             });
         </script>
     </head>
@@ -45,19 +47,19 @@
                         <tr>
                             <td class="bg_gray">商户ID</td>
                             <td>
-                                <input type="text" id="merchantId" name="merchantId" placeholder="请填写商户ID" />
+                                <input type="text" class="text" id="merchantId" name="merchantId" placeholder="请填写商户ID" />
                             </td>
                         </tr>
                         <tr>
                             <td class="bg_gray">交易金额</td>
                             <td>
-                                <input type="text" id="tradeAmount" name="tradeAmount" placeholder="交易金额" />
+                                <input type="text" class="text" id="tradeAmount" name="tradeAmount" placeholder="交易金额" />
                             </td>
                         </tr>
                         <tr>
                             <td class="bg_gray">交易数量</td>
                             <td>
-                                <input type="text" id="tradeCount" name="tradeCount" placeholder="交易数量" />
+                                <input type="text" class="text" id="tradeCount" name="tradeCount" placeholder="交易数量" />
                             </td>
                         </tr>
                         <tr>

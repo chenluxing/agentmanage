@@ -1,5 +1,6 @@
 package com.agentmanage.permission.realm;
 
+import com.agentmanage.exception.AmServiceException;
 import com.agentmanage.module.common.constants.GlobalConstants;
 import com.agentmanage.module.user.service.IUserService;
 import com.agentmanage.module.user.vo.UserSession;
@@ -52,7 +53,9 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
             throw new UnknownAccountException();
         } catch (Exception e){
             e.printStackTrace();
-            if(e instanceof UnsupportedTokenException){
+            if (e instanceof AmServiceException){
+                throw new AuthenticationException(((AmServiceException) e).getMessage());
+            }else if(e instanceof UnsupportedTokenException){
                 throw e;
             }else if(e instanceof UnsupportedTokenException){
                 throw e;
