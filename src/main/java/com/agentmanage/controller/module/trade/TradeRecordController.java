@@ -3,11 +3,9 @@ package com.agentmanage.controller.module.trade;
 import com.agentmanage.controller.base.BaseController;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentService;
-import com.agentmanage.module.trade.entity.TradeRecordVo;
 import com.agentmanage.module.trade.service.ITradeRecordService;
-import com.agentmanage.plugin.page.Filter;
-import com.agentmanage.plugin.page.Page;
 import com.agentmanage.plugin.page.Pageable;
+import com.agentmanage.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 交易记录Controller
@@ -40,13 +39,22 @@ public class TradeRecordController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Pageable pageable, ModelMap modelMap) {
+    public String list(String realName, String merchantId, Date beginDate, Date endDate ,Pageable pageable, ModelMap modelMap) {
+        if (beginDate == null) {
+            beginDate = DateUtil.addMonth(DateUtil.getCurrentDate(), -1);
+        }
+        if (endDate == null) {
+            endDate = DateUtil.getCurrentDate();
+        }
+        beginDate = DateUtil.zerolizedTime(beginDate);
+        endDate = DateUtil.getEndTime(endDate);
         Integer agentId = getCurUser().getAgentId();
-        Filter filter = new Filter();
-        filter.addParam("parentAgentId", agentId);
-        pageable.setFilter(filter);
 
-        modelMap.addAttribute("page", tradeRecordService.getVoListByParentAgentId(pageable));
+        modelMap.addAttribute("page", tradeRecordService.getVoListByParentAgentId(realName, merchantId, beginDate, endDate, agentId, pageable));
+        modelMap.addAttribute("realName", realName);
+        modelMap.addAttribute("merchantId", merchantId);
+        modelMap.addAttribute("beginDate", beginDate);
+        modelMap.addAttribute("endDate", endDate);
         return "/trade/record/list";
     }
 

@@ -3,7 +3,6 @@ package com.agentmanage.controller.module.agent;
 import com.agentmanage.controller.base.BaseController;
 import com.agentmanage.exception.AmServiceException;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
-import com.agentmanage.module.agent.service.IAgentAccountService;
 import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.plugin.page.Filter;
 import com.agentmanage.plugin.page.Pageable;

@@ -48,7 +48,7 @@
             </div>
             <a href="${base}/trade/import/toAdd.html">新增</a>
             <div style="width:100%;">
-                <table class="table_gray">
+                <table class="table_gray" style="min-width: 1080px;">
                     <thead>
                         <tr>
                             <th>导入数据量</th>

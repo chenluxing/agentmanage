@@ -10,8 +10,8 @@
         <div class="path">
             <span class="pahome"></span>
             <a href="${base}/common/index.html">首页</a>
-            &nbsp;><span>&nbsp;代理人管理</span>
-            &nbsp;><span>&nbsp;账户详情</span>
+            &nbsp;><span>&nbsp;我的账户</span>
+            &nbsp;><span>&nbsp;账户信息</span>
         </div>
         <div style="width:600px;">
             <table class="table_gray">
@@ -56,11 +56,6 @@
                         <td class="bg_gray">佣金总额</td>
                         <td>
                             ${agentAccountVo.totalAgentAmount?string("0.00")}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <a href="javascript:void(0)" onclick="window.history.go(-1)">返回</a>
                         </td>
                     </tr>
                 </tbody>

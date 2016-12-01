@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>编辑代理人</title>
+        <title>修改密码</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
         <link href="${base}/resources/css/main.css" rel="stylesheet" type="text/css">
@@ -14,76 +14,72 @@
                 // 表单验证
                 $("#inputForm").validate({
                     rules: {
-                        merchantId: {
+                        password: {
+                            required: true,
                             remote: {
                                 type: "POST",
-                                url: "${base}/agent/checkSurNo.json",
+                                url: "${base}/user/checkPassword.json",
+                                async:false,
                                 data: {
-                                    merchantId: function () {
-                                        return $("#merchantId").val();
+                                    password: function () {
+                                        return $("#password").val();
                                     }
                                 }
                             }
                         },
-                        agentPercent: {
-                            required: true,
-                            isNumber: true
+                        newPassword: {
+                            required: true
+                        },
+                        surePassword: {
+                            required: true
                         }
                     },
                     messages: {
-                        remote:"商户ID信息已存在"
+                        password: {
+                            remote: "原密码不正确"
+                        }
                     }
                 });
 
-                $("#btnSubmit").click(function(){
+                $("#btnSubmit").click(function () {
                     disableBtn();
+                    if($("#newPassword").val() != $("#surePassword").val()) {
+                        alert("两次输入密码不一致");
+                        return;
+                    }
                     $("#inputForm").submit();
                     removedisableBtn();
                 })
-
-            });
+            })
         </script>
     </head>
     <body>
         <div class="path">
             <span class="pahome"></span>
             <a href="${base}/common/index.html">首页</a>
-            &nbsp;><span>&nbsp;代理人管理</span>
-            &nbsp;><span>&nbsp;编辑代理人</span>
+            &nbsp;><span>&nbsp;我的账户</span>
+            &nbsp;><span>&nbsp;修改密码</span>
         </div>
-        <form id="inputForm" action="${base}/agent/edit.html" method="post">
-            <input type="hidden" id="agentId" name="agentId" value="${agentInfo.id}">
+        <form id="inputForm" action="${base}/user/changePassword.html" method="post">
             <div style="width:600px;">
                 <table class="table_input">
                     <tbody>
                         <tr>
-                            <td class="td_title bg_gray" style="width: 160px;">手机号码</td>
+                            <td class="td_title bg_gray" style="width: 160px;">原密码</td>
                             <td class="td_content">
-                                <input type="text" id="mobileNo" name="mobileNo" class="text" value="${agentInfo.mobileNo}" readonly />
+                                <input type="password" id="password" name="password" class="text" placeholder="请填写原密码" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="td_title bg_gray">姓名</td>
+                            <td class="td_title bg_gray">新密码</td>
                             <td class="td_content">
-                                <input type="text" id="realName" name="realName" class="text" value="${agentInfo.realName}" readonly />
+                                <input type="password" id="newPassword" name="newPassword" class="text" placeholder="请填写新密码" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="td_title bg_gray">商户ID</td>
+                            <td class="td_title bg_gray">确认密码</td>
                             <td class="td_content">
-                                <input type="text" id="merchantId" name="merchantId" class="text" value="${agentInfo.merchantId}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td_title bg_gray">支付宝账号</td>
-                            <td class="td_content">
-                                <input type="text" id="alipayNo" name="alipayNo" class="text" value="${agentInfo.alipayNo}" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td_title bg_gray">佣金利率</td>
-                            <td class="td_content">
-                                <input type="text" id="agentPercent" name="agentPercent" class="text" value="${(agentInfo.agentPercent?string("0.0000"))!""}" placeholder="请填写佣金利率" />
+                                <input type="password" id="surePassword" name="surePassword" class="text" placeholder="请确认密码" />
                             </td>
                         </tr>
                         <tr>

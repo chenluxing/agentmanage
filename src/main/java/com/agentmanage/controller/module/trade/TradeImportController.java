@@ -1,7 +1,6 @@
 package com.agentmanage.controller.module.trade;
 
 import com.agentmanage.controller.base.BaseController;
-import com.agentmanage.module.trade.service.ITradeRecordService;
 import com.agentmanage.module.tradeimport.service.IImportLogService;
 import com.agentmanage.plugin.page.Filter;
 import com.agentmanage.plugin.page.Pageable;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
-import java.math.BigDecimal;
 
 /**
  * 交易记录Controller

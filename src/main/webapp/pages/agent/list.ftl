@@ -47,7 +47,7 @@
                 </table>
             </div>
             <div style="100%">
-                <table class="table_gray">
+                <table class="table_gray" style="min-width: 1080px;">
                     <thead>
                         <tr>
                             <th>姓名</th>

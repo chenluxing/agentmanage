@@ -13,6 +13,12 @@
         </script>
     </head>
     <body>
+        <div class="path">
+            <span class="pahome"></span>
+            <a href="${base}/common/index.html">首页</a>
+            &nbsp;><span>&nbsp;交易管理</span>
+            &nbsp;><span>&nbsp;导入交易记录</span>
+        </div>
         <form id="inputForm" action="${base}/trade/import/add.html" method="post" enctype="multipart/form-data">
             <div style="width:600px;">
                 <table class="table_gray">
@@ -24,7 +30,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2">
+                            <td colspan="2" class="ta_center">
                                 <input type="submit" value="上传" />
                             </td>
                         </tr>

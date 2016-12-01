@@ -4,6 +4,7 @@ import com.agentmanage.module.trade.entity.TradeRecordVo;
 import com.agentmanage.plugin.page.Pageable;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,12 +43,12 @@ public interface ITradeRecordService {
      * @param agentId
      * @return
      */
-    List<TradeRecordVo> getVoListByAgentId(Integer agentId);
+    List<TradeRecordVo> getVoListByAgentId(Integer agentId, Date beginDate, Date endDate, Pageable pageable);
 
     /**
      * 查询下级代理人交易明细
      * @param pageable
      * @return
      */
-    List<TradeRecordVo> getVoListByParentAgentId(Pageable pageable);
+    List<TradeRecordVo> getVoListByParentAgentId(String realName, String merchantId, Date beginDate, Date endDate, Integer parentAgentId, Pageable pageable);
 }

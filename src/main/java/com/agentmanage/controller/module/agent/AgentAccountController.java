@@ -1,5 +1,6 @@
 package com.agentmanage.controller.module.agent;
 
+import com.agentmanage.controller.base.BaseController;
 import com.agentmanage.module.agent.service.IAgentAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/agent/account")
-public class AgentAccountController {
+public class AgentAccountController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(AgentAccountController.class);
 

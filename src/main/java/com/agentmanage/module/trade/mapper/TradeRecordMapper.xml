@@ -63,8 +63,15 @@
         <if test="agentId != null">
             and tai.id=#{agentId, jdbcType=INTEGER}
         </if>
-        <if test="merchant_id != null">
+        <if test="merchantId != null">
             and tai.merchant_id=#{merchantId, jdbcType=VARCHAR}
+        </if>
+        <if test="realName != null">
+            and tai.real_name=#{realName, jdbcType=VARCHAR}
+        </if>
+        <if test="beginDate != null and endDate != null">
+            and ttr.gmt_created <![CDATA[>=]]>#{beginDate, jdbcType=TIMESTAMP}
+            and ttr.gmt_created <![CDATA[<=]]>#{endDate, jdbcType=TIMESTAMP}
         </if>
         order by ttr.gmt_created desc
     </select>

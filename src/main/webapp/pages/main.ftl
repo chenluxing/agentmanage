@@ -61,13 +61,13 @@
                         <div class="vcon">
                             <ul class="vconlist clearfix">
                                 <li class="select">
-                                    <a href="${base}/agent/account/view.html?agentId=${user.agentId}" class="current" target="iframe"><i></i>账户信息</a>
+                                    <a href="${base}/self/account/view.html" class="current" target="iframe"><i></i>账户信息</a>
                                 </li>
                                 <li>
-                                    <a href="${base}/index.html" target="iframe"><i></i>修改密码</a>
+                                    <a href="${base}/user/toChangePassword.html" target="iframe"><i></i>修改密码</a>
                                 </li>
                                 <li>
-                                    <a href="${base}/index.html" target="iframe"><i></i>交易记录</a>
+                                    <a href="${base}/self/trade/record.html" target="iframe"><i></i>交易记录</a>
                                 </li>
                             </ul>
                         </div>
@@ -111,7 +111,7 @@
 
             <!-- 右栏 start -->
             <div id="backcon">
-                <iframe id="iframe" name="iframe" src="${base}/agent/account/view.html?agentId=${user.agentId}" frameborder="0">
+                <iframe id="iframe" name="iframe" src="${base}/self/account/view.html" frameborder="0">
                 </iframe>
             </div>
             <!-- 右栏 end -->

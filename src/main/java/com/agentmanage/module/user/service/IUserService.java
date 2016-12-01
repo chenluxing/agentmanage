@@ -22,7 +22,14 @@ public interface IUserService {
      * @param userId
      * @param password
      */
-    void update(Integer userId, String password);
+    void modifyPassword(Integer userId, String password);
+
+    /**
+     * 根据用户ID查询用户信息
+     * @param userId
+     * @return
+     */
+    User getById(Integer userId);
 
     /**
      * 根据用户名查询用户信息
@@ -38,4 +45,12 @@ public interface IUserService {
      * @return
      */
     UserSession login(String userName, String password) throws AmServiceException;
+
+    /**
+     * 校验密码
+     * @param userId
+     * @param password
+     * @return
+     */
+    boolean checkPassword(Integer userId, String password);
 }

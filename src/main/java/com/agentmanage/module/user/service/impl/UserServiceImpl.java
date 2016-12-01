@@ -8,6 +8,7 @@ import com.agentmanage.module.user.mapper.UserMapper;
 import com.agentmanage.module.user.service.IUserService;
 import com.agentmanage.module.user.vo.UserSession;
 import com.agentmanage.utils.SecurityUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public User save(String userName, String password) throws Exception{
-        if (!validateConstantUser(userName)) {
+        if (!validateContainUser(userName)) {
             String salt = SecurityUtil.generateSalt();
             String tempPassword = SecurityUtil.generateUserPassword(salt, password);
             User user = new User(userName, tempPassword, salt);
@@ -43,7 +44,7 @@ public class UserServiceImpl implements IUserService {
         throw new AmServiceException("存在同名账户");
     }
 
-    public boolean validateConstantUser(String userName) {
+    private boolean validateContainUser(String userName) {
         User user = userMapper.selectByUserName(userName);
         if (user != null) {
             return true;
@@ -58,13 +59,23 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     @Transactional
-    public void update(Integer userId, String password) {
+    public void modifyPassword(Integer userId, String password) {
         User user = userMapper.selectById(userId);
         if (user != null) {
+            password = SecurityUtil.md5(password);
             String tempPassword = SecurityUtil.generateUserPassword(user.getSalt(), password);
             user.setPassword(tempPassword);
             userMapper.update(user);
         }
+    }
+
+    /**
+     * 根据用户ID查询用户信息
+     * @param userId
+     * @return
+     */
+    public User getById(Integer userId) {
+        return userMapper.selectById(userId);
     }
 
     /**
@@ -95,5 +106,25 @@ public class UserServiceImpl implements IUserService {
             throw new AmServiceException("账户密码不匹配");
         }
         throw new AmServiceException("账户信息不存在");
+    }
+
+    /**
+     * 校验密码
+     * @param userId
+     * @param password
+     * @return
+     */
+    @Override
+    public boolean checkPassword(Integer userId, String password) {
+        if (StringUtils.isNotEmpty(password)) {
+            User user = userMapper.selectById(userId);
+            if (user != null) {
+                String securityPassword = SecurityUtil.generateUserPassword(user.getSalt(), SecurityUtil.md5(password));
+                if (securityPassword.equals(user.getPassword())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

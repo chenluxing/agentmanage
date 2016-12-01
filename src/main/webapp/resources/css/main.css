@@ -66,7 +66,9 @@ textarea {
     overflow: hidden;
     content: "\0020";
 }
-
+.ta_center {
+    text-align: center;
+}
 /* ---------- Form ---------- */
 
 input.text,select.text{
@@ -257,7 +259,6 @@ label.fieldError {
     width: 100%;
     border-top: #ddd solid 1px;
     border-left: #ddd solid 1px;
-    min-width:1280px;
 }
 .table_gray th {
     padding: 10px;
@@ -313,7 +314,7 @@ label.fieldError {
 .tb_row_odd {
     background-color: #faf9f9;
 }
-
+/*---条件框表格---*/
 .table_condition {
     border-collapse: collapse;
     border-spacing: 0px;
@@ -326,6 +327,26 @@ label.fieldError {
 .table_condition td {
     padding-right: 10px;
     text-align: right;
+}
+/*---输入框表格---*/
+.table_input {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    width: 100%;
+    border-top: #ddd solid 1px;
+    border-left: #ddd solid 1px;
+}
+.table_input .td_title {
+    padding: 8px;
+    border-bottom: #ddd solid 1px;
+    border-right: #ddd solid 1px;
+    text-align: right;
+}
+.table_input .td_content {
+    padding: 8px;
+    border-bottom: #ddd solid 1px;
+    border-right: #ddd solid 1px;
+    text-align: left;
 }
 
 .bg_gray {
@@ -473,4 +494,28 @@ label.fieldError {
     width: 11px;
     height: 11px;
     background-position: 0px -248px;
+}
+
+.btn_normal {
+    height: 32px;
+    line-height: 32px;
+    background: #ffe8d2;
+    border: 1px solid #f4d3b3;
+    color: #ff7d2e;
+    display: inline-block;
+    zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+    *display: inline;
+    vertical-align: baseline;
+    margin: 0 2px;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    font: 14px/100% 微软雅黑, Helvetica, sans-serif;
+    padding: .5em 2em .55em;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+}
+.btn_normal:disabled {
+    color: #bbbbbb;
+    background-color: #F5F5F5;
 }

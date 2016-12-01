@@ -8,6 +8,7 @@ import com.agentmanage.module.trade.entity.TradeRecordPo;
 import com.agentmanage.module.trade.entity.TradeRecordVo;
 import com.agentmanage.module.trade.mapper.TradeRecordMapper;
 import com.agentmanage.module.trade.service.ITradeRecordService;
+import com.agentmanage.plugin.page.Filter;
 import com.agentmanage.plugin.page.PageAdapter;
 import com.agentmanage.plugin.page.Pageable;
 import com.github.pagehelper.Page;
@@ -18,6 +19,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,11 +105,17 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
      * @return
      */
     @Override
-    public List<TradeRecordVo> getVoListByAgentId(Integer agentId) {
+    public List<TradeRecordVo> getVoListByAgentId(Integer agentId, Date beginDate, Date endDate, Pageable pageable) {
         Assert.notNull(agentId, "代理人ID不允许为空");
-        Map<String, Object> param = new HashMap<>();
-        param.put("agentId", agentId);
-        return getVoListByParam(param);
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        Filter filter = new Filter();
+        filter.addParam("agentId", agentId);
+        filter.addParam("beginDate", beginDate);
+        filter.addParam("endDate", endDate);
+        pageable.setFilter(filter);
+        Page<TradeRecordVo> page = (Page<TradeRecordVo>) getVoListByParam(filter);
+        PageAdapter<TradeRecordVo> pageAdapter = new PageAdapter<>(page, pageable);
+        return pageAdapter.getPage();
     }
 
     /**
@@ -116,9 +124,17 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
      * @return
      */
     @Override
-    public List<TradeRecordVo> getVoListByParentAgentId(Pageable pageable) {
+    public List<TradeRecordVo> getVoListByParentAgentId(String realName, String merchantId, Date beginDate, Date endDate, Integer parentAgentId, Pageable pageable) {
+        Assert.notNull(parentAgentId, "上级代理人ID不允许为空");
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        Page<TradeRecordVo> page = (Page<TradeRecordVo>) getVoListByParam(pageable.getFilter());
+        Filter filter = new Filter();
+        filter.addParam("realName", realName);
+        filter.addParam("merchantId", merchantId);
+        filter.addParam("beginDate", beginDate);
+        filter.addParam("endDate", endDate);
+        filter.addParam("parentAgentId", parentAgentId);
+        pageable.setFilter(filter);
+        Page<TradeRecordVo> page = (Page<TradeRecordVo>) getVoListByParam(filter);
         PageAdapter<TradeRecordVo> pageAdapter = new PageAdapter<>(page, pageable);
         return pageAdapter.getPage();
     }
