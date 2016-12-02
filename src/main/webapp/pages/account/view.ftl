@@ -31,7 +31,7 @@
                     <tr>
                         <td class="bg_gray">商户ID</td>
                         <td>
-                            ${agentAccountVo.merchantId}
+                            ${(agentAccountVo.merchantId)!"-"}
                         </td>
                     </tr>
                     <tr>

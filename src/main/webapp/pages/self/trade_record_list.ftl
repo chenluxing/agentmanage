@@ -11,7 +11,12 @@
         <script type="text/javascript" src="${base}/resources/plugin/datePicker/WdatePicker.js"></script>
         <script type="text/javascript" src="${base}/resources/js/list.js"></script>
         <script type="text/javascript">
-            
+            $().ready(function () {
+                $("#btnSubmit").click(function(){
+                    interruptedBtn();
+                    $("#listForm").submit();
+                })
+            })
         </script>
     </head>
     
@@ -29,10 +34,12 @@
                         <td width="400px">
                             <i>创建时间</i>
                             <input type="text" id="beginDate" name="beginDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(beginDate?string("yyyy-MM-dd"))!""}"/>
-                            <input type="text" id="endDate" name="endDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(endDate?string("yyyy-MM-dd"))!""}"/>
+                            &nbsp;<input type="text" id="endDate" name="endDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(endDate?string("yyyy-MM-dd"))!""}"/>
+                        </td>
+                        <td width="200px">
+                            <input type="button" id="btnSubmit" class="btn_normal" value="查询" />
                         </td>
                         <td >
-                            <input type="submit" id="btnSubmit" class="btn_normal" value="查询" />
                         </td>
                     </tr>
                 </table>

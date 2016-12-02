@@ -22,7 +22,7 @@ public interface IUserService {
      * @param userId
      * @param password
      */
-    void modifyPassword(Integer userId, String password);
+    void modifyPassword(Integer userId, String password, String newPassword);
 
     /**
      * 根据用户ID查询用户信息
@@ -53,4 +53,11 @@ public interface IUserService {
      * @return
      */
     boolean checkPassword(Integer userId, String password);
+
+    /**
+     * 校验密码
+     * @param userName
+     * @return
+     */
+    boolean checkUserName(String userName);
 }

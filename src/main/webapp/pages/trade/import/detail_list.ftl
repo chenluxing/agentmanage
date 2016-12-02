@@ -5,49 +5,62 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
         <link href="${base}/resources/css/main.css" rel="stylesheet" type="text/css">
+        <link href="${base}/resources/css/pagination.css" rel="stylesheet" type="text/css">
 
         <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="${base}/resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="${base}/resources/js/list.js"></script>
         <script type="text/javascript">
             
         </script>
     </head>
     
     <body>
-        <a href="${base}/trade/import/toAdd.html">新增</a>
-        <div style="width:100%;">
-            <table class="table_gray">
-                <thead>
+        <div class="path">
+            <span class="pahome"></span>
+            <a href="${base}/common/index.html">首页</a>
+            &nbsp;><span>&nbsp;交易管理</span>
+            &nbsp;><span>&nbsp;导入记录明细（总数：<i>${page.total}</i> 条）</span>
+        </div>
+        <div style="padding-top: 10px; padding-right: 30px; height: 40px; float: right;">
+            <input type="button" class="btn_normal" onclick="window.history.go(-1)" value="返回" />
+        </div>
+        <form id="listForm" action="${base}/trade/import/detail/list.html" method="post">
+            <input type="hidden" name="logId" value="${logId}">
+            <div style="width:100%;">
+                <table class="table_gray">
+                    <thead>
                     <tr>
-                        <th>导入数据量</th>
-                        <th>有效数据量</th>
-                        <th>交易总数量</th>
-                        <th>交易总金额</th>
+                        <th>代理人姓名</th>
+                        <th>商户ID</th>
+                        <th>交易数量</th>
+                        <th>交易金额</th>
                         <th>创建时间</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <#list importlogList as importLog>
+                    </thead>
+                    <tbody>
+                    <#list page as importDetail>
                     <tr>
                         <td>
-                            ${importLog.dataCount}
+                        ${importDetail.merchantName}
                         </td>
                         <td>
-                            ${importLog.usefulCount}
-                        </td>
-                        <td>
-                            ${importLog.totalTradeCount}
+                        ${importDetail.merchantId}
                         </td>
                         <td class="td_amount">
-                            ${importLog.totalTradeAmount}
+                        ${importDetail.tradeCount}
+                        </td>
+                        <td class="td_amount">
+                        ${importDetail.tradeAmount}
                         </td>
                         <td>
-                            ${importLog.gmtCreated?string("yyyy-MM-dd HH:mm")}
+                        ${importDetail.gmtCreated?string("yyyy-MM-dd HH:mm")}
                         </td>
                     </tr>
                     </#list>
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            <#include "/include/pagination.ftl" />
+            </div>
+        </form>
     </body>
 </html>

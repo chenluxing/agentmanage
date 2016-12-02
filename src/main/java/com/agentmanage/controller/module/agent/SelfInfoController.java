@@ -56,6 +56,10 @@ public class SelfInfoController extends BaseController {
         beginDate = DateUtil.zerolizedTime(beginDate);
         endDate = DateUtil.getEndTime(endDate);
         modelMap.addAttribute("page", tradeRecordService.getVoListByAgentId(getCurUser().getAgentId(), beginDate, endDate, pageable));
+
+        // 返回查询条件
+        modelMap.addAttribute("beginDate", beginDate);
+        modelMap.addAttribute("endDate", endDate);
         return "/self/trade_record_list";
     }
 

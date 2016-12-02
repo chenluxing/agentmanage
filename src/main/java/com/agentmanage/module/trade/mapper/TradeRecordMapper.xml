@@ -67,7 +67,7 @@
             and tai.merchant_id=#{merchantId, jdbcType=VARCHAR}
         </if>
         <if test="realName != null">
-            and tai.real_name=#{realName, jdbcType=VARCHAR}
+            and tai.real_name like CONCAT(#{realName, jdbcType=VARCHAR},'%')
         </if>
         <if test="beginDate != null and endDate != null">
             and ttr.gmt_created <![CDATA[>=]]>#{beginDate, jdbcType=TIMESTAMP}

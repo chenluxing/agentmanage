@@ -59,13 +59,16 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     @Transactional
-    public void modifyPassword(Integer userId, String password) {
+    public void modifyPassword(Integer userId, String password, String newPassword) {
         User user = userMapper.selectById(userId);
-        if (user != null) {
-            password = SecurityUtil.md5(password);
-            String tempPassword = SecurityUtil.generateUserPassword(user.getSalt(), password);
+        String oldPassword = SecurityUtil.generateUserPassword(user.getSalt(), SecurityUtil.md5(password));
+        if (user != null && user.getPassword().equals(oldPassword)) {
+            newPassword = SecurityUtil.md5(newPassword);
+            String tempPassword = SecurityUtil.generateUserPassword(user.getSalt(), newPassword);
             user.setPassword(tempPassword);
             userMapper.update(user);
+        } else {
+            throw new AmServiceException("用户信息不存在或密码不正确");
         }
     }
 
@@ -123,6 +126,22 @@ public class UserServiceImpl implements IUserService {
                 if (securityPassword.equals(user.getPassword())) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 校验密码
+     * @param userName
+     * @return
+     */
+    @Override
+    public boolean checkUserName(String userName) {
+        if (StringUtils.isNotEmpty(userName)) {
+            User user = userMapper.selectByUserName(userName);
+            if (user != null) {
+                return true;
             }
         }
         return false;

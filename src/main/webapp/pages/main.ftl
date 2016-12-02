@@ -9,13 +9,19 @@
 
         <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript">
-            $(document).ready(function(){
+            $().ready(function(){
                 //初始化高度
                 $("#backmain").height($(window).height() - 74 + "px");
                 //当文档窗口发生改变时 触发
                 $(window).resize(function(){
                     $("#backmain").height($(window).height() - 74 + "px");
                 })
+
+                $(".bleftcon li").click(function(){
+                    $(".bleftcon li").removeClass('select');
+                    $(this).addClass('select');
+//                    $(this).addClass('select').siblings().removeClass('select');
+                });
             })
             if (self != top) {
                 top.location = self.location;
@@ -29,10 +35,8 @@
                 <div class="logoText fl">XXX管理系统</div>
                 <div class="backother fr">
                     欢迎您,
-                    <a href="javascript:void(0)" id="text">${user.realName}（${user.userName}）</a>
-                    <a href="${base}/logout.html" target="_top">
-                        [退出]
-                    </a>
+                    <a href="javascript:void(0)" id="text">${user.realName}</a>（${user.userName}）
+                    <a href="${base}/logout.html" target="_top">[退出]</a>
                 </div>
             </div>
             <div style="border: 2px solid red;" class="wrap headmenu bg_oran">

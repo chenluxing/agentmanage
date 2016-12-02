@@ -20,7 +20,7 @@ public class ImportDetailPo extends BaseEntity {
     private Integer parentAgentId;      // 上级代理人ID
     private Integer agentLevel;              // 代理人层级
     private Integer logId;              // 日志ID
-    private byte isOriginal;            // 是否原始数据
+    private byte isOriginal;            // 是否原始数据0是 1否
 
     public ImportDetailPo(){}
 

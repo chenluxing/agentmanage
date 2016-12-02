@@ -17,21 +17,26 @@
                         merchantId: {
                             remote: {
                                 type: "POST",
-                                url: "${base}/agent/checkSurNo.json",
+                                url: "${base}/agent/checkMerchantId.json",
                                 data: {
                                     merchantId: function () {
                                         return $("#merchantId").val();
+                                    },
+                                    agentId : function() {
+                                        return $("#agentId").val();
                                     }
                                 }
                             }
                         },
                         agentPercent: {
                             required: true,
-                            isNumber: true
+                            isDecimalFour: true
                         }
                     },
                     messages: {
-                        remote:"商户ID信息已存在"
+                        merchantId :{
+                            remote:"商户ID信息已存在"
+                        }
                     }
                 });
 
@@ -71,7 +76,7 @@
                         <tr>
                             <td class="td_title bg_gray">商户ID</td>
                             <td class="td_content">
-                                <input type="text" id="merchantId" name="merchantId" class="text" value="${agentInfo.merchantId}" />
+                                <input type="text" id="merchantId" name="merchantId" class="text" value="${(agentInfo.merchantId)!""}" ${((agentInfo.merchantId)??)?string("readonly","")} />
                             </td>
                         </tr>
                         <tr>
@@ -88,7 +93,8 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="td_content" style="text-align: center;">
-                                <input type="submit" id="btnSubmit" class="btn_normal" value="保存" />
+                                <input type="button" id="btnSubmit" class="btn_normal" value="保存" />
+                                <input type="button" class="btn_normal" onclick="window.history.go(-1)" value="返回" />
                             </td>
                         </tr>
                     </tbody>

@@ -8,6 +8,7 @@ import com.agentmanage.module.agent.mapper.AgentInfoMapper;
 import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.user.entity.User;
 import com.agentmanage.module.user.service.IUserService;
+import com.agentmanage.plugin.page.Filter;
 import com.agentmanage.plugin.page.PageAdapter;
 import com.agentmanage.plugin.page.Pageable;
 import com.agentmanage.utils.SecurityUtil;
@@ -72,24 +73,6 @@ public class AgentServiceImpl implements IAgentService {
     }
 
     /**
-     * 校验商户ID是否已经存在
-     * @param merchantId
-     * @param agentId
-     * @return
-     */
-    @Override
-    public boolean checkExistsMerchantId(String merchantId, Integer agentId) {
-        AgentInfoPo agentInfo = agentInfoMapper.selectByMerchantId(merchantId);
-        if (agentInfo != null) {
-            if (agentId != null && agentId.equals(agentInfo.getId())) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 更新代理人信息
      * @param id
      * @param merchantId
@@ -148,10 +131,54 @@ public class AgentServiceImpl implements IAgentService {
      * @return
      */
     @Override
-    public List<AgentInfoPo> getSubList(Pageable pageable) {
+    public List<AgentInfoPo> getSubList(String realName, String mobileNo, String merchantId, Integer parentAgentId, Pageable pageable) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        Page<AgentInfoPo> page = (Page<AgentInfoPo>)agentInfoMapper.selectSubList(pageable.getFilter());
+        Filter filter = new Filter();
+        filter.addParam("realName", realName);
+        filter.addParam("mobileNo", mobileNo);
+        filter.addParam("merchantId", merchantId);
+        filter.addParam("parentAgentId", parentAgentId);
+        Page<AgentInfoPo> page = (Page<AgentInfoPo>)agentInfoMapper.selectSubList(filter);
         PageAdapter<AgentInfoPo> pageAdapter = new PageAdapter<>(page, pageable);
         return pageAdapter.getPage();
+    }
+
+    /**
+     * 校验商户ID是否已经存在
+     * @param merchantId
+     * @param agentId
+     * @return
+     */
+    @Override
+    public boolean checkExistsMerchantId(String merchantId, Integer agentId) {
+        AgentInfoPo agentInfo = agentInfoMapper.selectByMerchantId(merchantId);
+        if (agentInfo != null) {
+            if (agentId != null && agentId.equals(agentInfo.getId())) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 校验商户ID是否最后一个层级
+     * @param merchantId
+     * @return
+     */
+    @Override
+    public boolean checkMerchantIdIsLastLevel(String merchantId) {
+        AgentInfoPo agentInfo = agentInfoMapper.selectByMerchantId(merchantId);
+        if (agentInfo != null) {
+            Filter filter = new Filter();
+            filter.addParam("parentAgentId", agentInfo.getId());
+            Integer count = agentInfoMapper.selectSubCount(filter);
+            if (count != null && count > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 }

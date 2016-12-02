@@ -5,11 +5,22 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
         <link href="${base}/resources/css/main.css" rel="stylesheet" type="text/css">
+        <link href="${base}/resources/css/pagination.css" rel="stylesheet" type="text/css">
 
         <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="${base}/resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="${base}/resources/plugin/datePicker/WdatePicker.js"></script>
+        <script type="text/javascript" src="${base}/resources/js/list.js"></script>
         <script type="text/javascript">
-            
+            $().ready(function () {
+                $("#btnSubmit").click(function(){
+                    interruptedBtn();
+                    $("#listForm").submit();
+                })
+
+                $("#btnImport").click(function(){
+                    window.location.href = "${base}/trade/import/toAdd.html";
+                })
+            })
         </script>
     </head>
     
@@ -20,35 +31,25 @@
             &nbsp;><span>&nbsp;交易管理</span>
             &nbsp;><span>&nbsp;交易记录列表（总数：<i>${page.total}</i> 条）</span>
         </div>
-        <form id="listForm" action="${base}/trade/record/list.html" method="post">
+        <form id="listForm" action="${base}/trade/import/list.html" method="post">
             <div class="div_condition">
                 <table class="table_condition">
-                    <tr>
-                        <td width="350px">
-                            <i>姓名</i>
-                            <input type="text" class="text" name="merchantId"/>
-                        </td>
-                        <td width="350px">
-                            <i>商户ID</i>
-                            <input type="text" class="text" name="realName"/>
-                        </td>
-                        <td width="400px">
-                            <i>创建时间</i>
-                            <input type="text" id="beginDate" name="beginDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(beginDate?string("yyyy-MM-dd"))!""}"/>
-                            <input type="text" id="endDate" name="endDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(endDate?string("yyyy-MM-dd"))!""}"/>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="text-align: center">
-                            <input type="button" value="查询"/>
-                        </td>
-                    </tr>
+                    <td width="400px">
+                        <i>创建时间</i>
+                        <input type="text" id="beginDate" name="beginDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(beginDate?string("yyyy-MM-dd"))!""}"/>
+                        &nbsp;<input type="text" id="endDate" name="endDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(endDate?string("yyyy-MM-dd"))!""}"/>
+                    </td>
+                    <td width="200px">
+                        <input type="button" id="btnSubmit" class="btn_normal" value="查询" />
+                    </td>
+                    <td></td>
                 </table>
             </div>
-            <a href="${base}/trade/import/toAdd.html">新增</a>
+            <div style="padding-bottom: 10px;">
+                <input type="button" id="btnImport" class="btn_normal" value="新增导入" />
+            </div>
             <div style="width:100%;">
-                <table class="table_gray" style="min-width: 1080px;">
+                <table class="table_gray">
                     <thead>
                         <tr>
                             <th>导入数据量</th>
@@ -56,6 +57,7 @@
                             <th>交易总数量</th>
                             <th>交易总金额</th>
                             <th>创建时间</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,10 +73,13 @@
                                 ${importLog.totalTradeCount}
                             </td>
                             <td class="td_amount">
-                                ${importLog.totalTradeAmount}
+                                ${importLog.totalTradeAmount?string("0.00")}
                             </td>
                             <td>
                                 ${importLog.gmtCreated?string("yyyy-MM-dd HH:mm")}
+                            </td>
+                            <td width="100px">
+                                <a href="${base}/trade/import/detail/list.html?logId=${importLog.id}">[明细]</a>
                             </td>
                         </tr>
                         </#list>

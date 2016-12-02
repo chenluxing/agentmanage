@@ -15,7 +15,11 @@
                 $("#inputForm").validate({
                     rules: {
                         mobileNo:{
-                            required: true
+                            required: true,
+                            remote: {
+                                type: "POST",
+                                url: "${base}/agent/checkMobile.json"
+                            }
                         },
                         realName:{
                             required: true
@@ -23,12 +27,7 @@
                         merchantId: {
                             remote: {
                                 type: "POST",
-                                url: "${base}/agent/checkSurNo.json",
-                                data: {
-                                    merchantId: function () {
-                                        return $("#merchantId").val();
-                                    }
-                                }
+                                url: "${base}/agent/checkMerchantId.json"
                             }
                         },
                         alipayNo:{
@@ -36,11 +35,17 @@
                         },
                         agentPercent: {
                             required: true,
-                            isNumber: true
+                            isDecimalFour: true
                         }
                     },
                     messages: {
-                        remote:"商户ID信息已存在"
+                        mobileNo:{
+                            remote: "手机号已经存在"
+                        },
+                        merchantId: {
+                            remote:"商户ID信息已存在"
+                        },
+
                     }
                 });
 
@@ -96,7 +101,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" class="td_content" style="text-align: center;">
-                                <input type="submit" id="btnSubmit" class="btn_normal" value="新增" />
+                                <input type="button" id="btnSubmit" class="btn_normal" value="新增" />
                             </td>
                         </tr>
                     </tbody>

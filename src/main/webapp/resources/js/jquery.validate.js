@@ -512,8 +512,14 @@ jQuery.validator.addMethod("isTel", function(value,element) {
     return this.optional(element) || tel.test(value) || (length==11 && mobile.test(value));
 }, "请正确填写您的联系方式");
 jQuery.validator.addMethod("isNumber", function(value, element) {
-    return this.optional(element) || /^[-\+]?\d+$/.test(value) || /^[-\+]?\d+(\.\d{0,2})?$/.test(value);
+    return this.optional(element) || /^[-\+]?\d+$/.test(value);
+}, "请输入整数数值");
+jQuery.validator.addMethod("isDecimalTwo", function(value, element) {
+    return this.optional(element) || /^[-\+]?\d+$/.test(value) || /^[-\+]?\d+(\.\d{0,4})?$/.test(value);
 }, "请输入数值，并只保留两位小数");
+jQuery.validator.addMethod("isDecimalFour", function(value, element) {
+    return this.optional(element) || /^[-\+]?\d+$/.test(value) || /^[-\+]?\d+(\.\d{0,4})?$/.test(value);
+}, "请输入数值，并只保留四位小数");
 jQuery.validator.addMethod("isDate", function(value, element){
     var ereg = /^(\d{1,4})(-|\/)(\d{1,2})(-|\/)(\d{1,2})$/;
     var r = value.match(ereg);

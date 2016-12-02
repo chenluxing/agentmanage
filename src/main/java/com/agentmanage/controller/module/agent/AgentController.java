@@ -4,14 +4,17 @@ import com.agentmanage.controller.base.BaseController;
 import com.agentmanage.exception.AmServiceException;
 import com.agentmanage.module.agent.entity.AgentInfoPo;
 import com.agentmanage.module.agent.service.IAgentService;
+import com.agentmanage.module.user.service.IUserService;
 import com.agentmanage.plugin.page.Filter;
 import com.agentmanage.plugin.page.Pageable;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -28,6 +31,8 @@ public class AgentController extends BaseController {
 
     @Resource
     private IAgentService agentService;
+    @Resource
+    private IUserService userService;
 
     /**
      * 代理人列表
@@ -35,12 +40,13 @@ public class AgentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Pageable pageable, ModelMap modelMap) {
+    public String list(String realName, String mobileNo, String merchantId, Pageable pageable, ModelMap modelMap) {
         Integer curAgentId = getCurUser().getAgentId();
-        Filter filter = new Filter();
-        filter.addParam("parentAgentId", curAgentId);
-        pageable.setFilter(filter);
-        modelMap.addAttribute("page", agentService.getSubList(pageable));
+        modelMap.addAttribute("page", agentService.getSubList(realName, mobileNo, merchantId, curAgentId, pageable));
+
+        modelMap.addAttribute("realName", realName);
+        modelMap.addAttribute("mobileNo", mobileNo);
+        modelMap.addAttribute("merchantId", merchantId);
         return "/agent/list";
     }
 
@@ -104,4 +110,31 @@ public class AgentController extends BaseController {
         agentService.modify(agentId, merchantId, agentPercent);
         return "redirect:list.html";
     }
+
+    /**
+     * 校验商户ID
+     * @return
+     */
+    @RequestMapping(value = "/checkMerchantId", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Boolean checkMerchantId(String merchantId, Integer agentId) {
+        if (StringUtils.isNotEmpty(merchantId)) {
+            return !agentService.checkExistsMerchantId(merchantId, agentId);
+        }
+        return false;
+    }
+
+    /**
+     * 校验商户ID
+     * @return
+     */
+    @RequestMapping(value = "/checkMobile", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Boolean checkMobile(String mobileNo, Integer agentId) {
+        if (StringUtils.isNotEmpty(mobileNo)) {
+            return !userService.checkUserName(String.valueOf(mobileNo));
+        }
+        return false;
+    }
+
 }

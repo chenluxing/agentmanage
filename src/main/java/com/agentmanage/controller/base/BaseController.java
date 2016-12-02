@@ -2,6 +2,8 @@ package com.agentmanage.controller.base;
 
 import com.agentmanage.module.common.constants.GlobalConstants;
 import com.agentmanage.module.user.vo.UserSession;
+import com.agentmanage.plugin.editor.BigDecimalEditor;
+import com.agentmanage.plugin.editor.DateEditor;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +54,8 @@ public class BaseController {
         localParams.set(params);
 
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.registerCustomEditor(Date.class, new DateEditor(true));  // 如果不使用自定义的，可以使用spring的CustomDateEditor
+//        binder.registerCustomEditor(BigDecimal.class, new BigDecimalEditor(true));
         this.contextPath = request.getServletPath();
     }
 

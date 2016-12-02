@@ -319,7 +319,7 @@ label.fieldError {
     border-collapse: collapse;
     border-spacing: 0px;
     width: 100%;
-    min-width:1280px;
+    min-width:1080px;
 }
 .table_condition tr {
     height: 40px;
@@ -472,7 +472,7 @@ label.fieldError {
     border: 1px solid #e4ddd6;
     padding: 10px 0px;
     margin-bottom: 15px;
-    min-width:1280px;
+    min-width:1080px;
 }
 
 .path {

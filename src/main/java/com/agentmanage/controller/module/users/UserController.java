@@ -39,23 +39,23 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/changePassword", method = {RequestMethod.POST})
-    public String changePassword(String newPassword) {
+    public String changePassword(String password, String newPassword) {
         if (StringUtils.isNotEmpty(newPassword)) {
-            userService.modifyPassword(getCurUser().getUserId(), newPassword);
+            userService.modifyPassword(getCurUser().getUserId(), password, newPassword);
         }
         return "/users/change_password";
     }
 
     /**
-     * 修改密码
+     * 校验密码
      * @return
      */
     @RequestMapping(value = "/checkPassword", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public boolean checkPassword(String password) {
+    public Boolean checkPassword(String password) {
         if (StringUtils.isNotEmpty(password)) {
-            return !userService.checkPassword(getCurUser().getUserId(), password);
+            return userService.checkPassword(getCurUser().getUserId(), password);
         }
-        return true;
+        return false;
     }
 }

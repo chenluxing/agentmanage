@@ -142,5 +142,5 @@ function removedisableBtn(){
     setTimeout(function(){
         $("button").removeAttr("disabled");
         $("input[type=button]").removeAttr("disabled");
-    }, 1500);
+    }, 1000);
 }

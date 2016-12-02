@@ -6,12 +6,14 @@ import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.trade.service.ITradeRecordService;
 import com.agentmanage.plugin.page.Pageable;
 import com.agentmanage.utils.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -83,6 +85,19 @@ public class TradeRecordController extends BaseController {
             throw new RuntimeException("该商户ID的代理人信息不存在");
         }
         return "redirect:list.html";
+    }
+
+    /**
+     * 校验商户ID
+     * @return
+     */
+    @RequestMapping(value = "/checkMerchantIdIsLastLevel", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Boolean checkMerchantIdIsLastLevel(String merchantId) {
+        if (StringUtils.isNotEmpty(merchantId)) {
+            return agentService.checkMerchantIdIsLastLevel(merchantId);
+        }
+        return false;
     }
 
 }

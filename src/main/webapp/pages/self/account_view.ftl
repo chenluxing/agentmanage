@@ -14,47 +14,47 @@
             &nbsp;><span>&nbsp;账户信息</span>
         </div>
         <div style="width:600px;">
-            <table class="table_gray">
+            <table class="table_input">
                 <tbody>
                     <tr>
-                        <td class="bg_gray">手机号码</td>
-                        <td>
+                        <td class="td_title bg_gray" style="width: 180px;">手机号码</td>
+                        <td class="td_content">
                             ${agentAccountVo.mobileNo}
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg_gray">姓名</td>
-                        <td>
+                        <td class="td_title bg_gray">姓名</td>
+                        <td class="td_content">
                             ${agentAccountVo.realName}
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg_gray">商户ID</td>
-                        <td>
+                        <td class="td_title bg_gray">商户ID</td>
+                        <td class="td_content">
                             ${agentAccountVo.merchantId}
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg_gray">支付宝账号</td>
-                        <td>
+                        <td class="td_title bg_gray">支付宝账号</td>
+                        <td class="td_content">
                             ${agentAccountVo.alipayNo}
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg_gray">佣金利率</td>
-                        <td>
+                        <td class="td_title bg_gray">佣金利率</td>
+                        <td class="td_content">
                             ${agentAccountVo.agentPercent?string("0.00%")}
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg_gray">交易总额</td>
-                        <td>
+                        <td class="td_title bg_gray">交易总额</td>
+                        <td class="td_content">
                             ${agentAccountVo.totalAmount?string("0.00")}
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg_gray">佣金总额</td>
-                        <td>
+                        <td class="td_title bg_gray">佣金总额</td>
+                        <td class="td_content">
                             ${agentAccountVo.totalAgentAmount?string("0.00")}
                         </td>
                     </tr>

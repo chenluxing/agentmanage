@@ -59,7 +59,7 @@ public interface IAgentService {
      * @param pageable
      * @return
      */
-    List<AgentInfoPo> getSubList(Pageable pageable);
+    List<AgentInfoPo> getSubList(String realName, String mobileNo, String merchantId, Integer parentAgentId, Pageable pageable);
 
     /**
      * 校验商户ID是否已经存在
@@ -68,4 +68,11 @@ public interface IAgentService {
      * @return
      */
     boolean checkExistsMerchantId(String merchantId, Integer agentId);
+
+    /**
+     * 校验商户ID是否最后一个层级
+     * @param merchantId
+     * @return
+     */
+    boolean checkMerchantIdIsLastLevel(String merchantId);
 }

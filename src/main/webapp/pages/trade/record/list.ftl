@@ -11,7 +11,12 @@
         <script type="text/javascript" src="${base}/resources/plugin/datePicker/WdatePicker.js"></script>
         <script type="text/javascript" src="${base}/resources/js/list.js"></script>
         <script type="text/javascript">
-            
+            $().ready(function () {
+                $("#btnSubmit").click(function(){
+                    interruptedBtn();
+                    $("#listForm").submit();
+                })
+            })
         </script>
     </head>
     
@@ -28,22 +33,22 @@
                     <tr>
                         <td width="350px">
                             <i>姓名</i>
-                            <input type="text" class="text" name="merchantId"/>
+                            <input type="text" class="text" name="realName" value="${(realName)!""}"/>
                         </td>
                         <td width="350px">
                             <i>商户ID</i>
-                            <input type="text" class="text" name="realName"/>
+                            <input type="text" class="text" name="merchantId" value="${(merchantId)!""}"/>
                         </td>
                         <td width="400px">
                             <i>创建时间</i>
                             <input type="text" id="beginDate" name="beginDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(beginDate?string("yyyy-MM-dd"))!""}"/>
                             <input type="text" id="endDate" name="endDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(endDate?string("yyyy-MM-dd"))!""}"/>
                         </td>
-                        <td></td>
+                        <td width="50px"></td>
                     </tr>
                     <tr>
                         <td colspan="4" style="text-align: center">
-                            <input type="button" value="查询"/>
+                            <input type="button" id="btnSubmit" class="btn_normal" value="查询" />
                         </td>
                     </tr>
                 </table>

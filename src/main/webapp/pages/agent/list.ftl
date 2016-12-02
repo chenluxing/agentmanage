@@ -7,9 +7,15 @@
         <link href="${base}/resources/css/main.css" rel="stylesheet" type="text/css">
 
         <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="${base}/resources/js/jquery.validate.js"></script>
+        <script type="text/javascript" src="${base}/resources/plugin/datePicker/WdatePicker.js"></script>
+        <script type="text/javascript" src="${base}/resources/js/list.js"></script>
         <script type="text/javascript">
-
+            $().ready(function () {
+                $("#btnSubmit").click(function(){
+                    interruptedBtn();
+                    $("#listForm").submit();
+                })
+            })
         </script>
     </head>
 
@@ -20,28 +26,27 @@
             &nbsp;><span>&nbsp;代理人管理</span>
             &nbsp;><span>&nbsp;代理人管理（总数：<i>${page.total}</i> 条）</span>
         </div>
-        <form id="listForm" action="${base}/trade/record/list.html" method="post">
+        <form id="listForm" action="${base}/agent/list.html" method="post">
             <div class="div_condition">
                 <table class="table_condition">
                     <tr>
                         <td width="350px">
                             <i>姓名</i>
-                            <input type="text" class="text" name="merchantId"/>
+                            <input type="text" id="realName" name="realName"class="text" value="${(realName)!""}" maxlength="10"/>
+                        </td>
+                        <td width="350px">
+                            <i>手机号</i>
+                            <input type="text" id="mobileNo" name="mobileNo" class="text" value="${(mobileNo)!""}" maxlength="11"/>
                         </td>
                         <td width="350px">
                             <i>商户ID</i>
-                            <input type="text" class="text" name="realName"/>
+                            <input type="text" id="merchantId" name="merchantId" class="text" value="${(merchantId)!""}" maxlength="32"/>
                         </td>
-                        <td width="400px">
-                            <i>创建时间</i>
-                            <input type="text" id="beginDate" name="beginDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(beginDate?string("yyyy-MM-dd"))!""}"/>
-                            <input type="text" id="endDate" name="endDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(endDate?string("yyyy-MM-dd"))!""}"/>
-                        </td>
-                        <td></td>
+                        <td width="50px"></td>
                     </tr>
                     <tr>
                         <td colspan="4" style="text-align: center">
-                            <input type="button" value="查询"/>
+                            <input type="button" id="btnSubmit" class="btn_normal" value="查询" />
                         </td>
                     </tr>
                 </table>
@@ -55,6 +60,7 @@
                             <th>商户ID</th>
                             <th>支付宝账号</th>
                             <th>佣金利率</th>
+                            <th>创建时间</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -62,13 +68,25 @@
                     <#list page as agent>
                         <tr>
                             <td>
-                                <a href="${base}/agent/account/view.html?agentId=${agent.id}">${agent.realName}</a>
+                                ${agent.realName}
                             </td>
-                            <td>${agent.mobileNo}</td>
-                            <td>${agent.merchantId}</td>
-                            <td>${agent.alipayNo}</td>
-                            <td>${(agent.agentPercent?string("0.0000"))!"-"}</td>
                             <td>
+                                ${agent.mobileNo}
+                            </td>
+                            <td>
+                                ${(agent.merchantId)!"-"}
+                            </td>
+                            <td>
+                                ${agent.alipayNo}
+                            </td>
+                            <td>
+                                ${(agent.agentPercent?string("0.00%"))!"-"}
+                            </td>
+                            <td>
+                                ${agent.gmtCreated?string("yyyy-MM-dd HH:mm")}
+                            </td>
+                            <td width="150px">
+                                <a href="${base}/agent/account/view.html?agentId=${agent.id}">[账户信息]</a>
                                 <a href="${base}/agent/toEdit.html?agentId=${agent.id}">[编辑]</a>
                             </td>
                         </tr>

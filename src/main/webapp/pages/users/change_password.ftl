@@ -16,22 +16,20 @@
                     rules: {
                         password: {
                             required: true,
+                            minlength: 6,
                             remote: {
                                 type: "POST",
-                                url: "${base}/user/checkPassword.json",
                                 async:false,
-                                data: {
-                                    password: function () {
-                                        return $("#password").val();
-                                    }
-                                }
+                                url: "${base}/user/checkPassword.json"
                             }
                         },
                         newPassword: {
-                            required: true
+                            required: true,
+                            minlength: 6
                         },
                         surePassword: {
-                            required: true
+                            required: true,
+                            minlength: 6
                         }
                     },
                     messages: {
@@ -45,6 +43,7 @@
                     disableBtn();
                     if($("#newPassword").val() != $("#surePassword").val()) {
                         alert("两次输入密码不一致");
+                        removedisableBtn();
                         return;
                     }
                     $("#inputForm").submit();
@@ -67,24 +66,24 @@
                         <tr>
                             <td class="td_title bg_gray" style="width: 160px;">原密码</td>
                             <td class="td_content">
-                                <input type="password" id="password" name="password" class="text" placeholder="请填写原密码" />
+                                <input type="password" id="password" name="password" class="text" maxlength="20" placeholder="请填写原密码" />
                             </td>
                         </tr>
                         <tr>
                             <td class="td_title bg_gray">新密码</td>
                             <td class="td_content">
-                                <input type="password" id="newPassword" name="newPassword" class="text" placeholder="请填写新密码" />
+                                <input type="password" id="newPassword" name="newPassword" class="text" maxlength="20" placeholder="请填写新密码" />
                             </td>
                         </tr>
                         <tr>
                             <td class="td_title bg_gray">确认密码</td>
                             <td class="td_content">
-                                <input type="password" id="surePassword" name="surePassword" class="text" placeholder="请确认密码" />
+                                <input type="password" id="surePassword" name="surePassword" class="text" maxlength="20" placeholder="请确认密码" />
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="td_content" style="text-align: center;">
-                                <input type="submit" id="btnSubmit" class="btn_normal" value="保存" />
+                                <input type="button" id="btnSubmit" class="btn_normal" value="保存" />
                             </td>
                         </tr>
                     </tbody>

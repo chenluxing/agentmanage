@@ -38,6 +38,10 @@
           <include refid="allColumns" />
         from tb_trade_import_log
         where creator_id = #{creatorId, jdbcType=INTEGER}
+        <if test="beginDate != null and endDate != null">
+            and gmt_created <![CDATA[>=]]>#{beginDate, jdbcType=TIMESTAMP}
+            and gmt_created <![CDATA[<=]]>#{endDate, jdbcType=TIMESTAMP}
+        </if>
         order by gmt_created desc
     </select>
 </mapper>

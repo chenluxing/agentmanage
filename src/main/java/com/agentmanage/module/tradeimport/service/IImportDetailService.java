@@ -1,6 +1,7 @@
 package com.agentmanage.module.tradeimport.service;
 
 import com.agentmanage.module.tradeimport.entity.ImportDetailPo;
+import com.agentmanage.plugin.page.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,9 @@ public interface IImportDetailService {
     /**
      * 查询导入明细
      * @param logId
-     * @param isOriginal
      * @return
      */
-    List<ImportDetailPo> getList(Integer logId, Integer isOriginal);
+    List<ImportDetailPo> getList(Integer logId, Pageable pageable);
 
     /**
      * 按代理人统计导入数据

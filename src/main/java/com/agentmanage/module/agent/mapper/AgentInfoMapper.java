@@ -49,4 +49,11 @@ public interface AgentInfoMapper {
      * @return
      */
     List<AgentInfoPo> selectSubList(Filter filter);
+
+    /**
+     * 查询下级代理人数量
+     * @param filter
+     * @return
+     */
+    Integer selectSubCount(Filter filter);
 }

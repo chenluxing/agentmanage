@@ -17,26 +17,32 @@
                             required: true,
                             remote: {
                                 type: "POST",
-                                url: "${base}/agent/checkSurNo.json",
-                                data: {
-                                    merchantId: function () {
-                                        return $("#merchantId").val();
-                                    }
-                                }
+                                async:false,
+                                url: "${base}/trade/record/checkMerchantIdIsLastLevel.json"
                             }
                         },
                         tradeAmount: {
                             required: true,
-                            isNumber: true
+                            isDecimalTwo: true
                         },
                         tradeCount: {
-                            required: true
+                            required: true,
+                            isNumber: true
                         }
                     },
                     messages: {
-                        remote:"商户ID信息不存在"
+                        merchantId: {
+                            remote:"商户ID信息不存在或不是最后一级代理"
+                        }
+
                     }
                 });
+
+                $("#btnSubmit").click(function () {
+                    disableBtn();
+                    $("#inputForm").submit();
+                    removedisableBtn();
+                })
             });
         </script>
     </head>
@@ -48,30 +54,30 @@
             &nbsp;><span>&nbsp;新增交易记录</span>
         </div>
         <form id="inputForm" action="${base}/trade/record/add.html" method="post">
-            <div style="width:600px;">
-                <table class="table_gray" style="min-width: 0xp;">
+            <div style="width:620px;">
+                <table class="table_input">
                     <tbody>
                         <tr>
-                            <td class="bg_gray" width="200px">商户ID</td>
-                            <td>
-                                <input type="text" id="merchantId" name="merchantId" class="text" placeholder="请填写商户ID" />
+                            <td class="td_title bg_gray" style="width: 160px;">商户ID</td>
+                            <td class="td_content">
+                                <input type="text" id="merchantId" name="merchantId" class="text" maxlength="32" placeholder="请填写商户ID" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="bg_gray">交易金额</td>
-                            <td>
-                                <input type="text" id="tradeAmount" name="tradeAmount" class="text" placeholder="交易金额" />
+                            <td class="td_title bg_gray">交易金额</td>
+                            <td class="td_content">
+                                <input type="text" id="tradeAmount" name="tradeAmount" class="text" maxlength="10" placeholder="请填写交易金额" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="bg_gray">交易数量</td>
-                            <td>
-                                <input type="text" id="tradeCount" name="tradeCount" class="text" placeholder="交易数量" />
+                            <td class="td_title bg_gray">交易数量</td>
+                            <td class="td_content">
+                                <input type="text" id="tradeCount" name="tradeCount" class="text" maxlength="10" placeholder="请填写交易数量" />
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="ta_center">
-                                <input type="submit" value="新增" />
+                            <td colspan="2" class="td_content" style="text-align: center;">
+                                <input type="button" id="btnSubmit" class="btn_normal" value="新增" />
                             </td>
                         </tr>
                     </tbody>

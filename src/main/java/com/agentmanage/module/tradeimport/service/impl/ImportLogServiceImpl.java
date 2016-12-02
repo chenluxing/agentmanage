@@ -13,6 +13,7 @@ import com.agentmanage.module.tradeimport.service.IImportDetailService;
 import com.agentmanage.module.tradeimport.service.IImportLogService;
 import com.agentmanage.plugin.excel.*;
 import com.agentmanage.plugin.excel.vo.ExcelMessage;
+import com.agentmanage.plugin.page.Filter;
 import com.agentmanage.plugin.page.PageAdapter;
 import com.agentmanage.plugin.page.Pageable;
 import com.github.pagehelper.Page;
@@ -23,14 +24,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 导入记录Service
@@ -145,8 +144,14 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
      * @return
      */
     @Override
-    public List<ImportLogPo> getList(Pageable pageable) {
+    public List<ImportLogPo> getList(Date beginDate, Date endDate, Integer creatorId, Pageable pageable) {
+        Assert.notNull(creatorId, "当前用户ID不允许为空");
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        Filter filter = new Filter();
+        filter.addParam("beginDate", beginDate);
+        filter.addParam("endDate", endDate);
+        filter.addParam("creatorId", creatorId);
+        pageable.setFilter(filter);
         Page<ImportLogPo> page = (Page<ImportLogPo>) importLogMapper.selectList(pageable.getFilter());
         PageAdapter<ImportLogPo> pageAdapter = new PageAdapter<>(page, pageable);
         return pageAdapter.getPage();
@@ -157,9 +162,14 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
         if ("merchantId".equals(key)) {
             AgentInfoPo agentInfo = agentService.getByMerchantId(MapUtils.getString(dataMap, "merchantId"));
             if (agentInfo != null) {
-                dataMap.put("agentId", agentInfo.getId());
-                dataMap.put("parentAgentId", agentInfo.getParentAgentId());
-                dataMap.put("agentLevel", agentInfo.getLevel());
+                // 校验商户ID对应代理人是否是最后一级代理人
+                if (agentService.checkMerchantIdIsLastLevel(MapUtils.getString(dataMap, "merchantId"))) {
+                    dataMap.put("agentId", agentInfo.getId());
+                    dataMap.put("parentAgentId", agentInfo.getParentAgentId());
+                    dataMap.put("agentLevel", agentInfo.getLevel());
+                } else {
+                    throw new CellException("商户ID所属代理人不是最后一级代理人");
+                }
             } else {
                 throw new CellException("商户ID不存在");
             }
