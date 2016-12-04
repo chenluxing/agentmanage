@@ -1,6 +1,8 @@
 package com.agentmanage.permission.realm;
 
 import com.agentmanage.exception.AmServiceException;
+import com.agentmanage.module.agent.entity.AgentInfoPo;
+import com.agentmanage.module.agent.service.IAgentService;
 import com.agentmanage.module.common.constants.GlobalConstants;
 import com.agentmanage.module.user.service.IUserService;
 import com.agentmanage.module.user.vo.UserSession;
@@ -27,6 +29,8 @@ import org.springframework.context.ApplicationContextAware;
 public class AmAuthenticationRealm extends AuthorizingRealm implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
+
+    private IAgentService agentService;
 
     private IUserService userService;
 
@@ -73,6 +77,10 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
             if (CollectionUtils.isNotEmpty(menuList)) {
                 authorizationInfo.addStringPermissions(menuList);
             }*/
+            AgentInfoPo agentInfo = getAgentService().getByUserId(principal.getId());
+            if (agentInfo != null && agentInfo.getLevel()==0) {
+                authorizationInfo.addStringPermission("jygl_drjyjl");
+            }
             return authorizationInfo;
         }
         return null;
@@ -83,8 +91,11 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
         this.applicationContext = applicationContext;
     }
 
+    public IAgentService getAgentService() {
+        return (IAgentService)applicationContext.getBean("agentServiceImpl");
+    }
+
     public IUserService getUserService() {
         return (IUserService)applicationContext.getBean("userServiceImpl");
     }
-
 }

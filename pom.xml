@@ -283,6 +283,12 @@
             <version>${jackson-version}</version>
         </dependency>
         <!--end-->
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -388,6 +394,37 @@
                 <profiles.active>product</profiles.active>
             </properties>
 
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.3</version>
+                        <inherited>true</inherited>
+                        <executions>
+                            <execution>
+                                <id>war-exploded-on-test</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>exploded</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <outputDirectory>/data/deploy</outputDirectory>
+                            <warName>${project.artifactId}</warName>
+                            <webappDirectory>${project.build.directory}/agentmanage
+                            </webappDirectory>
+                            <archive>
+                                <manifest>
+                                    <addDefaultImplementationEntries>true
+                                    </addDefaultImplementationEntries>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

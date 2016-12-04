@@ -32,7 +32,7 @@
         <!-- 头部 start-->
         <header>
             <div class="wrap clearfix">
-                <div class="logoText fl">XXX管理系统</div>
+                <div class="logoText fl">吉付</div>
                 <div class="backother fr">
                     欢迎您,
                     <a href="javascript:void(0)" id="text">${user.realName}</a>（${user.userName}）
@@ -103,9 +103,11 @@
                                 <li>
                                     <a href="${base}/trade/record/toAdd.html" target="iframe"><i></i>新增交易记录</a>
                                 </li>
+                                <@shiro.hasPermission name="jygl_drjyjl">
                                 <li>
                                     <a href="${base}/trade/import/list.html" target="iframe"><i></i>导入交易记录</a>
                                 </li>
+                                </@shiro.hasPermission>
                             </ul>
                         </div>
                     </div>
