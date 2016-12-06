@@ -38,13 +38,19 @@ public abstract class AbstractImportService {
         ExcelMessage excelMessage = new ExcelMessage(ExcelMessage.Type.success);
 
         if (!validateHeader(sheet.getRow(headRowNum), cellDefinedList)){
-            throw new CellException("", "模版文件格式错误，请下载正确的模版文件");
+            LineMessage lineMessage = new LineMessage(0, "模版文件格式错误，请下载正确的模版文件");
+            excelMessage.addErrorLine(lineMessage);
+            excelMessage.setType(ExcelMessage.Type.error);
+            return excelMessage;
         }
 
         int rows = sheet.getRows();
         int maxCount = 2000 + startRowNum;
         if(rows > maxCount){
-            throw new CellException("", "最多上传2000条保单数据");
+            LineMessage lineMessage = new LineMessage(0, "最多上传2000条保单数据");
+            excelMessage.addErrorLine(lineMessage);
+            excelMessage.setType(ExcelMessage.Type.error);
+            return excelMessage;
         }
 
         for (int i = startRowNum; i < rows; i++){
@@ -69,6 +75,7 @@ public abstract class AbstractImportService {
                         validateCellData(cellDefined.getPropName(), dataMap, baseMap);
                     }
                 } catch (CellException ce) {
+                    excelMessage.setType(ExcelMessage.Type.error);
                     if (lineMessage == null){
                         lineMessage = new LineMessage(i+1);
                     }
@@ -78,6 +85,7 @@ public abstract class AbstractImportService {
             try {
                 validateRowData(dataMap, baseMap);
             } catch (CellException ce) {
+                excelMessage.setType(ExcelMessage.Type.error);
                 if (lineMessage == null){
                     lineMessage = new LineMessage(i+1);
                 }

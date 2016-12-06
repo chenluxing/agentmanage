@@ -13,6 +13,7 @@ import com.agentmanage.module.tradeimport.service.IImportDetailService;
 import com.agentmanage.module.tradeimport.service.IImportLogService;
 import com.agentmanage.plugin.excel.*;
 import com.agentmanage.plugin.excel.vo.ExcelMessage;
+import com.agentmanage.plugin.excel.vo.LineMessage;
 import com.agentmanage.plugin.page.Filter;
 import com.agentmanage.plugin.page.PageAdapter;
 import com.agentmanage.plugin.page.Pageable;
@@ -87,6 +88,8 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
                 }
             }
         } catch (Exception ex) {
+            LineMessage lineMessage = new LineMessage(0, "文件解析异常" + ex.getMessage());
+            excelMessage.addErrorLine(lineMessage);
             excelMessage.setType(ExcelMessage.Type.error);
         }
         return excelMessage;

@@ -81,7 +81,7 @@ public class TradeImportController extends BaseController {
                 modelMap.addAttribute("errorLines", excelMessage.getErrorLines());
                 return "/trade/import/add";
             } else {
-                return "redirect:/list.html";
+                return "redirect:list.html";
             }
         } catch (Exception ex) {
             logger.error("上传文件失败！", ex);
