@@ -4,7 +4,7 @@
     <input type="hidden" id="pageNumber" name="pageNumber" value="${page.pageNumber}" />
     <#if (page.totalPages <= 7)>
         <#list 1..page.totalPages as index>
-            <a class="${(page.pageNumber==index)?string("curpage","")}" href="javascript: $.pageSkip(${index});">${index}</a>
+            <a class="${(page.pageNumber==index)?string("curPage","")}" href="javascript: $.pageSkip(${index});">${index}</a>
         </#list>
     <#else>
         <#if (page.pageNumber <= 4)>

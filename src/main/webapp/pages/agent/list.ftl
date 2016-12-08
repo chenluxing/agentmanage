@@ -5,6 +5,7 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
         <link href="${base}/resources/css/main.css" rel="stylesheet" type="text/css">
+        <link href="${base}/resources/css/pagination.css" rel="stylesheet" type="text/css">
 
         <script type="text/javascript" src="${base}/resources/js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="${base}/resources/plugin/datePicker/WdatePicker.js"></script>
