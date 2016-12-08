@@ -182,7 +182,7 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
     @Override
     protected void validateRowData(Map dataMap, Map baseMap) throws CellException {
         Double tradeAmount = MapUtils.getDouble(dataMap, "tradeAmount");
-        if (tradeAmount != 0) {
+        if (tradeAmount != null && tradeAmount != 0) {
             BigDecimal totalTradeAmount = (BigDecimal)baseMap.get("totalTradeAmount");
             totalTradeAmount = totalTradeAmount.add(new BigDecimal(tradeAmount));
             baseMap.put("totalTradeAmount", totalTradeAmount);
@@ -191,7 +191,7 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
             baseMap.put("usefulCount", usefulCount);
         }
         Integer tradeCount = MapUtils.getInteger(dataMap, "tradeCount");
-        if (tradeCount != 0) {
+        if (tradeCount != null && tradeCount != 0) {
             Integer totalTradeCount = (Integer)baseMap.get("totalTradeCount");
             totalTradeCount = totalTradeCount + tradeCount;
             baseMap.put("totalTradeCount", totalTradeCount);
