@@ -29,12 +29,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="td_title bg_gray">商户ID</td>
-                        <td class="td_content">
-                            ${agentAccountVo.merchantId}
-                        </td>
-                    </tr>
-                    <tr>
                         <td class="td_title bg_gray">支付宝账号</td>
                         <td class="td_content">
                             ${agentAccountVo.alipayNo}

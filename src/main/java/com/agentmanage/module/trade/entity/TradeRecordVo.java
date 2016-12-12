@@ -15,7 +15,6 @@ public class TradeRecordVo implements Serializable {
 
     private Integer recordId;           // 记录ID
     private Integer agentId;            // 代理人ID
-    private String merchantId;         // 商户ID
     private String agentName;           // 代理人姓名
     private String mobileNo;            // 手机号
     private int tradeCount;             // 交易订单数量
@@ -40,14 +39,6 @@ public class TradeRecordVo implements Serializable {
 
     public void setAgentId(Integer agentId) {
         this.agentId = agentId;
-    }
-
-    public String getMerchantId() {
-        return merchantId;
-    }
-
-    public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId;
     }
 
     public String getAgentName() {

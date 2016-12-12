@@ -50,7 +50,6 @@
                         <tr>
                             <th>代理人姓名</th>
                             <th>手机号</th>
-                            <th>商户ID</th>
                             <th>交易数量</th>
                             <th>交易金额</th>
                             <th>交易佣金比例</th>
@@ -66,9 +65,6 @@
                             </td>
                             <td>
                                 ${record.mobileNo}
-                            </td>
-                            <td>
-                                ${record.merchantId}
                             </td>
                             <td class="td_amount">
                                 ${record.tradeCount}

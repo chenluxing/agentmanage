@@ -40,13 +40,12 @@ public class AgentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(String realName, String mobileNo, String merchantId, Pageable pageable, ModelMap modelMap) {
+    public String list(String realName, String mobileNo, Pageable pageable, ModelMap modelMap) {
         Integer curAgentId = getCurUser().getAgentId();
-        modelMap.addAttribute("page", agentService.getSubList(realName, mobileNo, merchantId, curAgentId, pageable));
+        modelMap.addAttribute("page", agentService.getSubList(realName, mobileNo, curAgentId, pageable));
 
         modelMap.addAttribute("realName", realName);
         modelMap.addAttribute("mobileNo", mobileNo);
-        modelMap.addAttribute("merchantId", merchantId);
         return "/agent/list";
     }
 
@@ -63,16 +62,15 @@ public class AgentController extends BaseController {
      * 新增代理人
      * @param mobileNo
      * @param realName
-     * @param merchantId
      * @param alipayNo
      * @param agentPercent
      * @param modelMap
      * @return
      */
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    public String add(String mobileNo, String realName, String merchantId, String alipayNo, BigDecimal agentPercent, ModelMap modelMap) {
+    public String add(String mobileNo, String realName, String alipayNo, BigDecimal agentPercent, ModelMap modelMap) {
         try {
-            agentService.save(mobileNo, realName, merchantId, alipayNo, agentPercent, getCurUser().getAgentId(), getCurUser().getUserId());
+            agentService.save(mobileNo, realName, alipayNo, agentPercent, getCurUser().getAgentId(), getCurUser().getUserId());
         } catch (Exception ex) {
             logger.error("新增代理人异常：", ex);
             String errMsg = "新增代理人异常";
@@ -101,38 +99,37 @@ public class AgentController extends BaseController {
     /**
      * 编辑代理人
      * @param agentId
-     * @param merchantId
      * @param agentPercent
      * @return
      */
     @RequestMapping(value = "/edit", method = {RequestMethod.POST})
-    public String edit(Integer agentId, String merchantId, BigDecimal agentPercent) {
-        agentService.modify(agentId, merchantId, agentPercent);
+    public String edit(Integer agentId, BigDecimal agentPercent) {
+        agentService.modify(agentId, agentPercent);
         return "redirect:list.html";
     }
 
     /**
-     * 校验商户ID
+     * 校验姓名
      * @return
      */
-    @RequestMapping(value = "/checkMerchantId", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/checkRealName", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public Boolean checkMerchantId(String merchantId, Integer agentId) {
-        if (StringUtils.isNotEmpty(merchantId)) {
-            return !agentService.checkExistsMerchantId(merchantId, agentId);
+    public Boolean checkRealName(String realName, Integer agentId) {
+        if (StringUtils.isNotEmpty(realName)) {
+            return !agentService.checkExistsRealName(realName, agentId);
         }
         return false;
     }
 
     /**
-     * 校验商户ID
+     * 校验手机号码
      * @return
      */
     @RequestMapping(value = "/checkMobile", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Boolean checkMobile(String mobileNo, Integer agentId) {
         if (StringUtils.isNotEmpty(mobileNo)) {
-            return !userService.checkUserName(String.valueOf(mobileNo));
+            return !userService.checkUserName(mobileNo);
         }
         return false;
     }

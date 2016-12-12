@@ -41,7 +41,7 @@ public class TradeRecordController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(String realName, String merchantId, Date beginDate, Date endDate ,Pageable pageable, ModelMap modelMap) {
+    public String list(String realName, Date beginDate, Date endDate ,Pageable pageable, ModelMap modelMap) {
         if (beginDate == null) {
             beginDate = DateUtil.addMonth(DateUtil.getCurrentDate(), -1);
         }
@@ -52,9 +52,8 @@ public class TradeRecordController extends BaseController {
         endDate = DateUtil.getEndTime(endDate);
         Integer agentId = getCurUser().getAgentId();
 
-        modelMap.addAttribute("page", tradeRecordService.getVoListByParentAgentId(realName, merchantId, beginDate, endDate, agentId, pageable));
+        modelMap.addAttribute("page", tradeRecordService.getVoListByParentAgentId(realName, beginDate, endDate, agentId, pageable));
         modelMap.addAttribute("realName", realName);
-        modelMap.addAttribute("merchantId", merchantId);
         modelMap.addAttribute("beginDate", beginDate);
         modelMap.addAttribute("endDate", endDate);
         return "/trade/record/list";
@@ -71,33 +70,20 @@ public class TradeRecordController extends BaseController {
 
     /**
      * 手工新增交易记录
-     * @param merchantId
+     * @param realName
      * @param tradeAmount
      * @param tradeCount
      * @return
      */
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    public String add(String merchantId, BigDecimal tradeAmount, Integer tradeCount) {
-        AgentInfoPo agentInfo = agentService.getByMerchantId(merchantId);
+    public String add(String realName, BigDecimal tradeAmount, Integer tradeCount) {
+        AgentInfoPo agentInfo = agentService.getByRealName(realName);
         if (agentInfo != null) {
             tradeRecordService.saveToHead(agentInfo.getId(), tradeAmount, tradeCount, getCurUser().getUserId());
         } else {
             throw new RuntimeException("该商户ID的代理人信息不存在");
         }
         return "redirect:list.html";
-    }
-
-    /**
-     * 校验商户ID
-     * @return
-     */
-    @RequestMapping(value = "/checkMerchantIdIsLastLevel", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public Boolean checkMerchantIdIsLastLevel(String merchantId) {
-        if (StringUtils.isNotEmpty(merchantId)) {
-            return agentService.checkMerchantIdIsLastLevel(merchantId);
-        }
-        return false;
     }
 
 }

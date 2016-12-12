@@ -15,7 +15,6 @@ public class AgentAccountVo {
     private Integer agentId;                // 代理人ID
     private String mobileNo;                // 手机号
     private String realName;                // 真实姓名
-    private String merchantId;              // 商户ID
     private String alipayNo;                // 支付宝帐号
     private BigDecimal agentPercent;        // 代理利率
     private Integer accountId;              // 账户ID
@@ -45,14 +44,6 @@ public class AgentAccountVo {
 
     public void setRealName(String realName) {
         this.realName = realName;
-    }
-
-    public String getMerchantId() {
-        return merchantId;
-    }
-
-    public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId;
     }
 
     public String getAlipayNo() {

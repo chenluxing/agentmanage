@@ -31,7 +31,6 @@
                     <thead>
                     <tr>
                         <th>代理人姓名</th>
-                        <th>商户ID</th>
                         <th>交易数量</th>
                         <th>交易金额</th>
                         <th>创建时间</th>
@@ -41,10 +40,7 @@
                     <#list page as importDetail>
                     <tr>
                         <td>
-                        ${importDetail.merchantName}
-                        </td>
-                        <td>
-                        ${importDetail.merchantId}
+                        ${importDetail.agentName}
                         </td>
                         <td class="td_amount">
                         ${importDetail.tradeCount}

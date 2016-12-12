@@ -61,14 +61,14 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
 
     /**
      * 新增交易记录
-     * @param merchantId
+     * @param realName
      * @param tradeAmount
      * @param tradeCount
      */
     @Override
     @Transactional
-    public void save(String merchantId, BigDecimal tradeAmount, int tradeCount, Integer curUserId) {
-        AgentInfoPo agentInfo = agentService.getByMerchantId(merchantId);
+    public void save(String realName, BigDecimal tradeAmount, int tradeCount, Integer curUserId) {
+        AgentInfoPo agentInfo = agentService.getByRealName(realName);
         if (agentInfo != null) {
             save(agentInfo.getId(), tradeAmount, tradeCount, curUserId);
         } else {
@@ -90,7 +90,7 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
         if (agentInfo != null) {
             save(agentInfo.getId(), tradeAmount, tradeCount, curUserId);
         } else {
-            throw new AmServiceException("商户ID对应的代理人信息不存在");
+            throw new AmServiceException("代理人信息不存在");
         }
         if (agentInfo.getLevel() > 0){
             save(agentInfo.getParentAgentId(), tradeAmount, tradeCount, curUserId);
@@ -124,12 +124,11 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
      * @return
      */
     @Override
-    public List<TradeRecordVo> getVoListByParentAgentId(String realName, String merchantId, Date beginDate, Date endDate, Integer parentAgentId, Pageable pageable) {
+    public List<TradeRecordVo> getVoListByParentAgentId(String realName, Date beginDate, Date endDate, Integer parentAgentId, Pageable pageable) {
         Assert.notNull(parentAgentId, "上级代理人ID不允许为空");
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         Filter filter = new Filter();
         filter.addParam("realName", realName);
-        filter.addParam("merchantId", merchantId);
         filter.addParam("beginDate", beginDate);
         filter.addParam("endDate", endDate);
         filter.addParam("parentAgentId", parentAgentId);

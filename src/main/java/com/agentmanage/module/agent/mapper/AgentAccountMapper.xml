@@ -15,7 +15,6 @@
         <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
         <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
         <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
-        <result column="MERCHANT_ID" property="merchantId" jdbcType="VARCHAR"/>
         <result column="ALIPAY_NO" property="alipayNo" jdbcType="VARCHAR"/>
         <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
         <result column="ACCOUNT_ID" property="accountId" jdbcType="INTEGER"/>
@@ -57,7 +56,7 @@
     </select>
 
     <select id="selectVoByAgentId" resultMap="agentAccountVoMap">
-        select tai.id as agent_id, tai.mobile_no, tai.real_name, tai.merchant_id, tai.alipay_no,
+        select tai.id as agent_id, tai.mobile_no, tai.real_name, tai.alipay_no,
           tai.agent_percent, tac.id as account_id,tac.total_amount, tac.total_agent_amount,
           tac.gmt_modified
         from tb_agent_info tai

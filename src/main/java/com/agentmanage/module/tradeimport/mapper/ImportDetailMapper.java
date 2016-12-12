@@ -21,23 +21,8 @@ public interface ImportDetailMapper {
     /**
      * 查询导入明细
      * @param logId
-     * @param isOriginal
      * @return
      */
-    List<ImportDetailPo> selectList(@Param("logId") Integer logId, @Param("isOriginal") Integer isOriginal);
+    List<ImportDetailPo> selectList(@Param("logId") Integer logId);
 
-    /**
-     * 按代理人统计导入数据
-     * @param logId
-     * @return
-     */
-    List<Map> selectCalcList(@Param("logId") Integer logId);
-
-    /**
-     * 按父级代理人统计导入数据
-     * @param logId
-     * @param agentLevel
-     * @return
-     */
-    List<Map> selectCalcParentList(@Param("logId") Integer logId, @Param("agentLevel") Integer agentLevel);
 }

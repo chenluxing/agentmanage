@@ -40,7 +40,6 @@ public class AgentServiceImpl implements IAgentService {
      * 新增代理人
      * @param mobileNo
      * @param realName
-     * @param merchantId
      * @param alipayNo
      * @param agentPercent
      * @param parentAgentId
@@ -48,16 +47,12 @@ public class AgentServiceImpl implements IAgentService {
      */
     @Override
     @Transactional
-    public void save(String mobileNo, String realName, String merchantId, String alipayNo, BigDecimal agentPercent,
+    public void save(String mobileNo, String realName, String alipayNo, BigDecimal agentPercent,
               Integer parentAgentId, Integer userId) throws Exception{
         User user = userService.getByUserName(mobileNo);
         // 校验用户信息
         if (user != null) {
             throw new AmServiceException("该账户已经存在");
-        }
-        // 校验商户ID
-        if (StringUtils.isNotEmpty(merchantId) && checkExistsMerchantId(merchantId, null)) {
-            throw new AmServiceException("该商户ID已经存在");
         }
         String password = SecurityUtil.md5(alipayNo);
         user = userService.save(mobileNo, password);
@@ -65,7 +60,7 @@ public class AgentServiceImpl implements IAgentService {
         // 获取当前新增代理人的层级 = 父节点层级+1
         AgentInfoPo parentAgent = agentInfoMapper.selectById(parentAgentId);
         int level = parentAgent.getLevel() + 1;
-        AgentInfoPo agentInfo = new AgentInfoPo(mobileNo, realName, merchantId, alipayNo, agentPercent,parentAgentId, user.getId(), level);
+        AgentInfoPo agentInfo = new AgentInfoPo(mobileNo, realName, alipayNo, agentPercent,parentAgentId, user.getId(), level);
         agentInfoMapper.insert(agentInfo);
         // 新增账户信息
         AgentAccountPo agentAccount = new AgentAccountPo(agentInfo.getId());
@@ -75,22 +70,14 @@ public class AgentServiceImpl implements IAgentService {
     /**
      * 更新代理人信息
      * @param id
-     * @param merchantId
      * @param agentPercent
      */
     @Override
     @Transactional
-    public void modify(Integer id, String merchantId, BigDecimal agentPercent) {
+    public void modify(Integer id, BigDecimal agentPercent) {
         AgentInfoPo agentInfo = agentInfoMapper.selectById(id);
         if (agentInfo != null) {
             agentInfo.setAgentPercent(agentPercent);
-            // 商户ID仅允许更新一次
-            if (StringUtils.isEmpty(agentInfo.getMerchantId()) && StringUtils.isNotEmpty(merchantId)) {
-                // 校验商户ID是否已经存在
-                if (!checkExistsMerchantId(merchantId, id)) {
-                    agentInfo.setMerchantId(merchantId);
-                }
-            }
             agentInfoMapper.update(agentInfo);
         }
     }
@@ -117,12 +104,12 @@ public class AgentServiceImpl implements IAgentService {
 
     /**
      * 根据商户ID代理人信息
-     * @param merchantId
+     * @param realName
      * @return
      */
     @Override
-    public AgentInfoPo getByMerchantId(String merchantId) {
-        return agentInfoMapper.selectByMerchantId(merchantId);
+    public AgentInfoPo getByRealName(String realName) {
+        return agentInfoMapper.selectByRealName(realName);
     }
 
     /**
@@ -131,12 +118,11 @@ public class AgentServiceImpl implements IAgentService {
      * @return
      */
     @Override
-    public List<AgentInfoPo> getSubList(String realName, String mobileNo, String merchantId, Integer parentAgentId, Pageable pageable) {
+    public List<AgentInfoPo> getSubList(String realName, String mobileNo, Integer parentAgentId, Pageable pageable) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         Filter filter = new Filter();
         filter.addParam("realName", realName);
         filter.addParam("mobileNo", mobileNo);
-        filter.addParam("merchantId", merchantId);
         filter.addParam("parentAgentId", parentAgentId);
         Page<AgentInfoPo> page = (Page<AgentInfoPo>)agentInfoMapper.selectSubList(filter);
         PageAdapter<AgentInfoPo> pageAdapter = new PageAdapter<>(page, pageable);
@@ -145,13 +131,13 @@ public class AgentServiceImpl implements IAgentService {
 
     /**
      * 校验商户ID是否已经存在
-     * @param merchantId
+     * @param realName
      * @param agentId
      * @return
      */
     @Override
-    public boolean checkExistsMerchantId(String merchantId, Integer agentId) {
-        AgentInfoPo agentInfo = agentInfoMapper.selectByMerchantId(merchantId);
+    public boolean checkExistsRealName(String realName, Integer agentId) {
+        AgentInfoPo agentInfo = agentInfoMapper.selectByRealName(realName);
         if (agentInfo != null) {
             if (agentId != null && agentId.equals(agentInfo.getId())) {
                 return false;
@@ -161,24 +147,4 @@ public class AgentServiceImpl implements IAgentService {
         return false;
     }
 
-    /**
-     * 校验商户ID是否最后一个层级
-     * @param merchantId
-     * @return
-     */
-    @Override
-    public boolean checkMerchantIdIsLastLevel(String merchantId) {
-        AgentInfoPo agentInfo = agentInfoMapper.selectByMerchantId(merchantId);
-        if (agentInfo != null) {
-            Filter filter = new Filter();
-            filter.addParam("parentAgentId", agentInfo.getId());
-            Integer count = agentInfoMapper.selectSubCount(filter);
-            if (count != null && count > 0) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
 }

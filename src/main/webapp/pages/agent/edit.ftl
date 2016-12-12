@@ -14,29 +14,12 @@
                 // 表单验证
                 $("#inputForm").validate({
                     rules: {
-                        merchantId: {
-                            remote: {
-                                type: "POST",
-                                url: "${base}/agent/checkMerchantId.json",
-                                data: {
-                                    merchantId: function () {
-                                        return $("#merchantId").val();
-                                    },
-                                    agentId : function() {
-                                        return $("#agentId").val();
-                                    }
-                                }
-                            }
-                        },
                         agentPercent: {
                             required: true,
                             isDecimalFour: true
                         }
                     },
                     messages: {
-                        merchantId :{
-                            remote:"商户ID信息已存在"
-                        }
                     }
                 });
 
@@ -71,12 +54,6 @@
                             <td class="td_title bg_gray">姓名</td>
                             <td class="td_content">
                                 <input type="text" id="realName" name="realName" class="text" value="${agentInfo.realName}" readonly />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td_title bg_gray">商户ID</td>
-                            <td class="td_content">
-                                <input type="text" id="merchantId" name="merchantId" class="text" value="${(agentInfo.merchantId)!""}" ${((agentInfo.merchantId)??)?string("readonly","")} />
                             </td>
                         </tr>
                         <tr>

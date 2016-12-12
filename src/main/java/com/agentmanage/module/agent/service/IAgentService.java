@@ -16,22 +16,20 @@ public interface IAgentService {
      * 新增代理人
      * @param mobileNo
      * @param realName
-     * @param merchantId
      * @param alipayNo
      * @param agentPercent
      * @param parentAgentId
      * @param userId
      */
-    void save(String mobileNo, String realName, String merchantId, String alipayNo, BigDecimal agentPercent,
+    void save(String mobileNo, String realName, String alipayNo, BigDecimal agentPercent,
               Integer parentAgentId, Integer userId) throws Exception;
 
     /**
      * 更新代理人信息
      * @param id
-     * @param merchantId
      * @param agentPercent
      */
-    void modify(Integer id, String merchantId, BigDecimal agentPercent);
+    void modify(Integer id, BigDecimal agentPercent);
 
     /**
      * 根据代理人ID查询代理人信息
@@ -49,30 +47,24 @@ public interface IAgentService {
 
     /**
      * 根据商户ID代理人信息
-     * @param merchantId
+     * @param realName
      * @return
      */
-    AgentInfoPo getByMerchantId(String merchantId);
+    AgentInfoPo getByRealName(String realName);
 
     /**
      * 查询下级代理人信息
      * @param pageable
      * @return
      */
-    List<AgentInfoPo> getSubList(String realName, String mobileNo, String merchantId, Integer parentAgentId, Pageable pageable);
+    List<AgentInfoPo> getSubList(String realName, String mobileNo, Integer parentAgentId, Pageable pageable);
 
     /**
      * 校验商户ID是否已经存在
-     * @param merchantId
+     * @param realName
      * @param agentId
      * @return
      */
-    boolean checkExistsMerchantId(String merchantId, Integer agentId);
+    boolean checkExistsRealName(String realName, Integer agentId);
 
-    /**
-     * 校验商户ID是否最后一个层级
-     * @param merchantId
-     * @return
-     */
-    boolean checkMerchantIdIsLastLevel(String merchantId);
 }

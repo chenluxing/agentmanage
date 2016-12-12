@@ -22,12 +22,10 @@
                             }
                         },
                         realName:{
-                            required: true
-                        },
-                        merchantId: {
+                            required: true,
                             remote: {
                                 type: "POST",
-                                url: "${base}/agent/checkMerchantId.json"
+                                url: "${base}/agent/checkRealName.json"
                             }
                         },
                         alipayNo:{
@@ -42,10 +40,9 @@
                         mobileNo:{
                             remote: "手机号已经存在"
                         },
-                        merchantId: {
-                            remote:"商户ID信息已存在"
-                        },
-
+                        realName:{
+                            remote: "同名用户已经存在"
+                        }
                     }
                 });
 
@@ -79,12 +76,6 @@
                             <td class="td_title bg_gray">姓名</td>
                             <td class="td_content">
                                 <input type="text" id="realName" name="realName" class="text" placeholder="请填写姓名" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="td_title bg_gray">商户ID</td>
-                            <td class="td_content">
-                                <input type="text" id="merchantId" name="merchantId" class="text" placeholder="请填写商户ID" />
                             </td>
                         </tr>
                         <tr>

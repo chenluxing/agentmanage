@@ -29,12 +29,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bg_gray">商户ID</td>
-                        <td>
-                            ${(agentAccountVo.merchantId)!"-"}
-                        </td>
-                    </tr>
-                    <tr>
                         <td class="bg_gray">支付宝账号</td>
                         <td>
                             ${agentAccountVo.alipayNo}

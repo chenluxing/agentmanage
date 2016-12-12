@@ -35,10 +35,6 @@
                             <i>姓名</i>
                             <input type="text" class="text" name="realName" value="${(realName)!""}"/>
                         </td>
-                        <td width="350px">
-                            <i>商户ID</i>
-                            <input type="text" class="text" name="merchantId" value="${(merchantId)!""}"/>
-                        </td>
                         <td width="400px">
                             <i>创建时间</i>
                             <input type="text" id="beginDate" name="beginDate" class="text Wdate" style="width:100px; margin:0px;" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" value="${(beginDate?string("yyyy-MM-dd"))!""}"/>
@@ -59,7 +55,6 @@
                         <tr>
                             <th>代理人姓名</th>
                             <th>手机号</th>
-                            <th>商户ID</th>
                             <th>交易数量</th>
                             <th>交易金额</th>
                             <th>交易佣金比例</th>
@@ -75,9 +70,6 @@
                             </td>
                             <td>
                                 ${record.mobileNo}
-                            </td>
-                            <td>
-                                ${record.merchantId}
                             </td>
                             <td class="td_amount">
                                 ${record.tradeCount}

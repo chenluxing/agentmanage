@@ -16,7 +16,6 @@ public class UserSession implements Serializable {
     private String userName;
     private String realName;
     private String mobileNo;
-    private String merchantId;
 
     public UserSession(){}
 
@@ -26,7 +25,6 @@ public class UserSession implements Serializable {
         this.agentId = agentInfo.getId();
         this.realName = agentInfo.getRealName();
         this.mobileNo = agentInfo.getMobileNo();
-        this.merchantId = agentInfo.getMerchantId();
     }
 
     public Integer getUserId() {
@@ -69,11 +67,4 @@ public class UserSession implements Serializable {
         this.mobileNo = mobileNo;
     }
 
-    public String getMerchantId() {
-        return merchantId;
-    }
-
-    public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId;
-    }
 }

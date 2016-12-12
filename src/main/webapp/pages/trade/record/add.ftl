@@ -13,14 +13,6 @@
                 // 表单验证
                 $("#inputForm").validate({
                     rules: {
-                        merchantId: {
-                            required: true,
-                            remote: {
-                                type: "POST",
-                                async:false,
-                                url: "${base}/trade/record/checkMerchantIdIsLastLevel.json"
-                            }
-                        },
                         tradeAmount: {
                             required: true,
                             isDecimalTwo: true
@@ -31,10 +23,6 @@
                         }
                     },
                     messages: {
-                        merchantId: {
-                            remote:"商户ID信息不存在或不是最后一级代理"
-                        }
-
                     }
                 });
 
@@ -57,12 +45,6 @@
             <div style="width:620px;">
                 <table class="table_input">
                     <tbody>
-                        <tr>
-                            <td class="td_title bg_gray" style="width: 160px;">商户ID</td>
-                            <td class="td_content">
-                                <input type="text" id="merchantId" name="merchantId" class="text" maxlength="32" placeholder="请填写商户ID" />
-                            </td>
-                        </tr>
                         <tr>
                             <td class="td_title bg_gray">交易金额</td>
                             <td class="td_content">

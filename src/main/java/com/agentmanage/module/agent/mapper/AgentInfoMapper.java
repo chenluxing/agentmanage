@@ -30,18 +30,18 @@ public interface AgentInfoMapper {
     AgentInfoPo selectById(Integer id);
 
     /**
+     * 根据姓名查询代理人信息
+     * @param realName
+     * @return
+     */
+    AgentInfoPo selectByRealName(String realName);
+
+    /**
      * 根据登录账户ID查询代理人信息
      * @param userId
      * @return
      */
     AgentInfoPo selectByUserId(Integer userId);
-
-    /**
-     * 根据商户ID查询代理人信息
-     * @param merchantId
-     * @return
-     */
-    AgentInfoPo selectByMerchantId(String merchantId);
 
     /**
      * 查询下级代理人列表

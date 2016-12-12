@@ -17,7 +17,6 @@
     <resultMap id="tradeRecordVoMap" type="com.agentmanage.module.trade.entity.TradeRecordVo">
         <result column="RECORD_ID" property="recordId" jdbcType="INTEGER"/>
         <result column="AGENT_ID" property="agentId" jdbcType="INTEGER"/>
-        <result column="MERCHANT_ID" property="merchantId" jdbcType="VARCHAR"/>
         <result column="AGENT_NAME" property="agentName" jdbcType="VARCHAR"/>
         <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
         <result column="TRADE_COUNT" property="tradeCount" jdbcType="INTEGER"/>
@@ -53,7 +52,7 @@
     <select id="selectTradeRecordVoList" resultMap="tradeRecordVoMap">
         SELECT
           ttr.id as record_id, ttr.agent_id, ttr.trade_count, ttr.trade_amount, ttr.agent_percent as trade_agent_percent, ttr.agent_amount,
-          ttr.creator_id, ttr.gmt_created, ttr.gmt_modified, tai.real_name as agent_name, tai.mobile_no, tai.merchant_id
+          ttr.creator_id, ttr.gmt_created, ttr.gmt_modified, tai.real_name as agent_name, tai.mobile_no
         from tb_trade_record ttr
         inner join tb_agent_info tai on tai.id=ttr.agent_id
         where 1=1
@@ -62,9 +61,6 @@
         </if>
         <if test="agentId != null">
             and tai.id=#{agentId, jdbcType=INTEGER}
-        </if>
-        <if test="merchantId != null">
-            and tai.merchant_id=#{merchantId, jdbcType=VARCHAR}
         </if>
         <if test="realName != null">
             and tai.real_name like CONCAT(#{realName, jdbcType=VARCHAR},'%')

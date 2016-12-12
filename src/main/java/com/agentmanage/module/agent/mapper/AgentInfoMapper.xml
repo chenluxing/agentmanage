@@ -6,7 +6,6 @@
         <id column="ID" property="id" jdbcType="INTEGER"/>
         <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR"/>
         <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
-        <result column="MERCHANT_ID" property="merchantId" jdbcType="VARCHAR"/>
         <result column="ALIPAY_NO" property="alipayNo" jdbcType="VARCHAR"/>
         <result column="AGENT_PERCENT" property="agentPercent" jdbcType="DECIMAL"/>
         <result column="PARENT_AGENT_ID" property="parentAgentId" jdbcType="INTEGER"/>
@@ -17,18 +16,17 @@
     </resultMap>
 
     <sql id="allColumns">
-        id, mobile_no, real_name, merchant_id, alipay_no, agent_percent, parent_agent_id, level, user_id, gmt_created,
+        id, mobile_no, real_name, alipay_no, agent_percent, parent_agent_id, level, user_id, gmt_created,
         gmt_modified
     </sql>
 
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into tb_agent_info(mobile_no, real_name, merchant_id, alipay_no, agent_percent,
+        insert into tb_agent_info(mobile_no, real_name, alipay_no, agent_percent,
           level, parent_agent_id, user_id, gmt_created, gmt_modified)
         values
         (
           #{mobileNo, jdbcType=VARCHAR},
           #{realName, jdbcType=VARCHAR},
-          #{merchantId, jdbcType=VARCHAR},
           #{alipayNo, jdbcType=VARCHAR},
           #{agentPercent, jdbcType=DECIMAL},
           #{level, jdbcType=INTEGER},
@@ -43,7 +41,6 @@
         update tb_agent_info
         set
           real_name = #{realName, jdbcType=VARCHAR},
-          merchant_id = #{merchantId, jdbcType=VARCHAR},
           alipay_no = #{alipayNo, jdbcType=VARCHAR},
           agent_percent = #{agentPercent, jdbcType=DECIMAL},
           gmt_modified = now()
@@ -64,11 +61,11 @@
         where user_id=#{userId, jdbcType=INTEGER}
     </select>
 
-    <select id="selectByMerchantId" resultMap="agentInfoMap">
+    <select id="selectByRealName" resultMap="agentInfoMap">
         SELECT
         <include refid="allColumns" />
         from tb_agent_info
-        where merchant_id=#{merchantId, jdbcType=VARCHAR}
+        where real_name=#{realName, jdbcType=VARCHAR}
     </select>
 
     <select id="selectSubList" resultMap="agentInfoMap">
@@ -81,9 +78,6 @@
         </if>
         <if test="realName != null">
             and real_name like CONCAT(#{realName, jdbcType=VARCHAR},'%')
-        </if>
-        <if test="merchantId != null">
-            and merchant_id=#{merchantId, jdbcType=VARCHAR}
         </if>
         order by gmt_created desc
     </select>

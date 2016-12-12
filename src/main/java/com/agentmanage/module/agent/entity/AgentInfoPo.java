@@ -13,7 +13,6 @@ public class AgentInfoPo extends BaseEntity {
 
     private String mobileNo;                  // 手机号
     private String realName;                // 真实姓名
-    private String merchantId;              // 商户ID
     private String alipayNo;                // 支付宝帐号
     private BigDecimal agentPercent;        // 代理利率
     private Integer parentAgentId;          // 关联上级代理人ID
@@ -22,11 +21,10 @@ public class AgentInfoPo extends BaseEntity {
 
     public AgentInfoPo() {}
 
-    public AgentInfoPo(String mobileNo, String realName, String merchantId, String alipayNo, BigDecimal agentPercent,
+    public AgentInfoPo(String mobileNo, String realName, String alipayNo, BigDecimal agentPercent,
                        Integer parentAgentId, Integer userId, Integer level) {
         this.mobileNo = mobileNo;
         this.realName = realName;
-        this.merchantId = merchantId;
         this.alipayNo = alipayNo;
         if (agentPercent == null) {
             this.agentPercent = BigDecimal.ZERO;
@@ -52,14 +50,6 @@ public class AgentInfoPo extends BaseEntity {
 
     public void setRealName(String realName) {
         this.realName = realName;
-    }
-
-    public String getMerchantId() {
-        return merchantId;
-    }
-
-    public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId;
     }
 
     public String getAlipayNo() {

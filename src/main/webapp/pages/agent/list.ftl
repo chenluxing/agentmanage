@@ -39,10 +39,6 @@
                             <i>手机号</i>
                             <input type="text" id="mobileNo" name="mobileNo" class="text" value="${(mobileNo)!""}" maxlength="11"/>
                         </td>
-                        <td width="350px">
-                            <i>商户ID</i>
-                            <input type="text" id="merchantId" name="merchantId" class="text" value="${(merchantId)!""}" maxlength="32"/>
-                        </td>
                         <td width="50px"></td>
                     </tr>
                     <tr>
@@ -58,7 +54,6 @@
                         <tr>
                             <th>姓名</th>
                             <th>手机号</th>
-                            <th>商户ID</th>
                             <th>支付宝账号</th>
                             <th>佣金利率</th>
                             <th>创建时间</th>
@@ -73,9 +68,6 @@
                             </td>
                             <td>
                                 ${agent.mobileNo}
-                            </td>
-                            <td>
-                                ${(agent.merchantId)!"-"}
                             </td>
                             <td>
                                 ${agent.alipayNo}

@@ -23,11 +23,11 @@ public interface ITradeRecordService {
 
     /**
      * 新增交易记录
-     * @param merchantId
+     * @param realName
      * @param tradeAmount
      * @param tradeCount
      */
-    void save(String merchantId, BigDecimal tradeAmount, int tradeCount, Integer curUserId);
+    void save(String realName, BigDecimal tradeAmount, int tradeCount, Integer curUserId);
 
     /**
      * 迭代向上关联代理人增加交易记录
@@ -50,5 +50,5 @@ public interface ITradeRecordService {
      * @param pageable
      * @return
      */
-    List<TradeRecordVo> getVoListByParentAgentId(String realName, String merchantId, Date beginDate, Date endDate, Integer parentAgentId, Pageable pageable);
+    List<TradeRecordVo> getVoListByParentAgentId(String realName, Date beginDate, Date endDate, Integer parentAgentId, Pageable pageable);
 }
