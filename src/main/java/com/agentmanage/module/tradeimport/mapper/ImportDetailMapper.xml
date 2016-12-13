@@ -8,23 +8,29 @@
         <result column="trade_amount" property="tradeAmount" jdbcType="DECIMAL"/>
         <result column="trade_count" property="tradeCount" jdbcType="INTEGER"/>
         <result column="agent_id" property="agentId" jdbcType="INTEGER"/>
+        <result column="parent_agent_id" property="parentAgentId" jdbcType="INTEGER"/>
+        <result column="agent_level" property="agentLevel" jdbcType="INTEGER"/>
         <result column="log_id" property="logId" jdbcType="INTEGER"/>
+        <result column="is_original" property="isOriginal" jdbcType="TINYINT"/>
         <result column="GMT_CREATED" property="gmtCreated" jdbcType="TIMESTAMP"/>
         <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="allColumns">
-        id, agent_name, trade_amount, trade_count, agent_id, log_id, gmt_created, gmt_modified
+        id, agent_name, trade_amount, trade_count, agent_id, parent_agent_id, agent_level, is_original, log_id, gmt_created, gmt_modified
     </sql>
 
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into tb_trade_import_detail(agent_name, trade_amount, trade_count, agent_id, log_id, is_original, gmt_created, gmt_modified)
+        insert into tb_trade_import_detail(agent_name, trade_amount, trade_count, agent_id, parent_agent_id,
+          agent_level, log_id, is_original, gmt_created, gmt_modified)
         values
         (
           #{agentName, jdbcType=VARCHAR},
           #{tradeAmount, jdbcType=DECIMAL},
           #{tradeCount, jdbcType=INTEGER},
           #{agentId, jdbcType=INTEGER},
+          #{parentAgentId, jdbcType=INTEGER},
+          #{agentLevel, jdbcType=INTEGER},
           #{logId, jdbcType=INTEGER},
           #{isOriginal, jdbcType=TINYINT},
           now(),
@@ -37,7 +43,25 @@
           <include refid="allColumns" />
         from tb_trade_import_detail
         where log_id = #{logId, jdbcType=INTEGER}
+        <if test="isOriginal != null">
+            and is_original = #{isOriginal, jdbcType=TINYINT}
+        </if>
         order by gmt_created desc
     </select>
 
+    <select id="selectCalcList" resultType="map">
+        SELECT log_id, agent_id, agent_level, parent_agent_id, SUM(trade_amount) as sum_trade_amount, sum(trade_count) sum_trade_count
+        FROM tb_trade_import_detail
+        where log_id = #{logId, jdbcType=INTEGER}
+        GROUP BY agent_id
+    </select>
+
+    <select id="selectCalcParentList" resultType="map">
+        SELECT log_id, parent_agent_id, SUM(trade_amount) as sum_trade_amount, sum(trade_count) sum_trade_count
+        FROM tb_trade_import_detail
+        where log_id = #{logId, jdbcType=INTEGER}
+        and agent_level = #{agentLevel, jdbcType=INTEGER}
+        and is_original = 1
+        GROUP BY parent_agent_id
+    </select>
 </mapper>

@@ -41,9 +41,31 @@ public class ImportDetailServiceImpl implements IImportDetailService {
     public List<ImportDetailPo> getList(Integer logId, Pageable pageable) {
         Assert.notNull(logId, "日志ID不允许为空");
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        Page<ImportDetailPo> page = (Page<ImportDetailPo>) importDetailMapper.selectList(logId);
+        Page<ImportDetailPo> page = (Page<ImportDetailPo>) importDetailMapper.selectList(logId, 0);
         PageAdapter<ImportDetailPo> pageAdapter = new PageAdapter<>(page, pageable);
         return pageAdapter.getPage();
 
+    }
+
+
+    /**
+     * 按代理人统计导入数据
+     * @param logId
+     * @return
+     */
+    @Override
+    public List<Map> getCalcList(Integer logId) {
+        return importDetailMapper.selectCalcList(logId);
+    }
+
+    /**
+     * 按父级代理人统计导入数据
+     * @param logId
+     * @param agentLevel
+     * @return
+     */
+    @Override
+    public List<Map> getCalcParentList(Integer logId, Integer agentLevel) {
+        return importDetailMapper.selectCalcParentList(logId, agentLevel);
     }
 }

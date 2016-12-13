@@ -77,11 +77,13 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
                             String agentName = MapUtils.getString(data, "agentName");
                             Integer tradeCount = MapUtils.getInteger(data, "tradeCount");
                             Integer agentId = MapUtils.getInteger(data, "agentId");
-                            ImportDetailPo detailPo = new ImportDetailPo(agentName, tradeAmount, tradeCount, agentId, importLogPo.getId(), (byte)0);
+                            Integer parentAgentId = MapUtils.getInteger(data, "parentAgentId");
+                            Integer agentLevel = MapUtils.getInteger(data, "agentLevel");
+                            ImportDetailPo detailPo = new ImportDetailPo(agentName, tradeAmount, tradeCount, agentId, parentAgentId, agentLevel, importLogPo.getId(), (byte)0);
                             importDetailService.save(detailPo);
-                            tradeRecordService.saveToHead(agentId, tradeAmount, tradeCount, curUserId);
                         }
                     }
+                    generateTradeData(importLogPo.getId(), curUserId);
                 }
             }
         } catch (Exception ex) {
@@ -91,6 +93,53 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
         }
         return excelMessage;
     }
+
+    @Transactional
+    public void generateTradeData(Integer logId, Integer curUserId) {
+        List<Map> dataList = importDetailService.getCalcList(logId);
+        Integer maxLevel = null;
+        for (Map data : dataList) {
+            Double tradeAmount_d = MapUtils.getDouble(data, "sum_trade_amount");
+            if (tradeAmount_d != null && tradeAmount_d != 0) {
+                BigDecimal tradeAmount = new BigDecimal(tradeAmount_d).setScale(2, BigDecimal.ROUND_HALF_UP);
+                Integer tradeCount = MapUtils.getInteger(data, "sum_trade_count");
+                Integer agentId = MapUtils.getInteger(data, "agent_id");
+                Integer parentAgentId = MapUtils.getInteger(data, "parent_agent_id");
+                Integer agentLevel = MapUtils.getInteger(data, "agent_level");
+                ImportDetailPo detailPo = new ImportDetailPo(null, tradeAmount, tradeCount, agentId, parentAgentId, agentLevel, logId, (byte)1);
+                importDetailService.save(detailPo);
+                tradeRecordService.save(agentId, tradeAmount, tradeCount, curUserId);
+                if (maxLevel == null || agentLevel.compareTo(maxLevel) > 0) {
+                    maxLevel = agentLevel;
+                }
+            }
+        }
+        // 循环计算上级数据
+        generateTradeData(logId, maxLevel, curUserId);
+    }
+
+    public void generateTradeData(Integer logId, Integer level, Integer curUserId) {
+        if (level != null && level > 0) {
+            List<Map> dataList = importDetailService.getCalcParentList(logId, level);
+            for (Map data : dataList) {
+                Double tradeAmount_d = MapUtils.getDouble(data, "sum_trade_amount");
+                if (tradeAmount_d != null && tradeAmount_d != 0) {
+                    BigDecimal tradeAmount = new BigDecimal(tradeAmount_d).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    Integer tradeCount = MapUtils.getInteger(data, "sum_trade_count");
+                    Integer agentId = MapUtils.getInteger(data, "parent_agent_id");
+                    AgentInfoPo agentInfo = agentService.getById(agentId);
+                    ImportDetailPo detailPo = new ImportDetailPo(null, tradeAmount, tradeCount, agentId, agentInfo.getParentAgentId(), agentInfo.getLevel(), logId, (byte)1);
+                    importDetailService.save(detailPo);
+                    tradeRecordService.save(agentId, tradeAmount, tradeCount, curUserId);
+                }
+            }
+            level--;
+            generateTradeData(logId, level, curUserId);
+        }else {
+            return;
+        }
+    }
+
 
     /**
      * 查询导入记录
@@ -117,6 +166,8 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
             AgentInfoPo agentInfo = agentService.getByRealName(MapUtils.getString(dataMap, "agentName"));
             if (agentInfo != null) {
                 dataMap.put("agentId", agentInfo.getId());
+                dataMap.put("parentAgentId", agentInfo.getParentAgentId());
+                dataMap.put("agentLevel", agentInfo.getLevel());
             } else {
                 throw new CellException("商户ID不存在");
             }

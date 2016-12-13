@@ -24,4 +24,19 @@ public interface IImportDetailService {
      * @return
      */
     List<ImportDetailPo> getList(Integer logId, Pageable pageable);
+
+    /**
+     * 按代理人统计导入数据
+     * @param logId
+     * @return
+     */
+    List<Map> getCalcList(Integer logId);
+
+    /**
+     * 按父级代理人统计导入数据
+     * @param logId
+     * @param agentLevel
+     * @return
+     */
+    List<Map> getCalcParentList(Integer logId, Integer agentLevel);
 }
