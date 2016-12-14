@@ -19,7 +19,7 @@ public interface TradeRecordMapper {
     void insert(TradeRecordPo tradeRecord);
 
     /**
-     * 根据商户ID查询交易记录
+     * 查询交易记录
      * @param param
      * @return
      */

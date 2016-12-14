@@ -87,6 +87,7 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             LineMessage lineMessage = new LineMessage(0, "文件解析异常" + ex.getMessage());
             excelMessage.addErrorLine(lineMessage);
             excelMessage.setType(ExcelMessage.Type.error);
@@ -169,7 +170,7 @@ public class ImportLogServiceImpl extends AbstractImportService implements IImpo
                 dataMap.put("parentAgentId", agentInfo.getParentAgentId());
                 dataMap.put("agentLevel", agentInfo.getLevel());
             } else {
-                throw new CellException("商户ID不存在");
+                throw new CellException("代理人不存在");
             }
         }
     }

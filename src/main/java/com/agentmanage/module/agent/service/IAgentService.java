@@ -46,7 +46,7 @@ public interface IAgentService {
     AgentInfoPo getByUserId(Integer userId);
 
     /**
-     * 根据商户ID代理人信息
+     * 根据姓名查询代理人信息
      * @param realName
      * @return
      */
@@ -66,7 +66,7 @@ public interface IAgentService {
      */
     List<AgentInfoPo> getAll(String realName, String mobileNo, Pageable pageable);
     /**
-     * 校验商户ID是否已经存在
+     * 校验代理人是否已经存在
      * @param realName
      * @param agentId
      * @return

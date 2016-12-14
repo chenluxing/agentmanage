@@ -37,7 +37,7 @@
                     <tr>
                         <td class="td_title bg_gray">佣金利率</td>
                         <td class="td_content">
-                            ${agentAccountVo.agentPercent?string("0.00%")}
+                            ${agentAccountVo.agentPercent?string("0.00")} 元/万元
                         </td>
                     </tr>
                     <tr>

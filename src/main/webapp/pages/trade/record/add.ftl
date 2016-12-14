@@ -13,6 +13,13 @@
                 // 表单验证
                 $("#inputForm").validate({
                     rules: {
+                        agentName: {
+                            required: true,
+                            remote: {
+                                type: "POST",
+                                url: "${base}/trade/record/checkAgentName.json"
+                            }
+                        },
                         tradeAmount: {
                             required: true,
                             isDecimalTwo: true
@@ -23,6 +30,10 @@
                         }
                     },
                     messages: {
+                        agentName: {
+                            remote:"代理人信息不存在"
+                        }
+
                     }
                 });
 
@@ -45,6 +56,12 @@
             <div style="width:620px;">
                 <table class="table_input">
                     <tbody>
+                        <tr>
+                            <td class="td_title bg_gray" style="width: 160px;">代理人姓名</td>
+                            <td class="td_content">
+                                <input type="text" id="agentName" name="agentName" class="text" maxlength="32" placeholder="请填写代理人姓名" />
+                            </td>
+                        </tr>
                         <tr>
                             <td class="td_title bg_gray">交易金额</td>
                             <td class="td_content">

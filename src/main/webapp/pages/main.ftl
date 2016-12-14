@@ -100,9 +100,11 @@
                                 <li>
                                     <a href="${base}/trade/record/list.html" target="iframe"><i></i>交易记录列表</a>
                                 </li>
+                                <@shiro.hasPermission name="jygl_xzjyjl">
                                 <li>
                                     <a href="${base}/trade/record/toAdd.html" target="iframe"><i></i>新增交易记录</a>
                                 </li>
+                                </@shiro.hasPermission>
                                 <@shiro.hasPermission name="jygl_drjyjl">
                                 <li>
                                     <a href="${base}/trade/import/list.html" target="iframe"><i></i>导入交易记录</a>

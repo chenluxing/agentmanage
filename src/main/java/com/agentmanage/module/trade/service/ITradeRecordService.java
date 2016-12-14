@@ -51,4 +51,21 @@ public interface ITradeRecordService {
      * @return
      */
     List<TradeRecordVo> getVoListByParentAgentId(String realName, Date beginDate, Date endDate, Integer parentAgentId, Pageable pageable);
+
+    /**
+     * 查询所有代理人交易
+     * @param realName
+     * @param beginDate
+     * @param endDate
+     * @param pageable
+     * @return
+     */
+    List<TradeRecordVo> getVoAll(String realName, Date beginDate, Date endDate, Pageable pageable);
+
+    /**
+     * 校验代理人
+     * @param agentName
+     * @return
+     */
+    boolean checkAgentName(String agentName);
 }

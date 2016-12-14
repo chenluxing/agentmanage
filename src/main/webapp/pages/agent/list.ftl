@@ -55,7 +55,7 @@
                             <th>姓名</th>
                             <th>手机号</th>
                             <th>支付宝账号</th>
-                            <th>佣金利率</th>
+                            <th>佣金利率（元/万元）</th>
                             <th>创建时间</th>
                             <th>操作</th>
                         </tr>
@@ -73,7 +73,7 @@
                                 ${agent.alipayNo}
                             </td>
                             <td>
-                                ${(agent.agentPercent?string("0.00%"))!"-"}
+                                ${(agent.agentPercent?string("0.00"))!"-"}
                             </td>
                             <td>
                                 ${agent.gmtCreated?string("yyyy-MM-dd HH:mm")}

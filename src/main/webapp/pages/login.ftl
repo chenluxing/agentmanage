@@ -69,7 +69,8 @@
                 </ul>
             </form>
         </div>
-        <div class="saas-footer">
+        <div class="am-footer">
+            义乌市哈吉网络科技有限公司&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：0579-84072981
         </div>
     </div>
 

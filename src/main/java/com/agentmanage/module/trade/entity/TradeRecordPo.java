@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Alias("com.agentmanage.module.trade.entity.TradeRecordPo")
 public class TradeRecordPo extends BaseEntity {
 
-    private Integer agentId;            // 商户ID
+    private Integer agentId;            // 代理人ID
     private int tradeCount;             // 交易订单数量
     private BigDecimal tradeAmount;     // 交易金额
     private BigDecimal agentPercent;    // 交易佣金比例（取生成记录时代理人的佣金比例）

@@ -37,7 +37,7 @@
                     <tr>
                         <td class="bg_gray">佣金利率</td>
                         <td>
-                            ${agentAccountVo.agentPercent?string("0.00%")}
+                            ${agentAccountVo.agentPercent?string("0.00")} 元/万元
                         </td>
                     </tr>
                     <tr>
@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <a href="javascript:void(0)" onclick="window.history.go(-1)">返回</a>
+                            <input type="button" class="btn_normal" onclick="window.history.go(-1)" value="返回" />
                         </td>
                     </tr>
                 </tbody>

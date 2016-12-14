@@ -50,7 +50,7 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
         AgentInfoPo agentInfo = agentService.getById(agentId);
         if (agentInfo != null) {
             // 新增交易记录
-            BigDecimal agentAmount = tradeAmount.multiply(agentInfo.getAgentPercent()).setScale(2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal agentAmount = tradeAmount.multiply(agentInfo.getAgentPercent()).divide(new BigDecimal(10000)).setScale(2, BigDecimal.ROUND_HALF_UP);
             TradeRecordPo tradeRecord = new TradeRecordPo(agentId, tradeCount, tradeAmount, agentInfo.getAgentPercent(), agentAmount, curUserId);
             tradeRecordMapper.insert(tradeRecord);
 
@@ -92,8 +92,9 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
         } else {
             throw new AmServiceException("代理人信息不存在");
         }
+        // 递归新增交易记录至最顶层代理人
         if (agentInfo.getLevel() > 0){
-            save(agentInfo.getParentAgentId(), tradeAmount, tradeCount, curUserId);
+            saveToHead(agentInfo.getParentAgentId(), tradeAmount, tradeCount, curUserId);
         } else {
             return;
         }
@@ -139,11 +140,40 @@ public class TradeRecordServiceImpl implements ITradeRecordService {
     }
 
     /**
+     * 查询下级代理人交易明细
+     * @param pageable
+     * @return
+     */
+    @Override
+    public List<TradeRecordVo> getVoAll(String realName, Date beginDate, Date endDate, Pageable pageable) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        Filter filter = new Filter();
+        filter.addParam("realName", realName);
+        filter.addParam("beginDate", beginDate);
+        filter.addParam("endDate", endDate);
+        pageable.setFilter(filter);
+        Page<TradeRecordVo> page = (Page<TradeRecordVo>) getVoListByParam(filter);
+        PageAdapter<TradeRecordVo> pageAdapter = new PageAdapter<>(page, pageable);
+        return pageAdapter.getPage();
+    }
+
+    /**
      * 条件查询代理人信息
      * @param param
      * @return
      */
     private List<TradeRecordVo> getVoListByParam(Map<String, Object> param) {
         return tradeRecordMapper.selectTradeRecordVoList(param);
+    }
+
+
+    /**
+     * 校验代理人
+     * @param agentName
+     * @return
+     */
+    @Override
+    public boolean checkAgentName(String agentName) {
+        return agentService.getByRealName(agentName) != null ? true : false;
     }
 }

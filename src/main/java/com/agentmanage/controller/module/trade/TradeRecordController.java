@@ -50,9 +50,12 @@ public class TradeRecordController extends BaseController {
         }
         beginDate = DateUtil.zerolizedTime(beginDate);
         endDate = DateUtil.getEndTime(endDate);
-        Integer agentId = getCurUser().getAgentId();
-
-        modelMap.addAttribute("page", tradeRecordService.getVoListByParentAgentId(realName, beginDate, endDate, agentId, pageable));
+        if (getCurUser().getLevel() == 0) {
+            modelMap.addAttribute("page", tradeRecordService.getVoAll(realName, beginDate, endDate, pageable));
+        } else {
+            Integer agentId = getCurUser().getAgentId();
+            modelMap.addAttribute("page", tradeRecordService.getVoListByParentAgentId(realName, beginDate, endDate, agentId, pageable));
+        }
         modelMap.addAttribute("realName", realName);
         modelMap.addAttribute("beginDate", beginDate);
         modelMap.addAttribute("endDate", endDate);
@@ -76,14 +79,27 @@ public class TradeRecordController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    public String add(String realName, BigDecimal tradeAmount, Integer tradeCount) {
-        AgentInfoPo agentInfo = agentService.getByRealName(realName);
+    public String add(String agentName, BigDecimal tradeAmount, Integer tradeCount) {
+        AgentInfoPo agentInfo = agentService.getByRealName(agentName);
         if (agentInfo != null) {
             tradeRecordService.saveToHead(agentInfo.getId(), tradeAmount, tradeCount, getCurUser().getUserId());
         } else {
-            throw new RuntimeException("该商户ID的代理人信息不存在");
+            throw new RuntimeException("代理人信息不存在");
         }
         return "redirect:list.html";
+    }
+
+    /**
+     * 校验姓名
+     * @return
+     */
+    @RequestMapping(value = "/checkAgentName", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public Boolean checkRealName(String agentName) {
+        if (StringUtils.isNotEmpty(agentName)) {
+            return tradeRecordService.checkAgentName(agentName);
+        }
+        return false;
     }
 
 }

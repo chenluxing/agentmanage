@@ -97,3 +97,8 @@ ul,li{
     text-indent: 15px;
     font-size: 12px;
 }
+.am-footer {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}

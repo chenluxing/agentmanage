@@ -52,7 +52,7 @@
                             <th>手机号</th>
                             <th>交易数量</th>
                             <th>交易金额</th>
-                            <th>交易佣金比例</th>
+                            <th>佣金比例（元/万元）</th>
                             <th>佣金金额</th>
                             <th>创建时间</th>
                         </tr>
@@ -73,7 +73,7 @@
                                 ${(record.tradeAmount?string("0.00"))!"-"}
                             </td>
                             <td class="td_amount">
-                                ${(record.tradeAgentPercent?string("0.00%"))!"-"}
+                                ${(record.tradeAgentPercent?string("0.00"))!"-"}
                             </td>
                             <td class="td_amount">
                                 ${(record.agentAmount?string("0.00"))!"-"}

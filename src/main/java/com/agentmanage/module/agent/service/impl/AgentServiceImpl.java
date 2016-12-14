@@ -109,7 +109,7 @@ public class AgentServiceImpl implements IAgentService {
     }
 
     /**
-     * 根据商户ID代理人信息
+     * 根据姓名查询代理人信息
      * @param realName
      * @return
      */
@@ -151,7 +151,7 @@ public class AgentServiceImpl implements IAgentService {
     }
 
     /**
-     * 校验商户ID是否已经存在
+     * 根据姓名校验是否已经存在
      * @param realName
      * @param agentId
      * @return

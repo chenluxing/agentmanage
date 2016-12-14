@@ -25,8 +25,8 @@ public class ImportDetailPo extends BaseEntity {
 
     public ImportDetailPo(String agentName, BigDecimal tradeAmount, Integer tradeCount, Integer agentId, Integer parentAgentId, Integer agentLevel, Integer logId, byte isOriginal) {
         this.agentName = agentName;
-        this.tradeAmount = tradeAmount;
-        this.tradeCount = tradeCount;
+        this.tradeAmount = tradeAmount != null ? tradeAmount : BigDecimal.ZERO;
+        this.tradeCount = tradeCount != null ? tradeCount : 0;;
         this.agentId = agentId;
         this.parentAgentId = parentAgentId;
         this.agentLevel = agentLevel;

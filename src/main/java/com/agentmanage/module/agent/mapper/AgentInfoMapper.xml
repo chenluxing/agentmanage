@@ -86,7 +86,7 @@
         SELECT
         <include refid="allColumns" />
         from tb_agent_info
-        where level <![CDATA[>=]]> 0
+        where level <![CDATA[>]]> 0
         <if test="mobileNo != null">
             and mobile_no=#{mobileNo, jdbcType=VARCHAR}
         </if>

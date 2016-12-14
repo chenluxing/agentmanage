@@ -16,6 +16,7 @@
                     rules: {
                         mobileNo:{
                             required: true,
+                            isMobile: true,
                             remote: {
                                 type: "POST",
                                 url: "${base}/agent/checkMobile.json"
@@ -33,7 +34,7 @@
                         },
                         agentPercent: {
                             required: true,
-                            isDecimalFour: true
+                            isDecimalTwo: true
                         }
                     },
                     messages: {
@@ -87,7 +88,7 @@
                         <tr>
                             <td class="td_title bg_gray">佣金利率</td>
                             <td class="td_content">
-                                <input type="text" id="agentPercent" name="agentPercent" class="text" placeholder="请填写佣金利率" />
+                                <input type="text" id="agentPercent" name="agentPercent" class="text" placeholder="请填写佣金利率" />元/万元
                             </td>
                         </tr>
                         <tr>

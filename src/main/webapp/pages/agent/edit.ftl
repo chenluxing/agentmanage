@@ -65,7 +65,7 @@
                         <tr>
                             <td class="td_title bg_gray">佣金利率</td>
                             <td class="td_content">
-                                <input type="text" id="agentPercent" name="agentPercent" class="text" value="${(agentInfo.agentPercent?string("0.0000"))!""}" placeholder="请填写佣金利率" />
+                                <input type="text" id="agentPercent" name="agentPercent" class="text" value="${(agentInfo.agentPercent?string("0.00"))!""}" placeholder="请填写佣金利率" />
                             </td>
                         </tr>
                         <tr>
