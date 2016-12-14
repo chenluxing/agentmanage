@@ -82,6 +82,20 @@
         order by gmt_created desc
     </select>
 
+    <select id="selectAll" resultMap="agentInfoMap">
+        SELECT
+        <include refid="allColumns" />
+        from tb_agent_info
+        where level <![CDATA[>=]]> 0
+        <if test="mobileNo != null">
+            and mobile_no=#{mobileNo, jdbcType=VARCHAR}
+        </if>
+        <if test="realName != null">
+            and real_name like CONCAT(#{realName, jdbcType=VARCHAR},'%')
+        </if>
+        order by level, gmt_created desc
+    </select>
+
     <select id="selectSubCount" resultType="int">
         SELECT count(*) from tb_agent_info
         where parent_agent_id=#{parentAgentId, jdbcType=INTEGER}

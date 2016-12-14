@@ -54,13 +54,19 @@ public class AgentServiceImpl implements IAgentService {
         if (user != null) {
             throw new AmServiceException("该账户已经存在");
         }
+        // 校验同名代理人
+        AgentInfoPo agentInfo = agentInfoMapper.selectByRealName(realName);
+        if (agentInfo != null) {
+            throw new AmServiceException("同名代理人已经存在");
+        }
+
         String password = SecurityUtil.md5(alipayNo);
         user = userService.save(mobileNo, password);
 
         // 获取当前新增代理人的层级 = 父节点层级+1
         AgentInfoPo parentAgent = agentInfoMapper.selectById(parentAgentId);
         int level = parentAgent.getLevel() + 1;
-        AgentInfoPo agentInfo = new AgentInfoPo(mobileNo, realName, alipayNo, agentPercent,parentAgentId, user.getId(), level);
+        agentInfo = new AgentInfoPo(mobileNo, realName, alipayNo, agentPercent,parentAgentId, user.getId(), level);
         agentInfoMapper.insert(agentInfo);
         // 新增账户信息
         AgentAccountPo agentAccount = new AgentAccountPo(agentInfo.getId());
@@ -125,6 +131,21 @@ public class AgentServiceImpl implements IAgentService {
         filter.addParam("mobileNo", mobileNo);
         filter.addParam("parentAgentId", parentAgentId);
         Page<AgentInfoPo> page = (Page<AgentInfoPo>)agentInfoMapper.selectSubList(filter);
+        PageAdapter<AgentInfoPo> pageAdapter = new PageAdapter<>(page, pageable);
+        return pageAdapter.getPage();
+    }
+
+    /**
+     * 查询全部代理人信息
+     * @param pageable
+     * @return
+     */
+    public List<AgentInfoPo> getAll(String realName, String mobileNo, Pageable pageable) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        Filter filter = new Filter();
+        filter.addParam("realName", realName);
+        filter.addParam("mobileNo", mobileNo);
+        Page<AgentInfoPo> page = (Page<AgentInfoPo>)agentInfoMapper.selectAll(filter);
         PageAdapter<AgentInfoPo> pageAdapter = new PageAdapter<>(page, pageable);
         return pageAdapter.getPage();
     }

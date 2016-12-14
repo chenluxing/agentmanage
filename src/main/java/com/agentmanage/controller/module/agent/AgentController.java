@@ -41,9 +41,13 @@ public class AgentController extends BaseController {
      */
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(String realName, String mobileNo, Pageable pageable, ModelMap modelMap) {
-        Integer curAgentId = getCurUser().getAgentId();
-        modelMap.addAttribute("page", agentService.getSubList(realName, mobileNo, curAgentId, pageable));
-
+        // 总代可见所有代理人
+        if (getCurUser().getLevel() == 0) {
+            modelMap.addAttribute("page", agentService.getAll(realName, mobileNo, pageable));
+        } else {
+            Integer curAgentId = getCurUser().getAgentId();
+            modelMap.addAttribute("page", agentService.getSubList(realName, mobileNo, curAgentId, pageable));
+        }
         modelMap.addAttribute("realName", realName);
         modelMap.addAttribute("mobileNo", mobileNo);
         return "/agent/list";
@@ -54,7 +58,12 @@ public class AgentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toAdd", method = {RequestMethod.GET, RequestMethod.POST})
-    public String toAdd() {
+    public String toAdd(Integer parentAgentId, ModelMap modelMap) {
+        /*if (parentAgentId == null) {
+            parentAgentId = getCurUser().getAgentId();
+        }
+        AgentInfoPo agentInfoPo = agentService.getById(parentAgentId);
+        modelMap.addAttribute("parentAgent", agentInfoPo);*/
         return "/agent/add";
     }
 
@@ -68,9 +77,12 @@ public class AgentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
-    public String add(String mobileNo, String realName, String alipayNo, BigDecimal agentPercent, ModelMap modelMap) {
+    public String add(Integer parentAgentId, String mobileNo, String realName, String alipayNo, BigDecimal agentPercent, ModelMap modelMap) {
         try {
-            agentService.save(mobileNo, realName, alipayNo, agentPercent, getCurUser().getAgentId(), getCurUser().getUserId());
+            if (parentAgentId == null) {
+                parentAgentId = getCurUser().getAgentId();
+            }
+            agentService.save(mobileNo, realName, alipayNo, agentPercent, parentAgentId, getCurUser().getUserId());
         } catch (Exception ex) {
             logger.error("新增代理人异常：", ex);
             String errMsg = "新增代理人异常";

@@ -78,7 +78,8 @@ public class AmAuthenticationRealm extends AuthorizingRealm implements Applicati
                 authorizationInfo.addStringPermissions(menuList);
             }*/
             AgentInfoPo agentInfo = getAgentService().getByUserId(principal.getId());
-            if (agentInfo != null && agentInfo.getLevel()==0) {
+            if (agentInfo != null && agentInfo.getLevel() == 0) {
+                authorizationInfo.addStringPermission("dlrgl_xzdlr");
                 authorizationInfo.addStringPermission("jygl_drjyjl");
             }
             return authorizationInfo;

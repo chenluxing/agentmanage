@@ -51,6 +51,13 @@ public interface AgentInfoMapper {
     List<AgentInfoPo> selectSubList(Filter filter);
 
     /**
+     * 查询全部代理人列表
+     * @param filter
+     * @return
+     */
+    List<AgentInfoPo> selectAll(Filter filter);
+
+    /**
      * 查询下级代理人数量
      * @param filter
      * @return
