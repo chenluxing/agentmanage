@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Alias("com.agentmanage.module.agent.entity.AgentInfoPo")
 public class AgentInfoPo extends BaseEntity {
 
-    private String mobileNo;                  // 手机号
+    private String mobileNo;                // 手机号
     private String realName;                // 真实姓名
     private String alipayNo;                // 支付宝帐号
     private BigDecimal agentPercent;        // 代理利率

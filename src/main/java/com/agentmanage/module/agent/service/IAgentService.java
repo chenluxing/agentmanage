@@ -60,6 +60,12 @@ public interface IAgentService {
     List<AgentInfoPo> getSubList(String realName, String mobileNo, Integer parentAgentId, Pageable pageable);
 
     /**
+     * 查询全部代理人信息
+     * @param pageable
+     * @return
+     */
+    List<AgentInfoPo> getAll(String realName, String mobileNo, Pageable pageable);
+    /**
      * 校验商户ID是否已经存在
      * @param realName
      * @param agentId
