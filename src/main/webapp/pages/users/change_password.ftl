@@ -66,19 +66,19 @@
                         <tr>
                             <td class="td_title bg_gray" style="width: 160px;">原密码</td>
                             <td class="td_content">
-                                <input type="password" id="password" name="password" class="text" maxlength="20" placeholder="请填写原密码" />
+                                <input type="password" id="password" name="password" class="text" maxlength="30" placeholder="请填写原密码" />
                             </td>
                         </tr>
                         <tr>
                             <td class="td_title bg_gray">新密码</td>
                             <td class="td_content">
-                                <input type="password" id="newPassword" name="newPassword" class="text" maxlength="20" placeholder="请填写新密码" />
+                                <input type="password" id="newPassword" name="newPassword" class="text" maxlength="30" placeholder="请填写新密码" />
                             </td>
                         </tr>
                         <tr>
                             <td class="td_title bg_gray">确认密码</td>
                             <td class="td_content">
-                                <input type="password" id="surePassword" name="surePassword" class="text" maxlength="20" placeholder="请确认密码" />
+                                <input type="password" id="surePassword" name="surePassword" class="text" maxlength="30" placeholder="请确认密码" />
                             </td>
                         </tr>
                         <tr>

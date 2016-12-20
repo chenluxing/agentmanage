@@ -209,7 +209,7 @@
         function check_pwd($pwd) {
             var inputVal = $pwd.val();
             var errText = "ok";
-            errText = inputVal.length == 0 ? "请输入密码" : ((checkLenSection(inputVal,6, 20) && checkCharNum(inputVal)) ? "ok" : "密码应为6～20位数字或字母");
+            errText = inputVal.length == 0 ? "请输入密码" : (checkLenSection(inputVal,6, 30) ? "ok" : "密码长度应为6～30位");
             if (errText == "ok") {
                 inputCheck.hideErr($pwd);
                 return true;
